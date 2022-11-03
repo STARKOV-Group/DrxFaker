@@ -47,7 +47,7 @@ namespace starkov.Faker.Server
           {
             var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName)) as string;
             var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
-            Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
+            PublicFunctions.Module.CreateLogin(login, password);
             createdEntityCount++;
             continue;
           }
