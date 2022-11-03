@@ -73,20 +73,28 @@
         "NameGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
         "Name": "Functions",
         "BackgroundPosition": "Stretch",
-        "IconName": "GroupIconGroup_b4df1d9f5e6d4050a204889a6543671a.png"
+        "IconName": "GroupIconGroup_b4df1d9f5e6d4050a204889a6543671a.png",
+        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
       },
       {
         "NameGuid": "481ed195-ac8d-440f-b3fa-38e4054bb805",
         "Name": "Databooks",
         "BackgroundPosition": "Stretch",
         "IconName": "GroupIconDatabooks_481ed195ac8d440fb3fa38e4054bb805.png",
-        "PreviousItemGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a"
+        "PreviousItemGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
+        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
       }
     ],
     "Header": {
       "NameGuid": "abbbd1db-47eb-4f83-9fa3-e179eddadebb",
       "BackgroundPosition": "Stretch"
-    }
+    },
+    "Tabs": [
+      {
+        "NameGuid": "e65e553b-7467-47e5-8c13-3c8dd77d5aea",
+        "Name": "Tab"
+      }
+    ]
   },
   "Dependencies": [
     {
@@ -123,7 +131,6 @@
   "Importance": "Low",
   "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
   "InterfaceNamespace": "starkov.Faker",
-  "IsVisible": false,
   "Libraries": [
     {
       "NameGuid": "ee416e35-314b-4368-9387-81a04ed99c23",
@@ -138,7 +145,20 @@
   "PublicStructures": [],
   "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
   "ResourceInterfaceNamespace": "starkov.Faker",
-  "ResourcesKeys": [],
+  "ResourcesKeys": [
+    "DialogDataInput",
+    "DialogFieldEntityToFill",
+    "DialogFieldEntityCreateCount",
+    "MessageEntityGenerationProcessStarted",
+    "AsyncEndWorkMessage",
+    "LocalizedPassword",
+    "ErrorText_SetValToProperty",
+    "InfoText_FirstEntryID",
+    "InfoText_TimeSpentToCreatEntities",
+    "InfoText_Errors",
+    "NoticeSubject",
+    "DialogError_RecordCountLessThanOne"
+  ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",
   "SharedAssemblyName": "starkov.Faker.Shared",
@@ -149,7 +169,7 @@
   "Versions": [
     {
       "Type": "ModuleMetadata",
-      "Number": 6
+      "Number": 8
     },
     {
       "Type": "DomainApi",

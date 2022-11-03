@@ -59,7 +59,7 @@
     }
   ],
   "HandledEvents": [
-    "CreatedServer"
+    "RefreshClient"
   ],
   "IconResourcesKeys": [],
   "OperationsClass": "",
@@ -90,7 +90,11 @@
     }
   ],
   "PublicStructures": [],
-  "ResourcesKeys": [],
+  "ResourcesKeys": [
+    "ErrorInvalidGuid",
+    "ErrorGuidNotMatchAnyEntity",
+    "ErrorTypeIsAbstract"
+  ],
   "RibbonCardMetadata": {
     "NameGuid": "204a3042-dd13-4d5f-b1f7-b78f31c24063",
     "Name": "RibbonCard",

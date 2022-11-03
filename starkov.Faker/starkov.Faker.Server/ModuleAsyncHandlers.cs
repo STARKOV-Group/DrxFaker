@@ -7,7 +7,6 @@ using Bogus;
 using PdfSharp.Pdf;
 using Sungero.Domain.Shared;
 using System.IO;
-
 using System.Diagnostics;
 using System.Threading;
 
@@ -16,6 +15,9 @@ namespace starkov.Faker.Server
   public class ModuleAsyncHandlers
   {
 
+    /// <summary>
+    /// Асинхронный обработчик для генерации сущностей
+    /// </summary>
     public virtual void EntitiesGeneration(starkov.Faker.Server.AsyncHandlerInvokeArgs.EntitiesGenerationInvokeArgs args)
     {
       Logger.ErrorFormat("Start async handler EntitiesGeneration");
@@ -32,8 +34,10 @@ namespace starkov.Faker.Server
       
       var attachments = new List<IEntity>();
       var errors = new List<string>();
+      var isNeedAddAttachment = true;
       var createdEntityCount = 0;
       var firstEntityId = 0;
+      
       for (var i = 0; i < args.Count; i++)
       {
         using (Sungero.Domain.Session session = new Sungero.Domain.Session(true, false))
@@ -41,8 +45,8 @@ namespace starkov.Faker.Server
           #region Создание учетных записей
           if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login)
           {
-            var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == "LoginName")) as string;
-            var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == "Password").ChosenValue;
+            var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName)) as string;
+            var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
             Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
             createdEntityCount++;
             continue;
@@ -54,7 +58,7 @@ namespace starkov.Faker.Server
           var entityProperties = entity.GetType().GetProperties();
           
           #region Заполнение свойств сущности
-          foreach (var parametersRow in databook.Parameters.Where(_ => _.FillOption != Constants.Module.Common.NullValue))
+          foreach (var parametersRow in databook.Parameters.Where(_ => _.FillOption != Constants.Module.FillOptions.Common.NullValue))
           {
             try
             {
@@ -76,7 +80,7 @@ namespace starkov.Faker.Server
             }
             catch (Exception ex)
             {
-              var err = string.Format("Ошибка вызванная занесением значения в свойство {0}:\n- {1}", parametersRow.PropertyName, ex.Message);
+              var err = starkov.Faker.Resources.ErrorText_SetValToPropertyFormat(parametersRow.PropertyName, ex.Message);
               if (!errors.Contains(err))
                 errors.Add(err);
               
@@ -122,7 +126,13 @@ namespace starkov.Faker.Server
           try
           {
             entity.Save();
-            attachments.Add(entity);
+            if (isNeedAddAttachment)
+            {
+              if (attachments.Count >= 30)
+                isNeedAddAttachment = false;
+              
+              attachments.Add(entity);
+            }
             createdEntityCount++;
             if (firstEntityId == 0)
               firstEntityId = entity.Id;
@@ -150,15 +160,15 @@ namespace starkov.Faker.Server
       
       #region Отправка уведомления администраторам
       var administrators = Roles.Administrators.RecipientLinks.Select(_ => _.Member);
-      var task = Sungero.Workflow.SimpleTasks.CreateWithNotices(string.Format("Создано {0} из {1} сущностей типа {2}", createdEntityCount, args.Count, databook.Name),
+      var task = Sungero.Workflow.SimpleTasks.CreateWithNotices(starkov.Faker.Resources.NoticeSubjectFormat(createdEntityCount, args.Count, databook.Name),
                                                                 administrators.ToArray());
       
       var text = string.Empty;
       if (firstEntityId != 0)
-        text += string.Format("ИД первой записи: {0}", firstEntityId);
-      text += string.Format("{0}Время затраченное на создание сущностей: {1}", string.IsNullOrEmpty(text) ? string.Empty : "\n", elapsedTime);
+        text += starkov.Faker.Resources.InfoText_FirstEntryIDFormat(firstEntityId);
+      text += starkov.Faker.Resources.InfoText_TimeSpentToCreatEntitiesFormat(string.IsNullOrEmpty(text) ? string.Empty : "\n", elapsedTime);
       if (errors.Any())
-        text += string.Format("\n\tОшибки:\n{0}", string.Join("\n", errors));
+        text += starkov.Faker.Resources.InfoText_ErrorsFormat(string.Join("\n", errors));
       
       foreach (var attachment in attachments)
         task.Attachments.Add(attachment);

@@ -11,26 +11,31 @@ namespace starkov.Faker
   partial class DatabookTypeClientHandlers
   {
 
+    public override void Refresh(Sungero.Presentation.FormRefreshEventArgs e)
+    {
+      _obj.State.Properties.Name.IsEnabled = !string.IsNullOrEmpty(_obj.DatabookTypeGuid);
+    }
+
     public virtual void DatabookTypeGuidValueInput(Sungero.Presentation.StringValueInputEventArgs e)
     {
       var guid = Guid.Empty;
       if (!Guid.TryParse(e.NewValue, out guid))
       {
-        e.AddError("Недопустимый формат Guid");
+        e.AddError(starkov.Faker.DatabookTypes.Resources.ErrorInvalidGuid);
         return;
       }
       
       var type = TypeExtension.GetTypeByGuid(guid);
       if (type == null)
       {
-        e.AddError("Данный Guid не соответствует ни одному типу сущности");
+        e.AddError(starkov.Faker.DatabookTypes.Resources.ErrorGuidNotMatchAnyEntity);
         return;
       }
       
       var metadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(guid);
       if (metadata.IsAbstract)
       {
-        e.AddError("Данный тип является абстрактным");
+        e.AddError(starkov.Faker.DatabookTypes.Resources.ErrorTypeIsAbstract);
         return;
       }
       

@@ -17,11 +17,11 @@ namespace starkov.Faker.Client
     /// </summary>
     public void ShowDialogForChangeParameters()
     {
-      var dialog = Dialogs.CreateInputDialog("Изменение данных");
+      var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogChangeData);
       
       #region Поля диалога
-      var propertyNameField = dialog.AddSelect("Наименование свойства", true).From(_obj.Parameters.Select(_ => _.PropertyName).ToArray());
-      var localizedValuesField = dialog.AddString("Локализованное значение", false);
+      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true).From(_obj.Parameters.Select(_ => _.PropertyName).ToArray());
+      var localizedValuesField = dialog.AddString(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedValue, false);
       
       localizedValuesField.IsEnabled = false;
       #endregion
@@ -35,7 +35,7 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Кнопки диалога
-      var changeBtn = dialog.Buttons.AddCustom("Изменить");
+      var changeBtn = dialog.Buttons.AddCustom(starkov.Faker.ParametersMatchings.Resources.DialogButtonChange);
       dialog.Buttons.AddCancel();
       
       if (dialog.Show() == changeBtn)
@@ -49,7 +49,7 @@ namespace starkov.Faker.Client
     /// <param name="rowId">Номер строки</param>
     public void ShowDialogForSelectParameters(int? rowId)
     {
-      var dialog = Dialogs.CreateInputDialog("Ввод данных");
+      var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
       #region Данные для диалога
       var parameterRow = _obj.Parameters.FirstOrDefault(_ => _.Id == rowId.GetValueOrDefault());
@@ -60,9 +60,9 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Поля диалога
-      var propertyNameField = dialog.AddSelect("Наименование свойства", true).From(propInfo.Select(_ => _.Name).ToArray());
-      var isLocalizedValues = dialog.AddBoolean("Использовать локализованное значение", false);
-      var parameterField = dialog.AddSelect("Вариант заполнения", true);
+      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true).From(propInfo.Select(_ => _.Name).ToArray());
+      var isLocalizedValues = dialog.AddBoolean(starkov.Faker.ParametersMatchings.Resources.DialogFieldUseLocalizedValue, false);
+      var parameterField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldFillOption, true);
       var personalValuesField = new List<object>();
       
       var isUnique = propInfo.Select(_ => _.LocalizedName).Count() == propInfo.Select(_ => _.LocalizedName).Distinct().Count();
@@ -91,7 +91,7 @@ namespace starkov.Faker.Client
       dialog.SetOnRefresh((arg) =>
                           {
                             if (!isUnique)
-                              arg.AddInformation("Локализованные значения свойств не уникальны");
+                              arg.AddInformation(starkov.Faker.ParametersMatchings.Resources.DialogInfoLocalizedPropertyNotUnique);
                             
                             if (string.IsNullOrEmpty(propertyNameField.Value) || personalValuesField.Count != 2)
                               return;
@@ -103,10 +103,10 @@ namespace starkov.Faker.Client
                             
                             if (customType == Constants.Module.CustomType.Date &&
                                 (personalValuesField[0] as IDateDialogValue).Value.GetValueOrDefault() > (personalValuesField[1] as IDateDialogValue).Value.GetValueOrDefault(Calendar.SqlMaxValue))
-                              arg.AddError("Дата \"С\" не может быть больше чем дата \"По\"");
+                              arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo);
                             else if (customType == Constants.Module.CustomType.Numeric &&
                                      (personalValuesField[0] as IIntegerDialogValue).Value.GetValueOrDefault() > (personalValuesField[1] as IIntegerDialogValue).Value.GetValueOrDefault(int.MaxValue))
-                              arg.AddError("Значение \"С\" не может быть больше чем значение \"По\"");
+                              arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo);
                           });
       
       propertyNameField.SetOnValueChanged((arg) =>
@@ -215,54 +215,57 @@ namespace starkov.Faker.Client
     /// <param name="selectedValue">Выбранное значение</param>
     /// <param name="selectedPropInfo">Структура с информацией о свойстве</param>
     /// <param name="personalValuesField">Список контролов</param>
-    private void ShowDialogControlsByParameter(IInputDialog dialog,
-                                               string selectedValue,
-                                               Faker.Structures.Module.PropertyInfo selectedPropInfo,
-                                               ref List<object> personalValuesField)
+    public virtual void ShowDialogControlsByParameter(CommonLibrary.IInputDialog dialog,
+                                                      string selectedValue,
+                                                      Faker.Structures.Module.PropertyInfo selectedPropInfo,
+                                                      ref List<object> personalValuesField)
     {
-      if (selectedValue == Constants.Module.Common.FixedValue)
+      if (selectedValue == Constants.Module.FillOptions.Common.FixedValue)
       {
         var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
         if (customType == Constants.Module.CustomType.Date)
-          personalValuesField.Add(dialog.AddDate("Дата", true));
+          personalValuesField.Add(dialog.AddDate(starkov.Faker.ParametersMatchings.Resources.DialogFieldDate, true));
         else if (customType == Constants.Module.CustomType.Bool)
-          personalValuesField.Add(dialog.AddBoolean("Логическое значение", true));
+          personalValuesField.Add(dialog.AddBoolean(starkov.Faker.ParametersMatchings.Resources.DialogFieldBooleanValue, true));
         else if (customType == Constants.Module.CustomType.Numeric)
-          personalValuesField.Add(dialog.AddInteger("Число", true));
+          personalValuesField.Add(dialog.AddInteger(starkov.Faker.ParametersMatchings.Resources.DialogFieldNumber, true));
         else if (customType == Constants.Module.CustomType.String)
-          personalValuesField.Add(dialog.AddString("Строка", true));
+          personalValuesField.Add(dialog.AddString(starkov.Faker.ParametersMatchings.Resources.DialogFieldString, true));
         else if (customType == Constants.Module.CustomType.Enumeration)
-          personalValuesField.Add(dialog.AddSelect("Перечисление", true)
+          personalValuesField.Add(dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldEnumeration, true)
                                   .From(selectedPropInfo.EnumCollection.ToArray()));
         else
-          personalValuesField.Add(dialog.AddSelect("Значение", true)
+          personalValuesField.Add(dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldValue, true)
                                   .From(Functions.Module.GetEntitiyNamesByType(selectedPropInfo.PropertyGuid,
                                                                                _obj.DocumentType?.DocumentTypeGuid).ToArray()));
       }
-      else if (selectedValue == Constants.Module.Date.Period)
+      else if (selectedValue == Constants.Module.FillOptions.Date.Period)
       {
         personalValuesField.AddRange(new List<IDateDialogValue>() {
-                                       dialog.AddDate("Дата с", true),
-                                       dialog.AddDate("Дата по", true)
+                                       dialog.AddDate(starkov.Faker.ParametersMatchings.Resources.DialogFieldDateFrom, true),
+                                       dialog.AddDate(starkov.Faker.ParametersMatchings.Resources.DialogFieldDateTo, true)
                                      });
       }
-      else if (selectedValue == Constants.Module.Numeric.NumberWithLength)
+      else if (selectedValue == Constants.Module.FillOptions.Numeric.NumberWithLength)
       {
         personalValuesField.AddRange(new List<IIntegerDialogValue>() {
-                                       dialog.AddInteger("Длина числа", true)
+                                       dialog.AddInteger(starkov.Faker.ParametersMatchings.Resources.DialogFieldNumberLength, true)
                                      });
       }
-      else if (selectedValue == Constants.Module.Numeric.NumberRange)
+      else if (selectedValue == Constants.Module.FillOptions.Numeric.NumberRange)
       {
         personalValuesField.AddRange(new List<IIntegerDialogValue>() {
-                                       dialog.AddInteger("С", true),
-                                       dialog.AddInteger("По", true)
+                                       dialog.AddInteger(starkov.Faker.ParametersMatchings.Resources.DialogFieldFrom, true),
+                                       dialog.AddInteger(starkov.Faker.ParametersMatchings.Resources.DialogFieldBy, true)
                                      });
       }
-      else if (selectedValue == Constants.Module.String.FirstName || selectedValue == Constants.Module.String.LastName || selectedValue == Constants.Module.String.FullName)
+      else if (selectedValue == Constants.Module.FillOptions.String.FirstName ||
+               selectedValue == Constants.Module.FillOptions.String.LastName ||
+               selectedValue == Constants.Module.FillOptions.String.FullName)
       {
         personalValuesField.AddRange(new List<IDropDownDialogValue>() {
-                                       dialog.AddSelect("Пол", false).From(Enum.GetNames(typeof(Bogus.DataSets.Name.Gender)))
+                                       dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldSex, false)
+                                         .From(Enum.GetNames(typeof(Bogus.DataSets.Name.Gender)))
                                      });
       }
     }
@@ -272,7 +275,7 @@ namespace starkov.Faker.Client
     /// </summary>
     /// <param name="parameterRow">Строка с параметрами</param>
     /// <param name="controls">Контролы</param>
-    private void FillDialogControlFromTable(Faker.IParametersMatchingParameters parameterRow, ref List<object> controls)
+    public virtual void FillDialogControlFromTable(Faker.IParametersMatchingParameters parameterRow, ref List<object> controls)
     {
       if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
       {
@@ -294,7 +297,7 @@ namespace starkov.Faker.Client
     /// <param name="typeGuid">Guid типа сущности</param>
     /// <param name="convertedValue">Значение которое нужно преобразовать</param>
     /// <returns>Преобразованное значение</returns>
-    private object GetValueInSelectedType(string customType, string typeGuid, string convertedValue)
+    public virtual object GetValueInSelectedType(string customType, string typeGuid, string convertedValue)
     {
       DateTime date;
       bool logic;
@@ -308,10 +311,7 @@ namespace starkov.Faker.Client
       else if (customType == Constants.Module.CustomType.Numeric && int.TryParse(convertedValue, out num))
         result = num;
       else if (customType == Constants.Module.CustomType.Navigation)
-      {
-        var strWithId = string.Format(", Id: ({0})", convertedValue);
-        result = Functions.Module.GetEntitiyNamesByType(typeGuid, _obj.DocumentType?.DocumentTypeGuid).FirstOrDefault(_ => _.Contains(strWithId));
-      }
+        result = Functions.Module.GetEntitiyNamesByType(typeGuid, _obj.DocumentType?.DocumentTypeGuid).FirstOrDefault(_ => _ == convertedValue);
       else
         result = convertedValue;
       
@@ -325,25 +325,14 @@ namespace starkov.Faker.Client
     /// <param name="customType">Обобщенный тип</param>
     /// <param name="typeGuid">Guid типа сущности</param>
     /// <returns>Значение из контрола в виде строки</returns>
-    private string GetValueFromDialogControl(object control, string customType, string typeGuid)
+    public virtual string GetValueFromDialogControl(object control, string customType, string typeGuid)
     {
       var result = string.Empty;
       if (control == null)
         return result;
       
-      if (customType == Constants.Module.CustomType.Enumeration)
+      if (customType == Constants.Module.CustomType.Enumeration || customType == Constants.Module.CustomType.Navigation)
         result = (control as IDialogControl<string>).Value;
-      else if (customType == Constants.Module.CustomType.Navigation)
-      {
-        var dialogValue = (control as IDialogControl<string>).Value;
-        var regex = new Regex(@"\(\d*\)$");
-        var matches = regex.Matches(dialogValue);
-        if (matches.Count > 0)
-        {
-          foreach (Match match in matches)
-            result = match.Value.Substring(1, match.Value.Length-2);
-        }
-      }
       else if (control is IDateDialogValue)
         result = (control as IDateDialogValue).Value.GetValueOrDefault().ToShortDateString();
       else if (control is IBooleanDialogValue)

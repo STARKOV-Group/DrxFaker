@@ -55,9 +55,12 @@ namespace starkov.Faker
     private void AvailabilityRequisites()
     {
       var prop = _obj.State.Properties;
-      prop.DocumentType.IsVisible = _obj.EntityType == EntityType.Document;
-      prop.DatabookType.IsVisible = _obj.EntityType == EntityType.DataBook;
-      prop.IsNeedCreateVersion.IsVisible = _obj.EntityType == EntityType.Document;
+      var isDocument = _obj.EntityType == EntityType.Document;
+      var isDataBook = _obj.EntityType == EntityType.DataBook;
+      
+      prop.DocumentType.IsVisible = isDocument;
+      prop.DatabookType.IsVisible = isDataBook;
+      prop.IsNeedCreateVersion.IsVisible = isDocument;
     }
     
     /// <summary>

@@ -58,4 +58,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorToAddDataFillEntityType" xml:space="preserve">
+    <value>Для добавления данных заполните "Тип справочника" или "Тип документа"</value>
+  </data>
+  <data name="ErrorToChangeDataFillEntityType" xml:space="preserve">
+    <value>Для изменения данных заполните "Тип справочника" или "Тип документа"</value>
+  </data>
+  <data name="DialogChangeData" xml:space="preserve">
+    <value>Изменение данных</value>
+  </data>
+  <data name="DialogFieldPropertyName" xml:space="preserve">
+    <value>Наименование свойства</value>
+  </data>
+  <data name="DialogFieldLocalizedValue" xml:space="preserve">
+    <value>Локализованное значение</value>
+  </data>
+  <data name="DialogButtonChange" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="DialogDataInput" xml:space="preserve">
+    <value>Ввод данных</value>
+  </data>
+  <data name="DialogFieldUseLocalizedValue" xml:space="preserve">
+    <value>Использовать локализованное значение</value>
+  </data>
+  <data name="DialogFieldFillOption" xml:space="preserve">
+    <value>Вариант заполнения</value>
+  </data>
+  <data name="DialogInfoLocalizedPropertyNotUnique" xml:space="preserve">
+    <value>Локализованные значения свойств не уникальны</value>
+  </data>
+  <data name="DialogErrorDateFromGreaterDateTo" xml:space="preserve">
+    <value>Дата "С" не может быть больше чем дата "По"</value>
+  </data>
+  <data name="DialogErrorValueFromGreaterValueTo" xml:space="preserve">
+    <value>Значение "С" не может быть больше чем значение "По"</value>
+  </data>
+  <data name="DialogFieldDate" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="DialogFieldBooleanValue" xml:space="preserve">
+    <value>Логическое значение</value>
+  </data>
+  <data name="DialogFieldNumber" xml:space="preserve">
+    <value>Число</value>
+  </data>
+  <data name="DialogFieldString" xml:space="preserve">
+    <value>Строка</value>
+  </data>
+  <data name="DialogFieldEnumeration" xml:space="preserve">
+    <value>Перечисление</value>
+  </data>
+  <data name="DialogFieldValue" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="DialogFieldDateFrom" xml:space="preserve">
+    <value>Дата с</value>
+  </data>
+  <data name="DialogFieldDateTo" xml:space="preserve">
+    <value>Дата по</value>
+  </data>
+  <data name="DialogFieldNumberLength" xml:space="preserve">
+    <value>Длина числа</value>
+  </data>
+  <data name="DialogFieldFrom" xml:space="preserve">
+    <value>С</value>
+  </data>
+  <data name="DialogFieldBy" xml:space="preserve">
+    <value>По</value>
+  </data>
+  <data name="DialogFieldSex" xml:space="preserve">
+    <value>Пол</value>
+  </data>
 </root>

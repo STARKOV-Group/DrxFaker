@@ -58,4 +58,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorToAddDataFillEntityType" xml:space="preserve">
+    <value>To add data, fill "DataBook type" or "Document type"</value>
+  </data>
+  <data name="ErrorToChangeDataFillEntityType" xml:space="preserve">
+    <value>To change the data, fill "DataBook type" or "Document type"</value>
+  </data>
+  <data name="DialogChangeData" xml:space="preserve">
+    <value>Change data</value>
+  </data>
+  <data name="DialogFieldPropertyName" xml:space="preserve">
+    <value>Property name</value>
+  </data>
+  <data name="DialogFieldLocalizedValue" xml:space="preserve">
+    <value>Localized value</value>
+  </data>
+  <data name="DialogButtonChange" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="DialogDataInput" xml:space="preserve">
+    <value>Data input</value>
+  </data>
+  <data name="DialogFieldUseLocalizedValue" xml:space="preserve">
+    <value>Use localized value</value>
+  </data>
+  <data name="DialogFieldFillOption" xml:space="preserve">
+    <value>Fill option</value>
+  </data>
+  <data name="DialogInfoLocalizedPropertyNotUnique" xml:space="preserve">
+    <value>Localized property values are not unique</value>
+  </data>
+  <data name="DialogErrorDateFromGreaterDateTo" xml:space="preserve">
+    <value>Date "From" cannot be greater than date "To"</value>
+  </data>
+  <data name="DialogErrorValueFromGreaterValueTo" xml:space="preserve">
+    <value>The value "From" cannot be greater than the value "To"</value>
+  </data>
+  <data name="DialogFieldDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DialogFieldBooleanValue" xml:space="preserve">
+    <value>Boolean value</value>
+  </data>
+  <data name="DialogFieldNumber" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="DialogFieldString" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="DialogFieldEnumeration" xml:space="preserve">
+    <value>Enumeration</value>
+  </data>
+  <data name="DialogFieldValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="DialogFieldDateFrom" xml:space="preserve">
+    <value>Date from</value>
+  </data>
+  <data name="DialogFieldDateTo" xml:space="preserve">
+    <value>Date to</value>
+  </data>
+  <data name="DialogFieldNumberLength" xml:space="preserve">
+    <value>Number length</value>
+  </data>
+  <data name="DialogFieldFrom" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="DialogFieldBy" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="DialogFieldSex" xml:space="preserve">
+    <value>Sex</value>
+  </data>
 </root>
