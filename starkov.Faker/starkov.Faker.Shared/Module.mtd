@@ -111,6 +111,11 @@
     {
       "Id": "df83a2ea-8d43-4ec4-a34a-2e61863014df",
       "MaxVersion": "",
+      "MinVersion": "3.6.27.1"
+    },
+    {
+      "Id": "d534e107-a54d-48ec-85ff-bc44d731a82f",
+      "MaxVersion": "",
       "MinVersion": "4.3.23.0"
     }
   ],
@@ -157,7 +162,8 @@
     "InfoText_TimeSpentToCreatEntities",
     "InfoText_Errors",
     "NoticeSubject",
-    "DialogError_RecordCountLessThanOne"
+    "DialogError_RecordCountLessThanOne",
+    "InfoText_LoginNames"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",

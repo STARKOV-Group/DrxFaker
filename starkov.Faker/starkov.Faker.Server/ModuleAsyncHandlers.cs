@@ -33,8 +33,8 @@ namespace starkov.Faker.Server
       stopWatch.Start();
       
       var attachments = new List<IEntity>();
+      var loginNames = new List<string>();
       var errors = new List<string>();
-      var isNeedAddAttachment = true;
       var createdEntityCount = 0;
       var firstEntityId = 0;
       
@@ -48,6 +48,9 @@ namespace starkov.Faker.Server
             var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName)) as string;
             var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
             Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
+            
+            if (loginNames.Count <= 30)
+              loginNames.Add(login);
             createdEntityCount++;
             continue;
           }
@@ -126,13 +129,9 @@ namespace starkov.Faker.Server
           try
           {
             entity.Save();
-            if (isNeedAddAttachment)
-            {
-              if (attachments.Count >= 30)
-                isNeedAddAttachment = false;
-              
+            if (attachments.Count <= 30)
               attachments.Add(entity);
-            }
+            
             createdEntityCount++;
             if (firstEntityId == 0)
               firstEntityId = entity.Id;
@@ -167,6 +166,8 @@ namespace starkov.Faker.Server
       if (firstEntityId != 0)
         text += starkov.Faker.Resources.InfoText_FirstEntryIDFormat(firstEntityId);
       text += starkov.Faker.Resources.InfoText_TimeSpentToCreatEntitiesFormat(string.IsNullOrEmpty(text) ? string.Empty : "\n", elapsedTime);
+      if (loginNames.Any())
+        text += starkov.Faker.Resources.InfoText_LoginNamesFormat(string.Join(", ", loginNames));
       if (errors.Any())
         text += starkov.Faker.Resources.InfoText_ErrorsFormat(string.Join("\n", errors));
       

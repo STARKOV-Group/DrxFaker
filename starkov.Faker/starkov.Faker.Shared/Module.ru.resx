@@ -98,4 +98,9 @@
   <data name="DialogError_RecordCountLessThanOne" xml:space="preserve">
     <value>Количество создаваемых записей не может быть меньше 1</value>
   </data>
+  <data name="InfoText_LoginNames" xml:space="preserve">
+    <value>
+   Учетные записи:
+{0}</value>
+  </data>
 </root>
