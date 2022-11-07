@@ -73,28 +73,20 @@
         "NameGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
         "Name": "Functions",
         "BackgroundPosition": "Stretch",
-        "IconName": "GroupIconGroup_b4df1d9f5e6d4050a204889a6543671a.png",
-        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+        "IconName": "GroupIconGroup_b4df1d9f5e6d4050a204889a6543671a.png"
       },
       {
         "NameGuid": "481ed195-ac8d-440f-b3fa-38e4054bb805",
         "Name": "Databooks",
         "BackgroundPosition": "Stretch",
         "IconName": "GroupIconDatabooks_481ed195ac8d440fb3fa38e4054bb805.png",
-        "PreviousItemGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
-        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+        "PreviousItemGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a"
       }
     ],
     "Header": {
       "NameGuid": "abbbd1db-47eb-4f83-9fa3-e179eddadebb",
       "BackgroundPosition": "Stretch"
-    },
-    "Tabs": [
-      {
-        "NameGuid": "e65e553b-7467-47e5-8c13-3c8dd77d5aea",
-        "Name": "Tab"
-      }
-    ]
+    }
   },
   "Dependencies": [
     {
@@ -111,7 +103,12 @@
     {
       "Id": "df83a2ea-8d43-4ec4-a34a-2e61863014df",
       "MaxVersion": "",
-      "MinVersion": "4.3.23.0"
+      "MinVersion": "3.6.27.1"
+    },
+    {
+      "Id": "d534e107-a54d-48ec-85ff-bc44d731a82f",
+      "MaxVersion": "",
+      "MinVersion": "4.2.30.0"
     }
   ],
   "ExplorerTreeOrder": [
@@ -142,6 +139,25 @@
     "Importance",
     "IsVisible"
   ],
+  "PublicFunctions": [
+    {
+      "Name": "CreateLogin",
+      "Parameters": [
+        {
+          "Name": "loginName",
+          "ParameterType": "global::System.String",
+          "ParameterTypeFullName": "System.String"
+        },
+        {
+          "Name": "password",
+          "ParameterType": "global::System.String",
+          "ParameterTypeFullName": "System.String"
+        }
+      ],
+      "ReturnType": "void",
+      "ReturnTypeFullName": "System.Void"
+    }
+  ],
   "PublicStructures": [],
   "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
   "ResourceInterfaceNamespace": "starkov.Faker",
@@ -169,7 +185,7 @@
   "Versions": [
     {
       "Type": "ModuleMetadata",
-      "Number": 8
+      "Number": 6
     },
     {
       "Type": "DomainApi",
