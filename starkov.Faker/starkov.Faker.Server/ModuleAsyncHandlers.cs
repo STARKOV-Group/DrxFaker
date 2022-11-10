@@ -40,113 +40,123 @@ namespace starkov.Faker.Server
       
       for (var i = 0; i < args.Count; i++)
       {
-        using (Sungero.Domain.Session session = new Sungero.Domain.Session(true, false))
+        try
         {
-          #region Создание учетных записей
-          if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login)
+          using (Sungero.Domain.Session session = new Sungero.Domain.Session(true, false))
           {
-            var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName)) as string;
-            var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
-            Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
+            #region Создание учетных записей
+            if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login)
+            {
+              var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName)) as string;
+              var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
+              Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
+              
+              if (loginNames.Count <= 30)
+                loginNames.Add(login);
+              createdEntityCount++;
+              continue;
+            }
+            #endregion
             
-            if (loginNames.Count <= 30)
-              loginNames.Add(login);
-            createdEntityCount++;
-            continue;
-          }
-          #endregion
-          
-          var finalTypeGuid = Functions.Module.GetFinalTypeGuidByAncestor(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
-          var entity = Functions.Module.CreateEntityByTypeGuid(finalTypeGuid);
-          var entityProperties = entity.GetType().GetProperties();
-          
-          #region Заполнение свойств сущности
-          foreach (var parametersRow in databook.Parameters.Where(_ => _.FillOption != Constants.Module.FillOptions.Common.NullValue))
-          {
-            try
+            var finalTypeGuid = Functions.Module.GetFinalTypeGuidByAncestor(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
+            var entity = Functions.Module.CreateEntityByTypeGuid(finalTypeGuid);
+            var entityProperties = entity.GetType().GetProperties();
+            
+            #region Заполнение свойств сущности
+            foreach (var parametersRow in databook.Parameters.Where(_ => _.FillOption != Constants.Module.FillOptions.Common.NullValue))
             {
-              var property = entityProperties.FirstOrDefault(_ => _.Name == parametersRow.PropertyName);
-              if (property == null)
-                continue;
-              
-              var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow);
-              if (propertyValue is string && parametersRow.StringPropLength.HasValue)
+              try
               {
-                var str = propertyValue as string;
-                if (str.Length > parametersRow.StringPropLength.Value)
-                  propertyValue = str.Substring(0, parametersRow.StringPropLength.Value);
+                var property = entityProperties.FirstOrDefault(_ => _.Name == parametersRow.PropertyName);
+                if (property == null)
+                  continue;
+                
+                var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow);
+                if (propertyValue is string && parametersRow.StringPropLength.HasValue)
+                {
+                  var str = propertyValue as string;
+                  if (str.Length > parametersRow.StringPropLength.Value)
+                    propertyValue = str.Substring(0, parametersRow.StringPropLength.Value);
+                }
+                else if (Equals(property.PropertyType, typeof(double)) || Equals(property.PropertyType, typeof(double?)))
+                  propertyValue = Convert.ToDouble(propertyValue);
+                
+                property.SetValue(entity, propertyValue);
               }
-              else if (Equals(property.PropertyType, typeof(double)) || Equals(property.PropertyType, typeof(double?)))
-                propertyValue = Convert.ToDouble(propertyValue);
-              
-              property.SetValue(entity, propertyValue);
+              catch (Exception ex)
+              {
+                var err = starkov.Faker.Resources.ErrorText_SetValToPropertyFormat(parametersRow.PropertyName, ex.Message);
+                if (!errors.Contains(err))
+                  errors.Add(err);
+                
+                Logger.ErrorFormat("EntitiesGeneration error caused by setting value in property {0}: {1}\r\n   StackTrace: {2}",
+                                   parametersRow.PropertyName,
+                                   ex.Message,
+                                   ex.StackTrace);
+              }
             }
-            catch (Exception ex)
+            #endregion
+            
+            #region Создание версии документа
+            if (databook.EntityType == Faker.ParametersMatching.EntityType.Document && databook.IsNeedCreateVersion.GetValueOrDefault())
             {
-              var err = starkov.Faker.Resources.ErrorText_SetValToPropertyFormat(parametersRow.PropertyName, ex.Message);
-              if (!errors.Contains(err))
-                errors.Add(err);
-              
-              Logger.ErrorFormat("EntitiesGeneration error caused by setting value in property {0}: {1}\r\n   StackTrace: {2}",
-                                 parametersRow.PropertyName,
-                                 ex.Message,
-                                 ex.StackTrace);
-            }
-          }
-          #endregion
-          
-          #region Создание версии документа
-          if (databook.EntityType == Faker.ParametersMatching.EntityType.Document && databook.IsNeedCreateVersion.GetValueOrDefault())
-          {
-            try
-            {
-              var document = Sungero.Docflow.OfficialDocuments.As(entity);
-              var emptyPdf = new PdfDocument();
-              emptyPdf.AddPage();
+              try
+              {
+                var document = Sungero.Docflow.OfficialDocuments.As(entity);
+                var emptyPdf = new PdfDocument();
+                emptyPdf.AddPage();
 
-              using (var stream = new MemoryStream())
-              {
-                emptyPdf.Save(stream, false);
-                stream.Seek(0, SeekOrigin.Begin);
-                document.CreateVersionFrom(stream, "pdf");
+                using (var stream = new MemoryStream())
+                {
+                  emptyPdf.Save(stream, false);
+                  stream.Seek(0, SeekOrigin.Begin);
+                  document.CreateVersionFrom(stream, "pdf");
+                }
               }
+              catch (Exception ex)
+              {
+                if (!errors.Contains(ex.Message))
+                  errors.Add(ex.Message);
+                
+                Logger.ErrorFormat("EntitiesGeneration error caused by creating version: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
+              }
+            }
+            #endregion
+            
+            #region Снятие признака обязательности свойств
+            foreach (var propertyState in entity.State.Properties.Where(p => p.IsRequired == true))
+              propertyState.IsRequired = false;
+            #endregion
+            
+            try
+            {
+              entity.Save();
+              if (attachments.Count <= 30)
+                attachments.Add(entity);
+              
+              createdEntityCount++;
+              if (firstEntityId == 0)
+                firstEntityId = entity.Id;
             }
             catch (Exception ex)
             {
               if (!errors.Contains(ex.Message))
                 errors.Add(ex.Message);
               
-              Logger.ErrorFormat("EntitiesGeneration error caused by creating version: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
+              Logger.ErrorFormat("EntitiesGeneration error caused by saving entity: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
+            }
+            finally
+            {
+              session.Dispose();
             }
           }
-          #endregion
+        }
+        catch (Exception ex)
+        {
+          if (!errors.Contains(ex.Message))
+            errors.Add(ex.Message);
           
-          #region Снятие признака обязательности свойств
-          foreach (var propertyState in entity.State.Properties.Where(p => p.IsRequired == true))
-            propertyState.IsRequired = false;
-          #endregion
-          
-          try
-          {
-            entity.Save();
-            if (attachments.Count <= 30)
-              attachments.Add(entity);
-            
-            createdEntityCount++;
-            if (firstEntityId == 0)
-              firstEntityId = entity.Id;
-          }
-          catch (Exception ex)
-          {
-            if (!errors.Contains(ex.Message))
-              errors.Add(ex.Message);
-            
-            Logger.ErrorFormat("EntitiesGeneration error caused by saving entity: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
-          }
-          finally
-          {
-            session.Dispose();
-          }
+          Logger.ErrorFormat("EntitiesGeneration error: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
         }
       }
       
