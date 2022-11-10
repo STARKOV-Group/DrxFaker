@@ -80,9 +80,7 @@
       "NameGuid": "c2646cef-b24e-4e73-90ea-852af161887e",
       "Name": "DatabookTypeGuid",
       "Code": "DatabookTypeGu",
-      "HandledEvents": [
-        "ValueInputClient"
-      ],
+      "IsEnabled": false,
       "IsRequired": true,
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.StringEditorToStringBinder",
       "PreviousPropertyGuid": "01c08940-7af4-40fb-b795-580bbd09ba07",

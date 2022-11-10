@@ -1,3 +1,17 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <queries>
+  <query key="SelectTypeGuids">
+    <mssql><![CDATA[SELECT
+  TypeGuid
+FROM 
+  Sungero_System_EntityType
+WHERE
+  TypeGuid not in ('{0}')]]></mssql>
+    <postgres><![CDATA[SELECT 
+  TypeGuid
+FROM 
+  Sungero_System_EntityType
+WHERE
+  TypeGuid not in ('{0}')]]></postgres>
+  </query>
 </queries>
