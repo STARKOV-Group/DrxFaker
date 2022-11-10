@@ -7,4 +7,5 @@ using starkov.Faker.DatabookType;
 
 namespace starkov.Faker
 {
+
 }
