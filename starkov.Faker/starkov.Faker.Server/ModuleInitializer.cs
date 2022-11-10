@@ -24,28 +24,53 @@ namespace starkov.Faker.Server
       InitializationLogger.Debug("Init: Fill databook types");
       
       //Метаданные базового типа
-      var type = typeof(Sungero.CoreEntities.IDatabookEntry);
-      var baseMetadata = type.GetEntityMetadata();
+      var databookEntryType = typeof(Sungero.CoreEntities.IDatabookEntry);
+      var baseMetadata = databookEntryType.GetEntityMetadata();
       
-      var databookTypes = DatabookTypes.GetAll().ToList();
+      var databookTypes = DatabookTypes.GetAll();
+      foreach (var databookType in databookTypes.ToList())
+      {
+        try
+        {
+          if (Locks.GetLockInfo(databookType).IsLockedByOther)
+            continue;
+          
+          var typeGuid = Guid.Parse(databookType.DatabookTypeGuid);
+          var type = TypeExtension.GetTypeByGuid(typeGuid);
+          var typeMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(type.GetFinalType());
+          
+          if (databookType.DatabookTypeGuid != typeMetadata.NameGuid.ToString())
+          {
+            databookType.DatabookTypeGuid = typeMetadata.NameGuid.ToString();
+            databookType.Save();
+          }
+        }
+        catch (Exception ex)
+        {
+          Logger.ErrorFormat("Error while update {0}: {1}", databookType.Name, ex.Message);
+        }
+      }
+      
       var typesGuidList = GetTypesGuid(databookTypes.Select(_ => _.DatabookTypeGuid));
       foreach (var typeGuid in typesGuidList)
       {
-        //Метаданные нового типа
-        var newEntityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(typeGuid);
-
-        //Если baseMetadata не является предком для newEntityMetadata или newEntityMetadata является абстрактным типом
-        if (newEntityMetadata == null || !baseMetadata.IsAncestorFor(newEntityMetadata) || newEntityMetadata.IsAbstract)
+        var entityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(typeGuid);
+        
+        //Если baseMetadata не является предком для entityMetadata или entityMetadata является абстрактным типом
+        if (entityMetadata == null || !baseMetadata.IsAncestorFor(entityMetadata) || entityMetadata.IsAbstract)
           continue;
         
-        var newTypeGuid = newEntityMetadata.NameGuid;
-        var newTypeMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(newTypeGuid);
-        if (newTypeMetadata == null)
+        var type = TypeExtension.GetTypeByGuid(typeGuid);
+        var finalEntityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(type.GetFinalType());
+        if (finalEntityMetadata != null)
+          entityMetadata = finalEntityMetadata;
+        
+        if (databookTypes.Any(_ => _.DatabookTypeGuid == finalEntityMetadata.NameGuid.ToString()))
           continue;
         
         var newType = DatabookTypes.Create();
-        newType.Name = newTypeMetadata.GetDisplayName();
-        newType.DatabookTypeGuid = newTypeGuid.ToString().ToLower();
+        newType.Name = finalEntityMetadata.GetDisplayName();
+        newType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
         newType.Save();
       }
     }
