@@ -317,7 +317,7 @@ namespace starkov.Faker.Server
     /// </summary>
     /// <param name="parameterRow">Строка с параметрами</param>
     /// <returns>Значение свойства</returns>
-    public virtual object GetPropertyValueByParameters(IParametersMatchingParameters parameterRow)
+    public virtual object GetPropertyValueByParameters(IParametersMatchingParameters parameterRow, List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
     {
       object result = null;
       if (parameterRow == null)
@@ -332,7 +332,7 @@ namespace starkov.Faker.Server
       else if (parameterRow.PropertyType == Constants.Module.CustomType.String)
         result = GetStringByParameters(parameterRow);
       else if (parameterRow.PropertyType == Constants.Module.CustomType.Enumeration)
-        result = GetEnumByParameters(parameterRow);
+        result = GetEnumByParameters(parameterRow, propertiesInfo);
       else if (parameterRow.PropertyType == Constants.Module.CustomType.Navigation)
         result = GetEntityByParameters(parameterRow);
       
@@ -445,12 +445,10 @@ namespace starkov.Faker.Server
     /// </summary>
     /// <param name="parameterRow">Строка с параметрами</param>
     /// <returns>Перечисление</returns>
-    public virtual Enumeration? GetEnumByParameters(IParametersMatchingParameters parameterRow)
+    public virtual Enumeration? GetEnumByParameters(IParametersMatchingParameters parameterRow, List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
     {
       Enumeration? newEnum = null;
-      var databook = parameterRow.ParametersMatching;
-      var properties = Functions.Module.GetPropertiesType(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
-      var enumValues = properties.FirstOrDefault(_ => _.Name == parameterRow.PropertyName).EnumCollection;
+      var enumValues = propertiesInfo.FirstOrDefault(_ => _.Name == parameterRow.PropertyName).EnumCollection;
       
       if (parameterRow.FillOption == Constants.Module.FillOptions.Common.FixedValue)
         newEnum = new Enumeration(enumValues.Where(_ => _.LocalizedName == parameterRow.ChosenValue).Select(_ => _.Name).FirstOrDefault());
@@ -604,6 +602,11 @@ namespace starkov.Faker.Server
                                                                  propertyMetadata.IsRequired,
                                                                  enumInfo,
                                                                  (propertyMetadata as Sungero.Metadata.StringPropertyMetadata)?.Length));
+      }
+      
+      using (var session = new Sungero.Domain.Session())
+      {
+        session.Delete(entity);
       }
       
       return propertiesList;
