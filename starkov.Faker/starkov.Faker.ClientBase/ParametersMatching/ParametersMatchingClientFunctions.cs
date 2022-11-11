@@ -233,7 +233,7 @@ namespace starkov.Faker.Client
           personalValuesField.Add(dialog.AddString(starkov.Faker.ParametersMatchings.Resources.DialogFieldString, true));
         else if (customType == Constants.Module.CustomType.Enumeration)
           personalValuesField.Add(dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldEnumeration, true)
-                                  .From(selectedPropInfo.EnumCollection.ToArray()));
+                                  .From(selectedPropInfo.EnumCollection.Select(_ => _.LocalizedName).ToArray()));
         else
           personalValuesField.Add(dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldValue, true)
                                   .From(Functions.Module.GetEntitiyNamesByType(selectedPropInfo.PropertyGuid,

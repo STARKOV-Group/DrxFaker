@@ -40,11 +40,27 @@ namespace starkov.Faker.Structures.Module
     /// <summary>
     /// Значения свойства перечислении
     /// </summary>
-    public List<string> EnumCollection { get; set; }
+    public List<starkov.Faker.Structures.Module.EnumerationInfo> EnumCollection { get; set; }
     
     /// <summary>
     /// Максимальная длина текстового поля
     /// </summary>
     public int? MaxStringLength { get; set; }
+  }
+  
+  /// <summary>
+  /// Информация о перечислениях
+  /// </summary>
+  partial class EnumerationInfo
+  {
+    /// <summary>
+    /// Наименование
+    /// </summary>
+    public string Name { get; set; }
+    
+    /// <summary>
+    /// Локализированное наименование
+    /// </summary>
+    public string LocalizedName { get; set; }
   }
 }
