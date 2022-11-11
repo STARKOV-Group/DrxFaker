@@ -515,26 +515,6 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить последний Guid типа
-    /// </summary>
-    /// <param name="guid">Guid типа сущности</param>
-    /// <returns>Последний Guid типа</returns>
-    [Remote]
-    public virtual string GetFinalTypeGuidByAncestor(string guid)
-    {
-      var typeGuid = Guid.Parse(guid);
-      var type = TypeExtension.GetTypeByGuid(typeGuid);
-      if (type == null || !type.GetEntityMetadata().IsAncestorMetadata)
-        return guid;
-      
-      var finalType = type.GetFinalType();
-      if (finalType == null)
-        return guid;
-      
-      return finalType.GUID.ToString();
-    }
-    
-    /// <summary>
     /// Получить список с информацией о реквизитах типа сущности
     /// </summary>
     /// <param name="guid">Guid типа сущности</param>
