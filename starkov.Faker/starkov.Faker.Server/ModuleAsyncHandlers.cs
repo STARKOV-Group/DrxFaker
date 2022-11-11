@@ -62,7 +62,7 @@ namespace starkov.Faker.Server
             }
             #endregion
             
-            var finalTypeGuid = Functions.Module.GetFinalTypeGuidByAncestor(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
+            var finalTypeGuid = databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid;
             var entity = Functions.Module.CreateEntityByTypeGuid(finalTypeGuid);
             var entityProperties = entity.GetType().GetProperties();
             
