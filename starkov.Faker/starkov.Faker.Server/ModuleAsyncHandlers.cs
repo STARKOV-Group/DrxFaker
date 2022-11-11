@@ -20,14 +20,16 @@ namespace starkov.Faker.Server
     /// </summary>
     public virtual void EntitiesGeneration(starkov.Faker.Server.AsyncHandlerInvokeArgs.EntitiesGenerationInvokeArgs args)
     {
-      Logger.ErrorFormat("Start async handler EntitiesGeneration");
+      Logger.DebugFormat("Start async handler EntitiesGeneration");
+      args.Retry = false;
       
       var databook = ParametersMatchings.GetAll(_ => _.Id == args.DatabookId).FirstOrDefault();
       if (databook == null)
       {
-        Logger.ErrorFormat("EntitiesGeneration error: No ParametersMatching databooks with id {0}", args.DatabookId);
+        Logger.DebugFormat("EntitiesGeneration error: No ParametersMatching databooks with id {0}", args.DatabookId);
         return;
       }
+      var propertiesStructure = Functions.Module.GetPropertiesType(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
       
       var stopWatch = new Stopwatch();
       stopWatch.Start();
@@ -47,13 +49,15 @@ namespace starkov.Faker.Server
             #region Создание учетных записей
             if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login)
             {
-              var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName)) as string;
+              var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure) as string;
               var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
               Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
               
               if (loginNames.Count <= 30)
                 loginNames.Add(login);
               createdEntityCount++;
+              
+              session.Dispose();
               continue;
             }
             #endregion
@@ -71,7 +75,7 @@ namespace starkov.Faker.Server
                 if (property == null)
                   continue;
                 
-                var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow);
+                var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow, propertiesStructure);
                 if (propertyValue is string && parametersRow.StringPropLength.HasValue)
                 {
                   var str = propertyValue as string;
@@ -165,7 +169,6 @@ namespace starkov.Faker.Server
       var elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                                       ts.Hours, ts.Minutes, ts.Seconds,
                                       ts.Milliseconds / 10);
-      Logger.ErrorFormat("RunTime " + elapsedTime);
       
       #region Отправка уведомления администраторам
       var administrators = Roles.Administrators.RecipientLinks.Select(_ => _.Member);
@@ -188,7 +191,7 @@ namespace starkov.Faker.Server
       task.Start();
       #endregion
       
-      Logger.ErrorFormat("End async handler EntitiesGeneration");
+      Logger.DebugFormat("End async handler EntitiesGeneration");
     }
   }
 }
