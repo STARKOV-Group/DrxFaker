@@ -19,19 +19,47 @@ namespace starkov.Faker.Client
     {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogChangeData);
       
-      #region Поля диалога
-      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true).From(_obj.Parameters.Select(_ => _.PropertyName).ToArray());
-      var localizedValuesField = dialog.AddString(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedValue, false);
+      #region Данные для диалога
+      var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid);
+      #endregion
       
-      localizedValuesField.IsEnabled = false;
+      #region Поля диалога
+      var localizedValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedValue, false)
+        .From(_obj.Parameters.Select(_ => _.LocalizedPropertyName).OrderBy(_ => _).ToArray());
+      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, false)
+        .From(_obj.Parameters.Select(_ => _.PropertyName).OrderBy(_ => _).ToArray());
+      
+      var isUnique = propInfo.Select(_ => _.LocalizedName).Count() == propInfo.Select(_ => _.LocalizedName).Distinct().Count();
+      if (isUnique)
+      {
+        localizedValuesField.IsRequired = true;
+        propertyNameField.IsEnabled = false;
+      }
+      else
+      {
+        propertyNameField.IsRequired = true;
+        localizedValuesField.IsEnabled = false;
+      }
       #endregion
       
       #region Обработчики свойств
+      dialog.SetOnRefresh((arg) =>
+                          {
+                            if (!isUnique)
+                              arg.AddInformation(starkov.Faker.ParametersMatchings.Resources.DialogInfoLocalizedPropertyNotUnique);
+                          });
+      
       propertyNameField.SetOnValueChanged((arg) =>
                                           {
                                             if (!string.IsNullOrEmpty(arg.NewValue))
                                               localizedValuesField.Value = _obj.Parameters.FirstOrDefault(_ => _.PropertyName == arg.NewValue)?.LocalizedPropertyName;
                                           });
+      
+      localizedValuesField.SetOnValueChanged((arg) =>
+                                             {
+                                               if (!string.IsNullOrEmpty(arg.NewValue))
+                                                 propertyNameField.Value = _obj.Parameters.FirstOrDefault(_ => _.LocalizedPropertyName == arg.NewValue)?.PropertyName;
+                                             });
       #endregion
       
       #region Кнопки диалога
@@ -39,7 +67,9 @@ namespace starkov.Faker.Client
       dialog.Buttons.AddCancel();
       
       if (dialog.Show() == changeBtn)
-        ShowDialogForSelectParameters(_obj.Parameters.FirstOrDefault(_ => _.PropertyName == propertyNameField.Value)?.Id);
+        ShowDialogForSelectParameters(_obj.Parameters.FirstOrDefault(_ => isUnique ?
+                                                                     _.LocalizedPropertyName == localizedValuesField.Value :
+                                                                     _.PropertyName == propertyNameField.Value)?.Id);
       #endregion
     }
 
@@ -60,7 +90,7 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Поля диалога
-      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true).From(propInfo.Select(_ => _.Name).ToArray());
+      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true).From(propInfo.Select(_ => _.Name).OrderBy(_ => _).ToArray());
       var isLocalizedValues = dialog.AddBoolean(starkov.Faker.ParametersMatchings.Resources.DialogFieldUseLocalizedValue, false);
       var parameterField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldFillOption, true);
       var personalValuesField = new List<object>();
@@ -68,23 +98,6 @@ namespace starkov.Faker.Client
       var isUnique = propInfo.Select(_ => _.LocalizedName).Count() == propInfo.Select(_ => _.LocalizedName).Distinct().Count();
       isLocalizedValues.IsVisible = isUnique && parameterRow == null;
       parameterField.IsEnabled = parameterRow != null;
-      
-      if (parameterRow != null)
-      {
-        var selectedPropInfo = propInfo.FirstOrDefault();
-        propertyNameField.Value = selectedPropInfo.Name;
-        propertyNameField.IsEnabled = false;
-        
-        var parameters = Functions.ParametersMatching.GetMatchingTypeToParameters(selectedPropInfo.Type);
-        parameterField.From(parameters.ToArray());
-        
-        if (!string.IsNullOrEmpty(parameterRow.FillOption))
-        {
-          parameterField.Value = parameterRow.FillOption;
-          ShowDialogControlsByParameter(dialog, parameterField.Value, selectedPropInfo, ref personalValuesField);
-          FillDialogControlFromTable(parameterRow, ref personalValuesField);
-        }
-      }
       #endregion
       
       #region Обработчики свойств
@@ -135,9 +148,9 @@ namespace starkov.Faker.Client
       isLocalizedValues.SetOnValueChanged((arg) =>
                                           {
                                             if (arg.NewValue.GetValueOrDefault())
-                                              propertyNameField.From(propInfo.Select(_ => _.LocalizedName).ToArray());
+                                              propertyNameField.From(propInfo.Select(_ => _.LocalizedName).OrderBy(_ => _).ToArray());
                                             else
-                                              propertyNameField.From(propInfo.Select(_ => _.Name).ToArray());
+                                              propertyNameField.From(propInfo.Select(_ => _.Name).OrderBy(_ => _).ToArray());
                                             
                                             parameterField.Value = null;
                                           });
@@ -154,6 +167,24 @@ namespace starkov.Faker.Client
                                          
                                          ShowDialogControlsByParameter(dialog, arg.NewValue, selectedPropInfo, ref personalValuesField);
                                        });
+      #endregion
+      
+      #region Заполнение данных
+      if (isLocalizedValues.Value != isLocalizedValues.IsVisible)
+        isLocalizedValues.Value = isLocalizedValues.IsVisible;
+      
+      if (parameterRow != null)
+      {
+        var selectedPropInfo = propInfo.FirstOrDefault();
+        propertyNameField.Value = selectedPropInfo.Name;
+        propertyNameField.IsEnabled = false;
+        
+        if (!string.IsNullOrEmpty(parameterRow.FillOption))
+        {
+          parameterField.Value = parameterRow.FillOption;
+          FillDialogControlFromTable(parameterRow, ref personalValuesField);
+        }
+      }
       #endregion
       
       #region Кнопки диалога
