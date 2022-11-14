@@ -58,22 +58,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Property_Name" xml:space="preserve">
-    <value>Имя</value>
-  </data>
-  <data name="DisplayName" xml:space="preserve">
-    <value>Тип справочника</value>
-  </data>
-  <data name="AccusativeDisplayName" xml:space="preserve">
-    <value>Тип справочника</value>
-  </data>
-  <data name="CollectionDisplayName" xml:space="preserve">
-    <value>Типы справочников</value>
-  </data>
-  <data name="Property_DatabookTypeGuid" xml:space="preserve">
-    <value>Идентификатор типа</value>
-  </data>
-  <data name="Property_AncestorGuids" xml:space="preserve">
-    <value>Guid'ы предков</value>
-  </data>
 </root>

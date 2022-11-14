@@ -130,4 +130,7 @@
   <data name="DialogFieldSex" xml:space="preserve">
     <value>Sex</value>
   </data>
+  <data name="DialogErrorNoProperty" xml:space="preserve">
+    <value>This entity type does not contain property {0}</value>
+  </data>
 </root>
