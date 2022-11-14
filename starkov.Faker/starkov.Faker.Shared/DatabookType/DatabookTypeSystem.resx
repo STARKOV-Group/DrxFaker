@@ -73,4 +73,7 @@
   <data name="Property_DatabookTypeGuid" xml:space="preserve">
     <value>Type ID</value>
   </data>
+  <data name="Property_AncestorGuids" xml:space="preserve">
+    <value>Ancestor guids</value>
+  </data>
 </root>

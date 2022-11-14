@@ -28,62 +28,80 @@ namespace starkov.Faker.Server
       var baseMetadata = databookEntryType.GetEntityMetadata();
       
       var databookTypes = DatabookTypes.GetAll();
-      foreach (var databookType in databookTypes.ToList())
+      var typesGuidList = GetTypesGuid();
+      foreach (var typeGuid in typesGuidList)
       {
         try
         {
-          if (Locks.GetLockInfo(databookType).IsLockedByOther)
+          var entityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(typeGuid);
+          //Если baseMetadata не является предком для entityMetadata или entityMetadata является абстрактным типом
+          if (entityMetadata == null || !baseMetadata.IsAncestorFor(entityMetadata) || entityMetadata.IsAbstract)
             continue;
           
-          var typeGuid = Guid.Parse(databookType.DatabookTypeGuid);
           var type = TypeExtension.GetTypeByGuid(typeGuid);
-          var typeMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(type.GetFinalType());
+          var finalEntityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(type.GetFinalType());
           
-          if (databookType.DatabookTypeGuid != typeMetadata.NameGuid.ToString())
+          var databookWithOldType = databookTypes.FirstOrDefault(_ => _.DatabookTypeGuid == typeGuid.ToString());
+          var databookWithFinalType = databookTypes.FirstOrDefault(_ => _.DatabookTypeGuid == finalEntityMetadata.NameGuid.ToString());
+          var databookWithAncestorType = databookTypes.FirstOrDefault(_ => _.AncestorGuids.Any(anc => anc.Guid == typeGuid.ToString()));
+          
+          if (finalEntityMetadata == null || Equals(finalEntityMetadata.NameGuid, typeGuid))
           {
-            databookType.DatabookTypeGuid = typeMetadata.NameGuid.ToString();
-            databookType.Save();
+            if (databookWithAncestorType != null)
+            {
+              databookWithAncestorType.DatabookTypeGuid = typeGuid.ToString();
+              databookWithAncestorType.AncestorGuids.Remove(databookWithAncestorType.AncestorGuids.FirstOrDefault(_ => _.Guid == typeGuid.ToString()));
+              databookWithAncestorType.Save();
+            }
+            else if (databookWithOldType == null)
+            {
+              var newType = DatabookTypes.Create();
+              newType.Name = entityMetadata.GetDisplayName();
+              newType.DatabookTypeGuid = typeGuid.ToString();
+              newType.Save();
+            }
+            continue;
+          }
+          
+          if (databookWithAncestorType != null && databookWithAncestorType.DatabookTypeGuid != finalEntityMetadata.NameGuid.ToString())
+          {
+            databookWithAncestorType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
+            databookWithAncestorType.Save();
+          }
+          else if (databookWithFinalType != null && !databookWithFinalType.AncestorGuids.Any(_ => Equals(_.Guid, typeGuid.ToString())))
+          {
+            databookWithFinalType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
+            databookWithFinalType.Save();
+          }
+          else if (databookWithOldType != null)
+          {
+            databookWithOldType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
+            databookWithOldType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
+            databookWithOldType.Save();
+          }
+          else if (databookWithAncestorType == null && databookWithFinalType == null && databookWithOldType == null)
+          {
+            var newType = DatabookTypes.Create();
+            newType.Name = finalEntityMetadata.GetDisplayName();
+            newType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
+            newType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
+            newType.Save();
           }
         }
         catch (Exception ex)
         {
-          Logger.ErrorFormat("Error while update {0}: {1}", databookType.Name, ex.Message);
+          Logger.ErrorFormat("Faker init fill databook types error: {0}", ex.Message);
         }
-      }
-      
-      var typesGuidList = GetTypesGuid(databookTypes.Select(_ => _.DatabookTypeGuid));
-      foreach (var typeGuid in typesGuidList)
-      {
-        var entityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(typeGuid);
-        
-        //Если baseMetadata не является предком для entityMetadata или entityMetadata является абстрактным типом
-        if (entityMetadata == null || !baseMetadata.IsAncestorFor(entityMetadata) || entityMetadata.IsAbstract)
-          continue;
-        
-        var type = TypeExtension.GetTypeByGuid(typeGuid);
-        var finalEntityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(type.GetFinalType());
-        if (finalEntityMetadata != null)
-          entityMetadata = finalEntityMetadata;
-        
-        if (databookTypes.Any(_ => _.DatabookTypeGuid == finalEntityMetadata.NameGuid.ToString()))
-          continue;
-        
-        var newType = DatabookTypes.Create();
-        newType.Name = finalEntityMetadata.GetDisplayName();
-        newType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
-        newType.Save();
       }
     }
     
     /// <summary>
     /// Получить список Guid-ов из таблицы sungero_system_entitytype.
     /// </summary>
-    /// <param name="guids">Список Guid занесенных в справочник</param>
     /// <returns>Guid всех объектов системы, за исключением переданных в параметре</returns>
-    public static List<Guid> GetTypesGuid(System.Collections.Generic.IEnumerable<string> guids)
+    public static List<Guid> GetTypesGuid()
     {
-      var notSelectedGuids = new List<string>(guids);
-      notSelectedGuids.AddRange(GetNotSelectGuids());
+      var notSelectedGuids = GetNotSelectGuids();
       
       var typesList = new List<Guid>();
       using (var command = SQL.GetCurrentConnection().CreateCommand())
