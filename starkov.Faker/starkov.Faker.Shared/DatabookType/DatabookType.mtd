@@ -85,6 +85,17 @@
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.StringEditorToStringBinder",
       "PreviousPropertyGuid": "01c08940-7af4-40fb-b795-580bbd09ba07",
       "Versions": []
+    },
+    {
+      "$type": "Sungero.Metadata.CollectionPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "671d5592-b23e-42ff-9434-8136c597ed56",
+      "Name": "AncestorGuids",
+      "Code": "DatabookTypeAn",
+      "EntityGuid": "39fb3cf8-efd4-46e1-b8d0-4720216a187c",
+      "IsEnabled": false,
+      "IsShowedInList": false,
+      "IsVisibility": false,
+      "PreviousPropertyGuid": "c2646cef-b24e-4e73-90ea-852af161887e"
     }
   ],
   "PublicStructures": [],

@@ -130,4 +130,7 @@
   <data name="DialogFieldSex" xml:space="preserve">
     <value>Пол</value>
   </data>
+  <data name="DialogErrorNoProperty" xml:space="preserve">
+    <value>Данный тип сущности не содержит свойства {0}</value>
+  </data>
 </root>
