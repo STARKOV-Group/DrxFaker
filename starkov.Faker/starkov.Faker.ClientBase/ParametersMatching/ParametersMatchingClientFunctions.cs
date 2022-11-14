@@ -82,11 +82,17 @@ namespace starkov.Faker.Client
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
       #region Данные для диалога
-      var parameterRow = _obj.Parameters.FirstOrDefault(_ => _.Id == rowId.GetValueOrDefault());
+      var parameterRow = _obj.Parameters.FirstOrDefault(_ => _.Id == rowId.GetValueOrDefault());      
       var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
         .Where(_ => rowId.HasValue ?
                parameterRow.PropertyName == _.Name :
                !_obj.Parameters.Select(p => p.PropertyName).Contains(_.Name));
+      
+      if (!propInfo.Any())
+      {
+        Dialogs.ShowMessage(starkov.Faker.ParametersMatchings.Resources.DialogErrorNoPropertyFormat(parameterRow.LocalizedPropertyName), MessageType.Error);
+        return;
+      }
       #endregion
       
       #region Поля диалога
