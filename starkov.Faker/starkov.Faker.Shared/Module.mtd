@@ -175,7 +175,8 @@
     "InfoText_TimeSpentToCreatEntities",
     "InfoText_Errors",
     "NoticeSubject",
-    "DialogError_RecordCountLessThanOne"
+    "DialogError_RecordCountLessThanOne",
+    "InfoText_LoginNames"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",
