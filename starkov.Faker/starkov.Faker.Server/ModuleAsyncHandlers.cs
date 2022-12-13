@@ -49,12 +49,7 @@ namespace starkov.Faker.Server
             #region Создание учетных записей
             if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login)
             {
-              var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure) as string;
-              var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
-              Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
-              
-              if (loginNames.Count <= 30)
-                loginNames.Add(login);
+              CreateLogin(databook, propertiesStructure, ref loginNames);
               createdEntityCount++;
               
               session.Dispose();
@@ -106,16 +101,7 @@ namespace starkov.Faker.Server
             {
               try
               {
-                var document = Sungero.Docflow.OfficialDocuments.As(entity);
-                var emptyPdf = new PdfDocument();
-                emptyPdf.AddPage();
-
-                using (var stream = new MemoryStream())
-                {
-                  emptyPdf.Save(stream, false);
-                  stream.Seek(0, SeekOrigin.Begin);
-                  document.CreateVersionFrom(stream, "pdf");
-                }
+                CreateDocumentVersion(entity);
               }
               catch (Exception ex)
               {
@@ -171,8 +157,81 @@ namespace starkov.Faker.Server
                                       ts.Milliseconds / 10);
       
       #region Отправка уведомления администраторам
+      SendNoticeToAdministrators(databook,
+                                 createdEntityCount,
+                                 args.Count,
+                                 firstEntityId,
+                                 elapsedTime,
+                                 loginNames,
+                                 errors,
+                                 attachments);
+      #endregion
+      
+      Logger.DebugFormat("End async handler EntitiesGeneration");
+    }
+    
+    /// <summary>
+    /// Создать учетную запись
+    /// </summary>
+    /// <param name="databook">Справочник соответствие заполняемых параметров сущности</param>
+    /// <param name="propertiesStructure">Список с информацией о реквизитах учетной записи</param>
+    /// <param name="loginNames">Список наименований учетных записей</param>
+    public virtual void CreateLogin(Faker.IParametersMatching databook, List<Structures.Module.PropertyInfo> propertiesStructure, ref List<string> loginNames)
+    {
+      if (databook == null)
+        return;
+      
+      var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure) as string;
+      var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
+      Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
+      
+      if (loginNames.Count <= 30)
+        loginNames.Add(login);
+    }
+    
+    /// <summary>
+    /// Создать версию документа
+    /// </summary>
+    /// <param name="entity">Документ</param>
+    public virtual void CreateDocumentVersion(IEntity entity)
+    {
+      var document = Sungero.Docflow.OfficialDocuments.As(entity);
+      if (document == null)
+        return;
+      
+      var emptyPdf = new PdfDocument();
+      emptyPdf.AddPage();
+
+      using (var stream = new MemoryStream())
+      {
+        emptyPdf.Save(stream, false);
+        stream.Seek(0, SeekOrigin.Begin);
+        document.CreateVersionFrom(stream, "pdf");
+      }
+    }
+    
+    /// <summary>
+    /// Отправка уведомления администраторам
+    /// </summary>
+    /// <param name="databook">Справочник соответствие заполняемых параметров сущности</param>
+    /// <param name="createdEntityCount">Кол-во созданных сущностей</param>
+    /// <param name="desiredEntityCount">Ожидаемое кол-во сущностей</param>
+    /// <param name="firstEntityId">ИД первой сгенерированной сущности</param>
+    /// <param name="elapsedTime">Затраченное на генерацию время</param>
+    /// <param name="loginNames">Список наименований учетных записей</param>
+    /// <param name="errors">Список ошибок при генерации</param>
+    /// <param name="attachments">Список сгенерированных сущностей</param>
+    public virtual void SendNoticeToAdministrators(Faker.IParametersMatching databook,
+                                                   int createdEntityCount,
+                                                   int desiredEntityCount,
+                                                   int firstEntityId,
+                                                   string elapsedTime,
+                                                   List<string> loginNames,
+                                                   List<string> errors,
+                                                   List<IEntity> attachments)
+    {
       var administrators = Roles.Administrators.RecipientLinks.Select(_ => _.Member);
-      var task = Sungero.Workflow.SimpleTasks.CreateWithNotices(starkov.Faker.Resources.NoticeSubjectFormat(createdEntityCount, args.Count, databook.Name),
+      var task = Sungero.Workflow.SimpleTasks.CreateWithNotices(starkov.Faker.Resources.NoticeSubjectFormat(createdEntityCount, desiredEntityCount, databook.Name),
                                                                 administrators.ToArray());
       
       var text = string.Empty;
@@ -189,9 +248,6 @@ namespace starkov.Faker.Server
       
       task.ActiveText = text;
       task.Start();
-      #endregion
-      
-      Logger.DebugFormat("End async handler EntitiesGeneration");
     }
   }
 }
