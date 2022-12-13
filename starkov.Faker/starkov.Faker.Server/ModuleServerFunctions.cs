@@ -518,7 +518,7 @@ namespace starkov.Faker.Server
     /// Получить список с информацией о реквизитах типа сущности
     /// </summary>
     /// <param name="guid">Guid типа сущности</param>
-    /// <returns>список с информацией о реквизитах типа сущности</returns>
+    /// <returns>Список с информацией о реквизитах типа сущности</returns>
     [Remote]
     public virtual List<Structures.Module.PropertyInfo> GetPropertiesType(string guid)
     {
