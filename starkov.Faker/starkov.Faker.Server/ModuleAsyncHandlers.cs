@@ -206,7 +206,7 @@ namespace starkov.Faker.Server
       {
         emptyPdf.Save(stream, false);
         stream.Seek(0, SeekOrigin.Begin);
-        document.CreateVersionFrom(stream, "pdf");
+        document.CreateVersionFrom(stream, Constants.Module.DocumentFormats.Pdf);
       }
     }
     
@@ -234,20 +234,35 @@ namespace starkov.Faker.Server
       var task = Sungero.Workflow.SimpleTasks.CreateWithNotices(starkov.Faker.Resources.NoticeSubjectFormat(createdEntityCount, desiredEntityCount, databook.Name),
                                                                 administrators.ToArray());
       
-      var text = string.Empty;
-      if (firstEntityId != 0)
-        text += starkov.Faker.Resources.InfoText_FirstEntryIDFormat(firstEntityId);
-      text += starkov.Faker.Resources.InfoText_TimeSpentToCreatEntitiesFormat(string.IsNullOrEmpty(text) ? string.Empty : "\n", elapsedTime);
-      if (loginNames.Any())
-        text += starkov.Faker.Resources.InfoText_LoginNamesFormat(string.Join(", ", loginNames));
-      if (errors.Any())
-        text += starkov.Faker.Resources.InfoText_ErrorsFormat(string.Join("\n", errors));
-      
       foreach (var attachment in attachments)
         task.Attachments.Add(attachment);
       
-      task.ActiveText = text;
+      task.ActiveText = CreateNoticeTextToAdministrators(firstEntityId, elapsedTime, loginNames, errors);
       task.Start();
+    }
+    
+    /// <summary>
+    /// Создание текста уведомления для администраторов.
+    /// </summary>
+    /// <param name="firstEntityId">ИД первой сгенерированной сущности.</param>
+    /// <param name="elapsedTime">Затраченное на генерацию время.</param>
+    /// <param name="loginNames">Список наименований учетных записей.</param>
+    /// <param name="errors">Список ошибок при генерации.</param>
+    /// <returns>Текст уведомления для администраторов.</returns>
+    public virtual string CreateNoticeTextToAdministrators(int firstEntityId,
+                                                           string elapsedTime,
+                                                           List<string> loginNames,
+                                                           List<string> errors)
+    {
+      var sb = new System.Text.StringBuilder(starkov.Faker.Resources.InfoText_TimeSpentToCreatEntitiesFormat(elapsedTime));
+      if (firstEntityId != 0)
+        sb.Append(starkov.Faker.Resources.InfoText_FirstEntryIDFormat(firstEntityId));
+      if (loginNames.Any())
+        sb.Append(starkov.Faker.Resources.InfoText_LoginNamesFormat(string.Join(", ", loginNames)));
+      if (errors.Any())
+        sb.Append(starkov.Faker.Resources.InfoText_ErrorsFormat(string.Join("\n", errors)));
+      
+      return sb.ToString();
     }
   }
 }

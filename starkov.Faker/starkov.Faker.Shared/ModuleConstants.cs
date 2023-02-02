@@ -19,6 +19,11 @@ namespace starkov.Faker.Constants
       /// Логин.
       /// </summary>
       public const string LoginName = "LoginName";
+      
+      /// <summary>
+      /// Значение.
+      /// </summary>
+      public const string Value = "Value";
     }
     
     /// <summary>
@@ -145,6 +150,28 @@ namespace starkov.Faker.Constants
       /// GUID справочника "Учетная запись".
       /// </summary>
       public const string Login = "55f542e9-4645-4f8d-999e-73cc71df62fd";
+    }
+    
+    /// <summary>
+    /// Форматы документов.
+    /// </summary>
+    public static class DocumentFormats
+    {
+      /// <summary>
+      /// Pdf.
+      /// </summary>
+      public const string Pdf = "pdf";
+    }
+    
+    /// <summary>
+    /// Язык формирования данных в библиотеке Bogus.
+    /// </summary>
+    public static class BogusLanguages
+    {
+      /// <summary>
+      /// Русский.
+      /// </summary>
+      public const string Russian = "ru";
     }
   }
 }

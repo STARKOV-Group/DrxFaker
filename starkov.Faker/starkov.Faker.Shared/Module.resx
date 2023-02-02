@@ -82,10 +82,11 @@ More details are sent in the notification.</value>
 - {1}</value>
   </data>
   <data name="InfoText_FirstEntryID" xml:space="preserve">
-    <value>First entry ID: {0}</value>
+    <value>
+First entry ID: {0}</value>
   </data>
   <data name="InfoText_TimeSpentToCreatEntities" xml:space="preserve">
-    <value>{0}Time spent creating entities: {1}</value>
+    <value>Time spent creating entities: {0}</value>
   </data>
   <data name="InfoText_Errors" xml:space="preserve">
     <value>

@@ -97,7 +97,7 @@ namespace starkov.Faker.Server
     /// <returns>Строка.</returns>
     public virtual string GenerateStringSentence()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Lorem.Sentence(faker.Random.Int(1, 5));
     }
     
@@ -107,7 +107,7 @@ namespace starkov.Faker.Server
     /// <returns>Параграф.</returns>
     public virtual string GenerateStringParagraph()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Lorem.Paragraph();
     }
     
@@ -117,7 +117,7 @@ namespace starkov.Faker.Server
     /// <returns>Номер телефона.</returns>
     public virtual string GenerateStringPhone()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return "+7" + faker.Phone.PhoneNumber();
     }
     
@@ -138,7 +138,7 @@ namespace starkov.Faker.Server
     /// <returns>Имя.</returns>
     public virtual string GenerateStringFirstName(string gender)
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
         return faker.Name.FirstName(enumGender as Bogus.DataSets.Name.Gender?);
@@ -153,7 +153,7 @@ namespace starkov.Faker.Server
     /// <returns>Фамилия.</returns>
     public virtual string GenerateStringLastName(string gender)
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
         return faker.Name.LastName(enumGender as Bogus.DataSets.Name.Gender?);
@@ -168,7 +168,7 @@ namespace starkov.Faker.Server
     /// <returns>ФИО.</returns>
     public virtual string GenerateStringFullName(string gender)
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
         return faker.Name.FullName(enumGender as Bogus.DataSets.Name.Gender?);
@@ -182,7 +182,7 @@ namespace starkov.Faker.Server
     /// <returns>Название должности.</returns>
     public virtual string GenerateStringJobTitle()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Name.JobTitle();
     }
     
@@ -192,7 +192,7 @@ namespace starkov.Faker.Server
     /// <returns>Email.</returns>
     public virtual string GenerateStringEmail()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Person.Email;
     }
     
@@ -212,7 +212,7 @@ namespace starkov.Faker.Server
     /// <returns>Субъект федерации.</returns>
     public virtual string GenerateStringState()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Person.Address.State;
     }
     
@@ -222,7 +222,7 @@ namespace starkov.Faker.Server
     /// <returns>Город.</returns>
     public virtual string GenerateStringCity()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Person.Address.City;
     }
     
@@ -232,7 +232,7 @@ namespace starkov.Faker.Server
     /// <returns>Улица.</returns>
     public virtual string GenerateStringStreet()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Person.Address.Street;
     }
     
@@ -242,7 +242,7 @@ namespace starkov.Faker.Server
     /// <returns>Название подразделения.</returns>
     public virtual string GenerateStringDepartment()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Commerce.Department();
     }
     
@@ -252,7 +252,7 @@ namespace starkov.Faker.Server
     /// <returns>Название организации.</returns>
     public virtual string GenerateStringCompanyName()
     {
-      var faker = new Bogus.Faker("ru");
+      var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       return faker.Company.CompanyName();
     }
     

@@ -133,4 +133,10 @@
   <data name="DialogErrorNoProperty" xml:space="preserve">
     <value>This entity type does not contain property {0}</value>
   </data>
+  <data name="Error_DeleteReqValue" xml:space="preserve">
+    <value>Cannot delete required values</value>
+  </data>
+  <data name="Error_WrongWayToAddValue" xml:space="preserve">
+    <value>You can add values only by clicking the corresponding button</value>
+  </data>
 </root>

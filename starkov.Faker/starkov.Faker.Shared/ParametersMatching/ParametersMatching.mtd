@@ -253,7 +253,9 @@
     "DialogFieldFrom",
     "DialogFieldBy",
     "DialogFieldSex",
-    "DialogErrorNoProperty"
+    "DialogErrorNoProperty",
+    "Error_DeleteReqValue",
+    "Error_WrongWayToAddValue"
   ],
   "RibbonCardMetadata": {
     "NameGuid": "f1d9396c-6a0f-4d75-86a2-0fa85f2d1132",

@@ -15,14 +15,14 @@ namespace starkov.Faker
       bool isAllow;
       if (_deleted.IsRequired.GetValueOrDefault() &&
          (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow))
-        throw AppliedCodeException.Create("Нельзя удалять обязательные для заполнения значения");
+        throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_DeleteReqValue);
     }
 
     public virtual void ParametersAdded(Sungero.Domain.Shared.CollectionPropertyAddedEventArgs e)
     {
       bool isAllow;
       if (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow)
-        throw AppliedCodeException.Create("Добавлять значения можно только по соответствующей кнопке");
+        throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_WrongWayToAddValue);
     }
   }
 

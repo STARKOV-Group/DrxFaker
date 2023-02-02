@@ -18,7 +18,6 @@ namespace starkov.Faker.Shared
     public static List<string> GetMatchingTypeToParameters(string type)
     {
       type = GetMatchingTypeToCustomType(type);
-      #region Словарь
       var dict = new Dictionary<string, List<string>>()
       {
         { Constants.Module.CustomType.Date, Functions.Module.GetFillOptionForDate() },
@@ -28,7 +27,6 @@ namespace starkov.Faker.Shared
         { Constants.Module.CustomType.Enumeration, Functions.Module.GetFillOptionForEnumeration() },
         { Constants.Module.CustomType.Navigation, Functions.Module.GetFillOptionForNavigation() }
       };
-      #endregion
       
       var list = new List<string>();
       dict.TryGetValue(type, out list);

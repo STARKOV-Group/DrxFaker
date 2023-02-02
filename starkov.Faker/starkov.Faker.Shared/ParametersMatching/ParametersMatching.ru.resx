@@ -133,4 +133,10 @@
   <data name="DialogErrorNoProperty" xml:space="preserve">
     <value>Данный тип сущности не содержит свойства {0}</value>
   </data>
+  <data name="Error_DeleteReqValue" xml:space="preserve">
+    <value>Нельзя удалять обязательные для заполнения значения</value>
+  </data>
+  <data name="Error_WrongWayToAddValue" xml:space="preserve">
+    <value>Добавлять значения можно только по соответствующей кнопке</value>
+  </data>
 </root>

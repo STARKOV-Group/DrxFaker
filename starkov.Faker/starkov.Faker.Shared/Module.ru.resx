@@ -82,10 +82,11 @@
 - {1}</value>
   </data>
   <data name="InfoText_FirstEntryID" xml:space="preserve">
-    <value>ИД первой записи: {0}</value>
+    <value>
+ИД первой записи: {0}</value>
   </data>
   <data name="InfoText_TimeSpentToCreatEntities" xml:space="preserve">
-    <value>{0}Время затраченное на создание сущностей: {1}</value>
+    <value>Время затраченное на создание сущностей: {0}</value>
   </data>
   <data name="InfoText_Errors" xml:space="preserve">
     <value>
