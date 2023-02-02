@@ -13,7 +13,7 @@ namespace starkov.Faker.Client
   {
     
     /// <summary>
-    /// Показ диалога для изменения данных в табличной части
+    /// Показ диалога для изменения данных в табличной части.
     /// </summary>
     public void ShowDialogForChangeParameters()
     {
@@ -74,9 +74,9 @@ namespace starkov.Faker.Client
     }
 
     /// <summary>
-    /// Показ диалога для выбора данных
+    /// Показ диалога для выбора данных.
     /// </summary>
-    /// <param name="rowId">Номер строки</param>
+    /// <param name="rowId">Номер строки.</param>
     public void ShowDialogForSelectParameters(int? rowId)
     {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
@@ -232,9 +232,9 @@ namespace starkov.Faker.Client
     #region Работа с контролами диалога
     
     /// <summary>
-    /// Скрыть контролы диалога
+    /// Скрыть контролы диалога.
     /// </summary>
-    /// <param name="controls">Контролы</param>
+    /// <param name="controls">Контролы.</param>
     private void HideDialogControl(ref List<object> controls)
     {
       foreach (var control in controls)
@@ -246,12 +246,12 @@ namespace starkov.Faker.Client
     }
     
     /// <summary>
-    /// Вывод контролов в соответствии с вариантом заполнения
+    /// Вывод контролов в соответствии с вариантом заполнения.
     /// </summary>
-    /// <param name="dialog">Диалог</param>
-    /// <param name="selectedValue">Выбранное значение</param>
-    /// <param name="selectedPropInfo">Структура с информацией о свойстве</param>
-    /// <param name="personalValuesField">Список контролов</param>
+    /// <param name="dialog">Диалог.</param>
+    /// <param name="selectedValue">Выбранное значение.</param>
+    /// <param name="selectedPropInfo">Структура с информацией о свойстве.</param>
+    /// <param name="personalValuesField">Список контролов.</param>
     public virtual void ShowDialogControlsByParameter(CommonLibrary.IInputDialog dialog,
                                                       string selectedValue,
                                                       Faker.Structures.Module.PropertyInfo selectedPropInfo,
@@ -308,10 +308,10 @@ namespace starkov.Faker.Client
     }
     
     /// <summary>
-    /// Заполнить генерируемые контролы диалога значениями из таблицы
+    /// Заполнить генерируемые контролы диалога значениями из таблицы.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами</param>
-    /// <param name="controls">Контролы</param>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="controls">Контролы.</param>
     public virtual void FillDialogControlFromTable(Faker.IParametersMatchingParameters parameterRow, ref List<object> controls)
     {
       if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
@@ -328,12 +328,12 @@ namespace starkov.Faker.Client
     }
     
     /// <summary>
-    /// Получить значение в указанном типе
+    /// Получить значение в указанном типе.
     /// </summary>
-    /// <param name="customType">Обобщенный тип</param>
-    /// <param name="typeGuid">Guid типа сущности</param>
-    /// <param name="convertedValue">Значение которое нужно преобразовать</param>
-    /// <returns>Преобразованное значение</returns>
+    /// <param name="customType">Обобщенный тип.</param>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    /// <param name="convertedValue">Значение которое нужно преобразовать.</param>
+    /// <returns>Преобразованное значение.</returns>
     public virtual object GetValueInSelectedType(string customType, string typeGuid, string convertedValue)
     {
       DateTime date;
@@ -356,12 +356,12 @@ namespace starkov.Faker.Client
     }
     
     /// <summary>
-    /// Получить значение из контрола диалога в виде строки
+    /// Получить значение из контрола диалога в виде строки.
     /// </summary>
-    /// <param name="control">Контрол</param>
-    /// <param name="customType">Обобщенный тип</param>
-    /// <param name="typeGuid">Guid типа сущности</param>
-    /// <returns>Значение из контрола в виде строки</returns>
+    /// <param name="control">Контрол.</param>
+    /// <param name="customType">Обобщенный тип.</param>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    /// <returns>Значение из контрола в виде строки.</returns>
     public virtual string GetValueFromDialogControl(object control, string customType, string typeGuid)
     {
       var result = string.Empty;

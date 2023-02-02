@@ -8,58 +8,58 @@ namespace starkov.Faker.Structures.Module
 {
 
   /// <summary>
-  /// Информация о свойствах
+  /// Информация о свойствах.
   /// </summary>
   partial class PropertyInfo
   {
     /// <summary>
-    /// Наименование
+    /// Наименование.
     /// </summary>
     public string Name { get; set; }
     
     /// <summary>
-    /// Локализированное наименование
+    /// Локализированное наименование.
     /// </summary>
     public string LocalizedName { get; set; }
     
     /// <summary>
-    /// Тип свойства
+    /// Тип свойства.
     /// </summary>
     public string Type { get; set; }
     
     /// <summary>
-    /// Guid ссылочного свойства
+    /// Guid ссылочного свойства.
     /// </summary>
     public string PropertyGuid { get; set; }
     
     /// <summary>
-    /// Признак обязательности свойства
+    /// Признак обязательности свойства.
     /// </summary>
     public bool IsRequired { get; set; }
     
     /// <summary>
-    /// Значения свойства перечислении
+    /// Значения свойства перечислении.
     /// </summary>
     public List<starkov.Faker.Structures.Module.EnumerationInfo> EnumCollection { get; set; }
     
     /// <summary>
-    /// Максимальная длина текстового поля
+    /// Максимальная длина текстового поля.
     /// </summary>
     public int? MaxStringLength { get; set; }
   }
   
   /// <summary>
-  /// Информация о перечислениях
+  /// Информация о перечислениях.
   /// </summary>
   partial class EnumerationInfo
   {
     /// <summary>
-    /// Наименование
+    /// Наименование.
     /// </summary>
     public string Name { get; set; }
     
     /// <summary>
-    /// Локализированное наименование
+    /// Локализированное наименование.
     /// </summary>
     public string LocalizedName { get; set; }
   }

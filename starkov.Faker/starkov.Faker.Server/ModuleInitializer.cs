@@ -98,7 +98,7 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить список Guid-ов из таблицы sungero_system_entitytype.
     /// </summary>
-    /// <returns>Guid всех объектов системы, за исключением переданных в параметре</returns>
+    /// <returns>Guid всех объектов системы, за исключением переданных в параметре.</returns>
     public static List<Guid> GetTypesGuid()
     {
       var notSelectedGuids = GetNotSelectGuids();
@@ -120,7 +120,7 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить список Guid-ов объектов исключаемых из заполнения.
     /// </summary>
-    /// <returns>Список Guid</returns>
+    /// <returns>Список Guid.</returns>
     public static List<string> GetNotSelectGuids()
     {
       return new List<string>

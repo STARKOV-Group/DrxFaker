@@ -7,7 +7,7 @@ namespace starkov.Faker.Constants
   {
 
     /// <summary>
-    /// Имя параметра для изменения коллекции
+    /// Имя параметра для изменения коллекции.
     /// </summary>
     public const string ParamsForChangeCollection = "ChangeCollection";
 

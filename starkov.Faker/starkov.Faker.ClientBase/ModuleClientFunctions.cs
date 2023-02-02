@@ -15,7 +15,7 @@ namespace starkov.Faker.Client
   {
 
     /// <summary>
-    /// Вывод диалога для запуска генерации сущностей
+    /// Вывод диалога для запуска генерации сущностей.
     /// </summary>
     public virtual void ShowDIalogForGenerateEntity()
     {

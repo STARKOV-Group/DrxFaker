@@ -11,10 +11,10 @@ namespace starkov.Faker.Shared
   {
 
     /// <summary>
-    /// Получить варианты заполнения по указанному типу
+    /// Получить варианты заполнения по указанному типу.
     /// </summary>
-    /// <param name="type">Обобщенное наименование типа</param>
-    /// <returns>Варианты выбора для заполнения</returns>
+    /// <param name="type">Обобщенное наименование типа.</param>
+    /// <returns>Варианты выбора для заполнения.</returns>
     public static List<string> GetMatchingTypeToParameters(string type)
     {
       type = GetMatchingTypeToCustomType(type);
@@ -36,10 +36,10 @@ namespace starkov.Faker.Shared
     }
 
     /// <summary>
-    /// Получить обобщенный тип по типу свойства
+    /// Получить обобщенный тип по типу свойства.
     /// </summary>
-    /// <param name="type">Наименование типа свойства</param>
-    /// <returns>Обобщенное наименование типа</returns>
+    /// <param name="type">Наименование типа свойства.</param>
+    /// <returns>Обобщенное наименование типа.</returns>
     public static string GetMatchingTypeToCustomType(string type)
     {
       var dict = new Dictionary<string, string>()
@@ -61,11 +61,11 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить обобщенный тип по типу контрола
+    /// Получить обобщенный тип по типу контрола.
     /// </summary>
-    /// <param name="customType">Обобщенное наименование типа свойства</param>
-    /// <param name="control">Контрол</param>
-    /// <returns>Обобщенное наименование типа</returns>
+    /// <param name="customType">Обобщенное наименование типа свойства.</param>
+    /// <param name="control">Контрол.</param>
+    /// <returns>Обобщенное наименование типа.</returns>
     public static string GetMatchingControlTypeToCustomType(string customType, object control)
     {
       if (customType == Constants.Module.CustomType.Enumeration || customType == Constants.Module.CustomType.Navigation)

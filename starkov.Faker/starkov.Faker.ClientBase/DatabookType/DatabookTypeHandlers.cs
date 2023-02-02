@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -13,7 +13,7 @@ namespace starkov.Faker
 
     public override void Refresh(Sungero.Presentation.FormRefreshEventArgs e)
     {
-      _obj.State.Properties.Name.IsEnabled = !string.IsNullOrEmpty(_obj.DatabookTypeGuid);
+      Functions.DatabookType.SetProperties(_obj);
     }
 
   }

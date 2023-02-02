@@ -18,11 +18,11 @@ namespace starkov.Faker.Server
     #region Дата
     
     /// <summary>
-    /// Генерация даты по временному промежутку
+    /// Генерация даты по временному промежутку.
     /// </summary>
-    /// <param name="from">Текстовая дата начала промежутка</param>
-    /// <param name="to">Текстовая дата окончания промежутка</param>
-    /// <returns>Дата</returns>
+    /// <param name="from">Текстовая дата начала промежутка.</param>
+    /// <param name="to">Текстовая дата окончания промежутка.</param>
+    /// <returns>Дата.</returns>
     public virtual DateTime GenerateDateByPeriod(string from, string to)
     {
       DateTime startDate;
@@ -40,9 +40,9 @@ namespace starkov.Faker.Server
     #region Логичесое значение
     
     /// <summary>
-    /// Генерация логического значения
+    /// Генерация логического значения.
     /// </summary>
-    /// <returns>True или false</returns>
+    /// <returns>True или false.</returns>
     public virtual bool GenerateRandomBool()
     {
       var faker = new Bogus.Faker();
@@ -54,10 +54,10 @@ namespace starkov.Faker.Server
     #region Числа
     
     /// <summary>
-    /// Генерация числа определенной длины
+    /// Генерация числа определенной длины.
     /// </summary>
-    /// <param name="strLength">Длина числа, в виде текста</param>
-    /// <returns>Число</returns>
+    /// <param name="strLength">Длина числа, в виде текста.</param>
+    /// <returns>Число.</returns>
     public virtual int GenerateNumberWithLength(string strLength)
     {
       int length;
@@ -71,11 +71,11 @@ namespace starkov.Faker.Server
     }
 
     /// <summary>
-    /// Генерация числа из заданного диапазона
+    /// Генерация числа из заданного диапазона.
     /// </summary>
-    /// <param name="from">Начало диапазона, в виде текста</param>
-    /// <param name="to">Конец диапазона, в виде текста</param>
-    /// <returns>Число</returns>
+    /// <param name="from">Начало диапазона, в виде текста.</param>
+    /// <param name="to">Конец диапазона, в виде текста.</param>
+    /// <returns>Число.</returns>
     public virtual int GenerateNumberByRange(string from, string to)
     {
       int startInt;
@@ -92,9 +92,9 @@ namespace starkov.Faker.Server
     #region Строка
 
     /// <summary>
-    /// Генерация случайной строки
+    /// Генерация случайной строки.
     /// </summary>
-    /// <returns>Строка</returns>
+    /// <returns>Строка.</returns>
     public virtual string GenerateStringSentence()
     {
       var faker = new Bogus.Faker("ru");
@@ -102,9 +102,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация параграфа
+    /// Генерация параграфа.
     /// </summary>
-    /// <returns>Параграф</returns>
+    /// <returns>Параграф.</returns>
     public virtual string GenerateStringParagraph()
     {
       var faker = new Bogus.Faker("ru");
@@ -112,9 +112,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация номера мобильного телефона
+    /// Генерация номера мобильного телефона.
     /// </summary>
-    /// <returns>Номер телефона</returns>
+    /// <returns>Номер телефона.</returns>
     public virtual string GenerateStringPhone()
     {
       var faker = new Bogus.Faker("ru");
@@ -122,9 +122,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация числа в виде строки
+    /// Генерация числа в виде строки.
     /// </summary>
-    /// <returns>Число в виде строки</returns>
+    /// <returns>Число в виде строки.</returns>
     public virtual string GenerateStringNumber()
     {
       var faker = new Bogus.Faker();
@@ -132,10 +132,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайного имени
+    /// Генерация случайного имени.
     /// </summary>
-    /// <param name="gender">Пол</param>
-    /// <returns>Имя</returns>
+    /// <param name="gender">Пол.</param>
+    /// <returns>Имя.</returns>
     public virtual string GenerateStringFirstName(string gender)
     {
       var faker = new Bogus.Faker("ru");
@@ -147,10 +147,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайной фамилии
+    /// Генерация случайной фамилии.
     /// </summary>
-    /// <param name="gender">Пол</param>
-    /// <returns>Фамилия</returns>
+    /// <param name="gender">Пол.</param>
+    /// <returns>Фамилия.</returns>
     public virtual string GenerateStringLastName(string gender)
     {
       var faker = new Bogus.Faker("ru");
@@ -162,10 +162,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайного ФИО
+    /// Генерация случайного ФИО.
     /// </summary>
-    /// <param name="gender">Пол</param>
-    /// <returns>ФИО</returns>
+    /// <param name="gender">Пол.</param>
+    /// <returns>ФИО.</returns>
     public virtual string GenerateStringFullName(string gender)
     {
       var faker = new Bogus.Faker("ru");
@@ -177,9 +177,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайного названия должности
+    /// Генерация случайного названия должности.
     /// </summary>
-    /// <returns>Название должности</returns>
+    /// <returns>Название должности.</returns>
     public virtual string GenerateStringJobTitle()
     {
       var faker = new Bogus.Faker("ru");
@@ -187,9 +187,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайного email
+    /// Генерация случайного email.
     /// </summary>
-    /// <returns>Email</returns>
+    /// <returns>Email.</returns>
     public virtual string GenerateStringEmail()
     {
       var faker = new Bogus.Faker("ru");
@@ -197,9 +197,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайного логина
+    /// Генерация случайного логина.
     /// </summary>
-    /// <returns>Логин</returns>
+    /// <returns>Логин.</returns>
     public virtual string GenerateStringLogin()
     {
       var faker = new Bogus.Faker();
@@ -207,9 +207,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайного субъекта федерации
+    /// Генерация случайного субъекта федерации.
     /// </summary>
-    /// <returns>Субъект федерации</returns>
+    /// <returns>Субъект федерации.</returns>
     public virtual string GenerateStringState()
     {
       var faker = new Bogus.Faker("ru");
@@ -217,9 +217,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайного города
+    /// Генерация случайного города.
     /// </summary>
-    /// <returns>Город</returns>
+    /// <returns>Город.</returns>
     public virtual string GenerateStringCity()
     {
       var faker = new Bogus.Faker("ru");
@@ -227,9 +227,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайной улицы
+    /// Генерация случайной улицы.
     /// </summary>
-    /// <returns>Улица</returns>
+    /// <returns>Улица.</returns>
     public virtual string GenerateStringStreet()
     {
       var faker = new Bogus.Faker("ru");
@@ -237,9 +237,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайного подразделения
+    /// Генерация случайного подразделения.
     /// </summary>
-    /// <returns>Название подразделения</returns>
+    /// <returns>Название подразделения.</returns>
     public virtual string GenerateStringDepartment()
     {
       var faker = new Bogus.Faker("ru");
@@ -247,9 +247,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Генерация случайной организации
+    /// Генерация случайной организации.
     /// </summary>
-    /// <returns>Название организации</returns>
+    /// <returns>Название организации.</returns>
     public virtual string GenerateStringCompanyName()
     {
       var faker = new Bogus.Faker("ru");
@@ -261,10 +261,10 @@ namespace starkov.Faker.Server
     #region Перечисление
     
     /// <summary>
-    /// Выбор случайного перечисления из коллекции строк
+    /// Выбор случайного перечисления из коллекции строк.
     /// </summary>
-    /// <param name="enumvalues">Список значений перечислений</param>
-    /// <returns>Перечисление</returns>
+    /// <param name="enumvalues">Список значений перечислений.</param>
+    /// <returns>Перечисление.</returns>
     public virtual Enumeration PickRandomEnumeration(List<string> enumvalues)
     {
       var faker = new Bogus.Faker();
@@ -277,11 +277,11 @@ namespace starkov.Faker.Server
     #region Ссылка
     
     /// <summary>
-    /// Выбор случайной сущности по guid типа
+    /// Выбор случайной сущности по guid типа.
     /// </summary>
-    /// <param name="typeGuid">Guid типа сущности</param>
-    /// <param name="documentTypeGuid">Guid типа документа</param>
-    /// <returns>Случайно выбранная сущность</returns>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    /// <param name="documentTypeGuid">Guid типа документа.</param>
+    /// <returns>Случайно выбранная сущность.</returns>
     public virtual IEntity PickRandomEntity(string typeGuid, string documentTypeGuid)
     {
       var entities = Functions.Module.GetEntitiesByTypeGuid(typeGuid, documentTypeGuid);
@@ -293,9 +293,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Выбор случайного не использующегося логина
+    /// Выбор случайного не использующегося логина.
     /// </summary>
-    /// <returns>Случайно выбранный логин</returns>
+    /// <returns>Случайно выбранный логин.</returns>
     public virtual ILogin PickRandomLogin()
     {
       var logins = Functions.Module.GetAllUnusedLogins();
@@ -313,10 +313,10 @@ namespace starkov.Faker.Server
     #region Получение значения свойства в зависимости от параметров
     
     /// <summary>
-    /// Получить значение свойства по параметрам
+    /// Получить значение свойства по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами</param>
-    /// <returns>Значение свойства</returns>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <returns>Значение свойства.</returns>
     public virtual object GetPropertyValueByParameters(IParametersMatchingParameters parameterRow, List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
     {
       object result = null;
@@ -340,10 +340,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить дату по параметрам
+    /// Получить дату по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами</param>
-    /// <returns>Дата</returns>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <returns>Дата.</returns>
     public virtual DateTime GetDateByParameters(IParametersMatchingParameters parameterRow)
     {
       DateTime date = Calendar.Today;
@@ -358,10 +358,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить логическое значение по параметрам
+    /// Получить логическое значение по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами</param>
-    /// <returns>Логическое значение</returns>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <returns>Логическое значение.</returns>
     public virtual bool GetBoolByParameters(IParametersMatchingParameters parameterRow)
     {
       bool logic = false;
@@ -376,10 +376,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить число по параметрам
+    /// Получить число по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами</param>
-    /// <returns>Число</returns>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <returns>Число.</returns>
     public virtual int GetIntByParameters(IParametersMatchingParameters parameterRow)
     {
       int num = 0;
@@ -396,10 +396,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить строку по параметрам
+    /// Получить строку по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами</param>
-    /// <returns>Строка</returns>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <returns>Строка.</returns>
     public virtual string GetStringByParameters(IParametersMatchingParameters parameterRow)
     {
       var str = string.Empty;
@@ -441,10 +441,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить перечисление по параметрам
+    /// Получить перечисление по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами</param>
-    /// <returns>Перечисление</returns>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <returns>Перечисление.</returns>
     public virtual Enumeration? GetEnumByParameters(IParametersMatchingParameters parameterRow, List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
     {
       Enumeration? newEnum = null;
@@ -459,10 +459,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить сущность по параметрам
+    /// Получить сущность по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами</param>
-    /// <returns>Сущность</returns>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <returns>Сущность.</returns>
     public virtual IEntity GetEntityByParameters(IParametersMatchingParameters parameterRow)
     {
       int num;
@@ -501,10 +501,10 @@ namespace starkov.Faker.Server
     #region Общие функции
     
     /// <summary>
-    /// Запустить АО для генерации сущностей
+    /// Запустить АО для генерации сущностей.
     /// </summary>
-    /// <param name="count">Кол-во создаваемых записей</param>
-    /// <param name="databookId">ИД справочника по которому будет происходить генерация</param>
+    /// <param name="count">Кол-во создаваемых записей.</param>
+    /// <param name="databookId">ИД справочника по которому будет происходить генерация.</param>
     [Remote]
     public virtual void CreateAsyncForGenerateEntities(int count, int databookId)
     {
@@ -515,10 +515,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить список с информацией о реквизитах типа сущности
+    /// Получить список с информацией о реквизитах типа сущности.
     /// </summary>
-    /// <param name="guid">Guid типа сущности</param>
-    /// <returns>Список с информацией о реквизитах типа сущности</returns>
+    /// <param name="guid">Guid типа сущности.</param>
+    /// <returns>Список с информацией о реквизитах типа сущности.</returns>
     [Remote]
     public virtual List<Structures.Module.PropertyInfo> GetPropertiesType(string guid)
     {
@@ -597,10 +597,10 @@ namespace starkov.Faker.Server
     #region Работа с сущностями
     
     /// <summary>
-    /// Получить список всех сущностей по Guid типа
+    /// Получить список всех сущностей по Guid типа.
     /// </summary>
-    /// <param name="typeGuid">Guid типа сущности</param>
-    /// <returns>Список сущностей</returns>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    /// <returns>Список сущностей.</returns>
     [Remote(IsPure = true)]
     public virtual IQueryable<IEntity> GetEntitiesByTypeGuid(string typeGuid)
     {
@@ -608,11 +608,11 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить список сущностей по Guid типа
+    /// Получить список сущностей по Guid типа.
     /// </summary>
-    /// <param name="typeGuid">Guid типа сущности</param>
-    /// <param name="documentTypeGuid">Guid типа документа</param>
-    /// <returns>Список сущностей</returns>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    /// <param name="documentTypeGuid">Guid типа документа.</param>
+    /// <returns>Список сущностей.</returns>
     [Remote(IsPure = true)]
     public virtual IQueryable<IEntity> GetEntitiesByTypeGuid(string typeGuid, string documentTypeGuid)
     {
@@ -627,11 +627,11 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить сущность по Guid типа и id
+    /// Получить сущность по Guid типа и id.
     /// </summary>
-    /// <param name="typeGuid">Guid типа сущности</param>
-    /// <param name="id">ИД сущности</param>
-    /// <returns>Cущность</returns>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    /// <param name="id">ИД сущности.</param>
+    /// <returns>Cущность.</returns>
     [Remote(IsPure = true, PackResultEntityEagerly = true)]
     public virtual IEntity GetEntityByTypeGuidAndId(string typeGuid, int id)
     {
@@ -643,10 +643,10 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Создать сущность по Guid типа
+    /// Создать сущность по Guid типа.
     /// </summary>
-    /// <param name="typeGuid">Guid типа сущности</param>
-    /// <returns>Сущность</returns>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    /// <returns>Сущность.</returns>
     [Remote(PackResultEntityEagerly = true)]
     public virtual IEntity CreateEntityByTypeGuid(string typeGuid)
     {
@@ -658,9 +658,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Получить список всех не использующихся учетных записей
+    /// Получить список всех не использующихся учетных записей.
     /// </summary>
-    /// <returns>Список учетных записей</returns>
+    /// <returns>Список учетных записей.</returns>
     [Remote(IsPure = true)]
     public virtual IQueryable<ILogin> GetAllUnusedLogins()
     {

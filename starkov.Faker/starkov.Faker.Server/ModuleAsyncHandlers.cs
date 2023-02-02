@@ -16,7 +16,7 @@ namespace starkov.Faker.Server
   {
 
     /// <summary>
-    /// Асинхронный обработчик для генерации сущностей
+    /// Асинхронный обработчик для генерации сущностей.
     /// </summary>
     public virtual void EntitiesGeneration(starkov.Faker.Server.AsyncHandlerInvokeArgs.EntitiesGenerationInvokeArgs args)
     {
@@ -171,11 +171,11 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Создать учетную запись
+    /// Создать учетную запись.
     /// </summary>
-    /// <param name="databook">Справочник соответствие заполняемых параметров сущности</param>
-    /// <param name="propertiesStructure">Список с информацией о реквизитах учетной записи</param>
-    /// <param name="loginNames">Список наименований учетных записей</param>
+    /// <param name="databook">Справочник соответствие заполняемых параметров сущности.</param>
+    /// <param name="propertiesStructure">Список с информацией о реквизитах учетной записи.</param>
+    /// <param name="loginNames">Список наименований учетных записей.</param>
     public virtual void CreateLogin(Faker.IParametersMatching databook, List<Structures.Module.PropertyInfo> propertiesStructure, ref List<string> loginNames)
     {
       if (databook == null)
@@ -190,9 +190,9 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Создать версию документа
+    /// Создать версию документа.
     /// </summary>
-    /// <param name="entity">Документ</param>
+    /// <param name="entity">Документ.</param>
     public virtual void CreateDocumentVersion(IEntity entity)
     {
       var document = Sungero.Docflow.OfficialDocuments.As(entity);
@@ -211,16 +211,16 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Отправка уведомления администраторам
+    /// Отправка уведомления администраторам.
     /// </summary>
-    /// <param name="databook">Справочник соответствие заполняемых параметров сущности</param>
-    /// <param name="createdEntityCount">Кол-во созданных сущностей</param>
-    /// <param name="desiredEntityCount">Ожидаемое кол-во сущностей</param>
-    /// <param name="firstEntityId">ИД первой сгенерированной сущности</param>
-    /// <param name="elapsedTime">Затраченное на генерацию время</param>
-    /// <param name="loginNames">Список наименований учетных записей</param>
-    /// <param name="errors">Список ошибок при генерации</param>
-    /// <param name="attachments">Список сгенерированных сущностей</param>
+    /// <param name="databook">Справочник соответствие заполняемых параметров сущности.</param>
+    /// <param name="createdEntityCount">Кол-во созданных сущностей.</param>
+    /// <param name="desiredEntityCount">Ожидаемое кол-во сущностей.</param>
+    /// <param name="firstEntityId">ИД первой сгенерированной сущности.</param>
+    /// <param name="elapsedTime">Затраченное на генерацию время.</param>
+    /// <param name="loginNames">Список наименований учетных записей.</param>
+    /// <param name="errors">Список ошибок при генерации.</param>
+    /// <param name="attachments">Список сгенерированных сущностей.</param>
     public virtual void SendNoticeToAdministrators(Faker.IParametersMatching databook,
                                                    int createdEntityCount,
                                                    int desiredEntityCount,

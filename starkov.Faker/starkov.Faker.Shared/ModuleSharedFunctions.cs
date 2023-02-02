@@ -12,9 +12,9 @@ namespace starkov.Faker.Shared
     #region Получение вариантов заполнения
     
     /// <summary>
-    /// Получить варианты заполнения для свойств с типом Дата
+    /// Получить варианты заполнения для свойств с типом Дата.
     /// </summary>
-    /// <returns>Варианты заполнения</returns>
+    /// <returns>Варианты заполнения.</returns>
     public virtual List<string> GetFillOptionForDate()
     {
       return new List<string>() {
@@ -25,9 +25,9 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить варианты заполнения для свойств с логичиским типом данных
+    /// Получить варианты заполнения для свойств с логичиским типом данных.
     /// </summary>
-    /// <returns>Варианты заполнения</returns>
+    /// <returns>Варианты заполнения.</returns>
     public virtual List<string> GetFillOptionForBool()
     {
       return new List<string>() {
@@ -38,9 +38,9 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить варианты заполнения для свойств с числовым типом данных
+    /// Получить варианты заполнения для свойств с числовым типом данных.
     /// </summary>
-    /// <returns>Варианты заполнения</returns>
+    /// <returns>Варианты заполнения.</returns>
     public virtual List<string> GetFillOptionForNumeric()
     {
       return new List<string>() {
@@ -52,9 +52,9 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить варианты заполнения для свойств с строковым типом данных
+    /// Получить варианты заполнения для свойств с строковым типом данных.
     /// </summary>
-    /// <returns>Варианты заполнения</returns>
+    /// <returns>Варианты заполнения.</returns>
     public virtual List<string> GetFillOptionForString()
     {
       return new List<string>() {
@@ -79,9 +79,9 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить варианты заполнения для свойств с типом Перечисление
+    /// Получить варианты заполнения для свойств с типом Перечисление.
     /// </summary>
-    /// <returns>Варианты заполнения</returns>
+    /// <returns>Варианты заполнения.</returns>
     public virtual List<string> GetFillOptionForEnumeration()
     {
       return new List<string>() {
@@ -92,9 +92,9 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить варианты заполнения для свойств с сылочным типом данных
+    /// Получить варианты заполнения для свойств с сылочным типом данных.
     /// </summary>
-    /// <returns>Варианты заполнения</returns>
+    /// <returns>Варианты заполнения.</returns>
     public virtual List<string> GetFillOptionForNavigation()
     {
       return new List<string>() {
@@ -107,11 +107,11 @@ namespace starkov.Faker.Shared
     #endregion
     
     /// <summary>
-    /// Получить список наименований всех сущностей по Guid типа
+    /// Получить список наименований всех сущностей по Guid типа.
     /// </summary>
-    /// <param name="typeGuid">Guid типа сущности</param>
-    /// <param name="documentTypeGuid">Guid типа документа</param>
-    /// <returns>Список наименований сущностей</returns>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    /// <param name="documentTypeGuid">Guid типа документа.</param>
+    /// <returns>Список наименований сущностей.</returns>
     public virtual System.Collections.Generic.IEnumerable<string> GetEntitiyNamesByType(string typeGuid, string documentTypeGuid)
     {
       return Functions.Module.Remote.GetEntitiesByTypeGuid(typeGuid, documentTypeGuid).AsEnumerable()
@@ -119,9 +119,9 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить список реквизитов, которые не доступны для выбора
+    /// Получить список реквизитов, которые не доступны для выбора.
     /// </summary>
-    /// <returns>Список реквизитов</returns>
+    /// <returns>Список реквизитов.</returns>
     public virtual List<string> GetExcludeProperties()
     {
       return new List<string> {
@@ -151,9 +151,9 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить список дополнительных реквизитов сущности Учетная запись, которые не доступны для выбора
+    /// Получить список дополнительных реквизитов сущности Учетная запись, которые не доступны для выбора.
     /// </summary>
-    /// <returns>Список реквизитов</returns>
+    /// <returns>Список реквизитов.</returns>
     public virtual List<string> GetAdditionalExcludePropForLogins()
     {
       return new List<string> {
@@ -165,9 +165,9 @@ namespace starkov.Faker.Shared
     }
     
     /// <summary>
-    /// Получить список типов реквизитов, которые не доступны для выбора
+    /// Получить список типов реквизитов, которые не доступны для выбора.
     /// </summary>
-    /// <returns>Список типов</returns>
+    /// <returns>Список типов.</returns>
     public virtual List<object> GetExcludePropertyTypes()
     {
       return new List<object> {

@@ -50,7 +50,7 @@ namespace starkov.Faker
     }
 
     /// <summary>
-    /// Управление доступностью реквизитов
+    /// Управление доступностью реквизитов.
     /// </summary>
     private void AvailabilityRequisites()
     {
@@ -64,9 +64,9 @@ namespace starkov.Faker
     }
     
     /// <summary>
-    ///Заполнение обязательных свойств в табличную часть параметров
+    ///Заполнение обязательных свойств в табличную часть параметров.
     /// </summary>
-    /// <param name="typeGuid">Guid ипа сущности</param>
+    /// <param name="typeGuid">Guid типа сущности.</param>
     private void FillRequiredPropsIntoParameters(string typeGuid)
     {
       _obj.Parameters.Clear();
