@@ -25,11 +25,11 @@ namespace starkov.Faker.Client
       
       #region Поля диалога
       var localizedValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedValue, false)
-        .From(_obj.Parameters.Select(_ => _.LocalizedPropertyName).OrderBy(_ => _).ToArray());
+        .From(_obj.Parameters.Select(p => p.LocalizedPropertyName).OrderBy(p => p).ToArray());
       var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, false)
-        .From(_obj.Parameters.Select(_ => _.PropertyName).OrderBy(_ => _).ToArray());
+        .From(_obj.Parameters.Select(p => p.PropertyName).OrderBy(p => p).ToArray());
       
-      var isUnique = propInfo.Select(_ => _.LocalizedName).Count() == propInfo.Select(_ => _.LocalizedName).Distinct().Count();
+      var isUnique = propInfo.Select(i => i.LocalizedName).Count() == propInfo.Select(i => i.LocalizedName).Distinct().Count();
       if (isUnique)
       {
         localizedValuesField.IsRequired = true;
@@ -52,13 +52,13 @@ namespace starkov.Faker.Client
       propertyNameField.SetOnValueChanged((arg) =>
                                           {
                                             if (!string.IsNullOrEmpty(arg.NewValue))
-                                              localizedValuesField.Value = _obj.Parameters.FirstOrDefault(_ => _.PropertyName == arg.NewValue)?.LocalizedPropertyName;
+                                              localizedValuesField.Value = _obj.Parameters.FirstOrDefault(p => p.PropertyName == arg.NewValue)?.LocalizedPropertyName;
                                           });
       
       localizedValuesField.SetOnValueChanged((arg) =>
                                              {
                                                if (!string.IsNullOrEmpty(arg.NewValue))
-                                                 propertyNameField.Value = _obj.Parameters.FirstOrDefault(_ => _.LocalizedPropertyName == arg.NewValue)?.PropertyName;
+                                                 propertyNameField.Value = _obj.Parameters.FirstOrDefault(p => p.LocalizedPropertyName == arg.NewValue)?.PropertyName;
                                              });
       #endregion
       
@@ -67,9 +67,9 @@ namespace starkov.Faker.Client
       dialog.Buttons.AddCancel();
       
       if (dialog.Show() == changeBtn)
-        ShowDialogForSelectParameters(_obj.Parameters.FirstOrDefault(_ => isUnique ?
-                                                                     _.LocalizedPropertyName == localizedValuesField.Value :
-                                                                     _.PropertyName == propertyNameField.Value)?.Id);
+        ShowDialogForSelectParameters(_obj.Parameters.FirstOrDefault(p => isUnique ?
+                                                                     p.LocalizedPropertyName == localizedValuesField.Value :
+                                                                     p.PropertyName == propertyNameField.Value)?.Id);
       #endregion
     }
 
@@ -82,11 +82,11 @@ namespace starkov.Faker.Client
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
       #region Данные для диалога
-      var parameterRow = _obj.Parameters.FirstOrDefault(_ => _.Id == rowId.GetValueOrDefault());      
+      var parameterRow = _obj.Parameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());      
       var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
-        .Where(_ => rowId.HasValue ?
-               parameterRow.PropertyName == _.Name :
-               !_obj.Parameters.Select(p => p.PropertyName).Contains(_.Name));
+        .Where(i => rowId.HasValue ?
+               parameterRow.PropertyName == i.Name :
+               !_obj.Parameters.Select(p => p.PropertyName).Contains(i.Name));
       
       if (!propInfo.Any())
       {
@@ -96,12 +96,12 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Поля диалога
-      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true).From(propInfo.Select(_ => _.Name).OrderBy(_ => _).ToArray());
+      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true).From(propInfo.Select(i => i.Name).OrderBy(i => i).ToArray());
       var isLocalizedValues = dialog.AddBoolean(starkov.Faker.ParametersMatchings.Resources.DialogFieldUseLocalizedValue, false);
       var parameterField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldFillOption, true);
       var personalValuesField = new List<object>();
       
-      var isUnique = propInfo.Select(_ => _.LocalizedName).Count() == propInfo.Select(_ => _.LocalizedName).Distinct().Count();
+      var isUnique = propInfo.Select(i => i.LocalizedName).Count() == propInfo.Select(i => i.LocalizedName).Distinct().Count();
       isLocalizedValues.IsVisible = isUnique && parameterRow == null;
       parameterField.IsEnabled = parameterRow != null;
       #endregion
@@ -115,9 +115,9 @@ namespace starkov.Faker.Client
                             if (string.IsNullOrEmpty(propertyNameField.Value) || personalValuesField.Count != 2)
                               return;
                             
-                            var selectedPropInfo = propInfo.FirstOrDefault(_ => isLocalizedValues.Value.GetValueOrDefault() ?
-                                                                           _.LocalizedName == propertyNameField.Value :
-                                                                           _.Name == propertyNameField.Value);
+                            var selectedPropInfo = propInfo.FirstOrDefault(i => isLocalizedValues.Value.GetValueOrDefault() ?
+                                                                           i.LocalizedName == propertyNameField.Value :
+                                                                           i.Name == propertyNameField.Value);
                             var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
                             
                             if (customType == Constants.Module.CustomType.Date &&
@@ -139,9 +139,9 @@ namespace starkov.Faker.Client
                                             }
                                             else
                                             {
-                                              var selectedPropInfo = propInfo.FirstOrDefault(_ => isLocalizedValues.Value.GetValueOrDefault() ?
-                                                                                             _.LocalizedName == propertyNameField.Value :
-                                                                                             _.Name == propertyNameField.Value);
+                                              var selectedPropInfo = propInfo.FirstOrDefault(i => isLocalizedValues.Value.GetValueOrDefault() ?
+                                                                                             i.LocalizedName == propertyNameField.Value :
+                                                                                             i.Name == propertyNameField.Value);
                                               
                                               var parameters = new List<string>();
                                               if (selectedPropInfo != null)
@@ -154,9 +154,9 @@ namespace starkov.Faker.Client
       isLocalizedValues.SetOnValueChanged((arg) =>
                                           {
                                             if (arg.NewValue.GetValueOrDefault())
-                                              propertyNameField.From(propInfo.Select(_ => _.LocalizedName).OrderBy(_ => _).ToArray());
+                                              propertyNameField.From(propInfo.Select(i => i.LocalizedName).OrderBy(i => i).ToArray());
                                             else
-                                              propertyNameField.From(propInfo.Select(_ => _.Name).OrderBy(_ => _).ToArray());
+                                              propertyNameField.From(propInfo.Select(i => i.Name).OrderBy(i => i).ToArray());
                                             
                                             parameterField.Value = null;
                                           });
@@ -165,9 +165,9 @@ namespace starkov.Faker.Client
                                        {
                                          HideDialogControl(ref personalValuesField);
                                          
-                                         var selectedPropInfo = propInfo.FirstOrDefault(_ => isLocalizedValues.Value.GetValueOrDefault() ?
-                                                                                        _.LocalizedName == propertyNameField.Value :
-                                                                                        _.Name == propertyNameField.Value);
+                                         var selectedPropInfo = propInfo.FirstOrDefault(i => isLocalizedValues.Value.GetValueOrDefault() ?
+                                                                                        i.LocalizedName == propertyNameField.Value :
+                                                                                        i.Name == propertyNameField.Value);
                                          if (selectedPropInfo == null)
                                            return;
                                          
@@ -196,9 +196,9 @@ namespace starkov.Faker.Client
       #region Кнопки диалога
       if (dialog.Show() == DialogButtons.Ok)
       {
-        var selectedPropInfo = propInfo.FirstOrDefault(_ => isLocalizedValues.Value.GetValueOrDefault() ?
-                                                       _.LocalizedName == propertyNameField.Value :
-                                                       _.Name == propertyNameField.Value);
+        var selectedPropInfo = propInfo.FirstOrDefault(i => isLocalizedValues.Value.GetValueOrDefault() ?
+                                                       i.LocalizedName == propertyNameField.Value :
+                                                       i.Name == propertyNameField.Value);
         
         var newRow = rowId.HasValue ? parameterRow : _obj.Parameters.AddNew();
         newRow.PropertyName = selectedPropInfo.Name;
@@ -270,7 +270,7 @@ namespace starkov.Faker.Client
           personalValuesField.Add(dialog.AddString(starkov.Faker.ParametersMatchings.Resources.DialogFieldString, true));
         else if (customType == Constants.Module.CustomType.Enumeration)
           personalValuesField.Add(dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldEnumeration, true)
-                                  .From(selectedPropInfo.EnumCollection.Select(_ => _.LocalizedName).ToArray()));
+                                  .From(selectedPropInfo.EnumCollection.Select(i => i.LocalizedName).ToArray()));
         else
           personalValuesField.Add(dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldValue, true)
                                   .From(Functions.Module.GetEntitiyNamesByType(selectedPropInfo.PropertyGuid,
@@ -348,7 +348,7 @@ namespace starkov.Faker.Client
       else if (customType == Constants.Module.CustomType.Numeric && int.TryParse(convertedValue, out num))
         result = num;
       else if (customType == Constants.Module.CustomType.Navigation)
-        result = Functions.Module.GetEntitiyNamesByType(typeGuid, _obj.DocumentType?.DocumentTypeGuid).FirstOrDefault(_ => _ == convertedValue);
+        result = Functions.Module.GetEntitiyNamesByType(typeGuid, _obj.DocumentType?.DocumentTypeGuid).FirstOrDefault(x => x == convertedValue);
       else
         result = convertedValue;
       

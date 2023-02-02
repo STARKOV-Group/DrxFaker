@@ -71,7 +71,7 @@ namespace starkov.Faker
     {
       _obj.Parameters.Clear();
       var propInfo = Functions.Module.Remote.GetPropertiesType(typeGuid);
-      foreach (var prop in propInfo.Where(_ => _.IsRequired))
+      foreach (var prop in propInfo.Where(i => i.IsRequired))
       {
         var newRow = _obj.Parameters.AddNew();
         newRow.PropertyName = prop.Name;

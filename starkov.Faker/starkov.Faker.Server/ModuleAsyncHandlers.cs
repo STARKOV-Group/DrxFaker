@@ -23,7 +23,7 @@ namespace starkov.Faker.Server
       Logger.DebugFormat("Start async handler EntitiesGeneration");
       args.Retry = false;
       
-      var databook = ParametersMatchings.GetAll(_ => _.Id == args.DatabookId).FirstOrDefault();
+      var databook = ParametersMatchings.GetAll(p => p.Id == args.DatabookId).FirstOrDefault();
       if (databook == null)
       {
         Logger.DebugFormat("EntitiesGeneration error: No ParametersMatching databooks with id {0}", args.DatabookId);
@@ -62,11 +62,11 @@ namespace starkov.Faker.Server
             var entityProperties = entity.GetType().GetProperties();
             
             #region Заполнение свойств сущности
-            foreach (var parametersRow in databook.Parameters.Where(_ => _.FillOption != Constants.Module.FillOptions.Common.NullValue))
+            foreach (var parametersRow in databook.Parameters.Where(p => p.FillOption != Constants.Module.FillOptions.Common.NullValue))
             {
               try
               {
-                var property = entityProperties.FirstOrDefault(_ => _.Name == parametersRow.PropertyName);
+                var property = entityProperties.FirstOrDefault(info => info.Name == parametersRow.PropertyName);
                 if (property == null)
                   continue;
                 
@@ -181,8 +181,8 @@ namespace starkov.Faker.Server
       if (databook == null)
         return;
       
-      var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure) as string;
-      var password = databook.Parameters.FirstOrDefault(_ => _.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
+      var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure) as string;
+      var password = databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
       Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
       
       if (loginNames.Count <= 30)
@@ -230,7 +230,7 @@ namespace starkov.Faker.Server
                                                    List<string> errors,
                                                    List<IEntity> attachments)
     {
-      var administrators = Roles.Administrators.RecipientLinks.Select(_ => _.Member);
+      var administrators = Roles.Administrators.RecipientLinks.Select(l => l.Member);
       var task = Sungero.Workflow.SimpleTasks.CreateWithNotices(starkov.Faker.Resources.NoticeSubjectFormat(createdEntityCount, desiredEntityCount, databook.Name),
                                                                 administrators.ToArray());
       

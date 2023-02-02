@@ -115,7 +115,7 @@ namespace starkov.Faker.Shared
     public virtual System.Collections.Generic.IEnumerable<string> GetEntitiyNamesByType(string typeGuid, string documentTypeGuid)
     {
       return Functions.Module.Remote.GetEntitiesByTypeGuid(typeGuid, documentTypeGuid).AsEnumerable()
-        .Select(_ => string.Format("{0}, Id: ({1})", _.DisplayValue, _.Id));
+        .Select(ent => string.Format("{0}, Id: ({1})", ent.DisplayValue, ent.Id));
     }
     
     /// <summary>

@@ -41,16 +41,16 @@ namespace starkov.Faker.Server
           var type = TypeExtension.GetTypeByGuid(typeGuid);
           var finalEntityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(type.GetFinalType());
           
-          var databookWithOldType = databookTypes.FirstOrDefault(_ => _.DatabookTypeGuid == typeGuid.ToString());
-          var databookWithFinalType = databookTypes.FirstOrDefault(_ => _.DatabookTypeGuid == finalEntityMetadata.NameGuid.ToString());
-          var databookWithAncestorType = databookTypes.FirstOrDefault(_ => _.AncestorGuids.Any(anc => anc.Guid == typeGuid.ToString()));
+          var databookWithOldType = databookTypes.FirstOrDefault(t => t.DatabookTypeGuid == typeGuid.ToString());
+          var databookWithFinalType = databookTypes.FirstOrDefault(t => t.DatabookTypeGuid == finalEntityMetadata.NameGuid.ToString());
+          var databookWithAncestorType = databookTypes.FirstOrDefault(t => t.AncestorGuids.Any(anc => anc.Guid == typeGuid.ToString()));
           
           if (finalEntityMetadata == null || Equals(finalEntityMetadata.NameGuid, typeGuid))
           {
             if (databookWithAncestorType != null)
             {
               databookWithAncestorType.DatabookTypeGuid = typeGuid.ToString();
-              databookWithAncestorType.AncestorGuids.Remove(databookWithAncestorType.AncestorGuids.FirstOrDefault(_ => _.Guid == typeGuid.ToString()));
+              databookWithAncestorType.AncestorGuids.Remove(databookWithAncestorType.AncestorGuids.FirstOrDefault(anc => anc.Guid == typeGuid.ToString()));
               databookWithAncestorType.Save();
             }
             else if (databookWithOldType == null)
@@ -68,7 +68,7 @@ namespace starkov.Faker.Server
             databookWithAncestorType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
             databookWithAncestorType.Save();
           }
-          else if (databookWithFinalType != null && !databookWithFinalType.AncestorGuids.Any(_ => Equals(_.Guid, typeGuid.ToString())))
+          else if (databookWithFinalType != null && !databookWithFinalType.AncestorGuids.Any(anc => Equals(anc.Guid, typeGuid.ToString())))
           {
             databookWithFinalType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
             databookWithFinalType.Save();

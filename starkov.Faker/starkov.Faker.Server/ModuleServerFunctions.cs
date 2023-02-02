@@ -448,12 +448,12 @@ namespace starkov.Faker.Server
     public virtual Enumeration? GetEnumByParameters(IParametersMatchingParameters parameterRow, List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
     {
       Enumeration? newEnum = null;
-      var enumValues = propertiesInfo.FirstOrDefault(_ => _.Name == parameterRow.PropertyName).EnumCollection;
+      var enumValues = propertiesInfo.FirstOrDefault(i => i.Name == parameterRow.PropertyName).EnumCollection;
       
       if (parameterRow.FillOption == Constants.Module.FillOptions.Common.FixedValue)
-        newEnum = new Enumeration(enumValues.Where(_ => _.LocalizedName == parameterRow.ChosenValue).Select(_ => _.Name).FirstOrDefault());
+        newEnum = new Enumeration(enumValues.Where(i => i.LocalizedName == parameterRow.ChosenValue).Select(i => i.Name).FirstOrDefault());
       else if (parameterRow.FillOption == Constants.Module.FillOptions.Common.RandomValue)
-        newEnum = Functions.Module.PickRandomEnumeration(enumValues.Select(_ => _.Name).ToList());
+        newEnum = Functions.Module.PickRandomEnumeration(enumValues.Select(i => i.Name).ToList());
       
       return newEnum;
     }
@@ -538,14 +538,14 @@ namespace starkov.Faker.Server
       
       var excludeProperties = Functions.Module.GetExcludeProperties();
       var excludePropertyTypes = Functions.Module.GetExcludePropertyTypes();
-      var properties = typeMetadata.Properties.Where(_ => !excludeProperties.Contains(_.Name))
-        .Where(_ => !excludePropertyTypes.Contains(_.PropertyType));
+      var properties = typeMetadata.Properties.Where(m => !excludeProperties.Contains(m.Name))
+        .Where(m => !excludePropertyTypes.Contains(m.PropertyType));
       
       //Учетные записи
       if (guid == Constants.Module.Guids.Login)
       {
         var additionalExcludeProps = Functions.Module.GetAdditionalExcludePropForLogins();
-        properties = properties.Where(_ => !additionalExcludeProps.Contains(_.Name));
+        properties = properties.Where(m => !additionalExcludeProps.Contains(m.Name));
         
         propertiesList.Add(Structures.Module.PropertyInfo.Create(Constants.Module.PropertyNames.Password,
                                                                  starkov.Faker.Resources.LocalizedPassword,
@@ -568,7 +568,7 @@ namespace starkov.Faker.Server
           if (propertyEnumeration != null)
           {
             var enumPropertyInfo = propertyEnumeration.GetValue(infoProperties) as Sungero.Domain.Shared.EnumPropertyInfo;
-            foreach (string val in (propertyMetadata as Sungero.Metadata.EnumPropertyMetadata).Values.Select(_ => _.Name))
+            foreach (string val in (propertyMetadata as Sungero.Metadata.EnumPropertyMetadata).Values.Select(m => m.Name))
               enumInfo.Add(Structures.Module.EnumerationInfo.Create(val, enumPropertyInfo.GetLocalizedValue(new Enumeration(val))));
           }
         }
@@ -620,7 +620,7 @@ namespace starkov.Faker.Server
       using (var session = new Sungero.Domain.Session())
       {
         if (entityType.Name == "IDocumentKind" && !string.IsNullOrEmpty(documentTypeGuid))
-          return session.GetAll(entityType).Where(_ => Sungero.Docflow.DocumentKinds.As(_).DocumentType.DocumentTypeGuid == documentTypeGuid);
+          return session.GetAll(entityType).Where(ent => Sungero.Docflow.DocumentKinds.As(ent).DocumentType.DocumentTypeGuid == documentTypeGuid);
         else
           return session.GetAll(entityType);
       }
@@ -638,7 +638,7 @@ namespace starkov.Faker.Server
       var entityType = Sungero.Domain.Shared.TypeExtension.GetTypeByGuid(Guid.Parse(typeGuid));
       using (var session = new Sungero.Domain.Session())
       {
-        return session.GetAll(entityType).FirstOrDefault(_ => _.Id == id);
+        return session.GetAll(entityType).FirstOrDefault(ent => ent.Id == id);
       }
     }
     
@@ -665,12 +665,12 @@ namespace starkov.Faker.Server
     public virtual IQueryable<ILogin> GetAllUnusedLogins()
     {
       var usedLoginsId = Sungero.Company.PublicFunctions.Employee.Remote.GetEmployees()
-        .Where(_ => _.Login != null)
-        .Select(_ => _.Login.Id);
+        .Where(emp => emp.Login != null)
+        .Select(emp => emp.Login.Id);
       var systemLogins = new List<string>() { "Administrator", "Integration Service", "Service User", "Adviser" };
       
-      return Sungero.CoreEntities.Logins.GetAll(_ => !usedLoginsId.Contains(_.Id))
-        .Where(_ => !systemLogins.Contains(_.LoginName));
+      return Sungero.CoreEntities.Logins.GetAll(l => !usedLoginsId.Contains(l.Id))
+        .Where(l => !systemLogins.Contains(l.LoginName));
     }
     
     #endregion
