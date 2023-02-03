@@ -55,6 +55,13 @@
         "GroupId": "b4df1d9f-5e6d-4050-a204-889a6543671a"
       },
       {
+        "$type": "Sungero.Metadata.CoverFunctionActionMetadata, Sungero.Metadata",
+        "NameGuid": "33a58fda-57e9-467e-9a2f-0f38aa1e94e9",
+        "Name": "OpenModuleSetup",
+        "FunctionName": "OpenModuleSetup",
+        "GroupId": "2baec73a-3d5e-447a-8294-85d7af74c57e"
+      },
+      {
         "$type": "Sungero.Metadata.CoverEntityListActionMetadata, Sungero.Metadata",
         "NameGuid": "bee623eb-0799-485b-94e4-acec08febac1",
         "Name": "DocumentTypes",
@@ -82,6 +89,14 @@
         "BackgroundPosition": "Stretch",
         "IconName": "GroupIconDatabooks_481ed195ac8d440fb3fa38e4054bb805.png",
         "PreviousItemGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
+        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+      },
+      {
+        "NameGuid": "2baec73a-3d5e-447a-8294-85d7af74c57e",
+        "Name": "Settings",
+        "BackgroundPosition": "Stretch",
+        "IconName": "GroupIconSettings_2baec73a3d5e447a829485d7af74c57e.png",
+        "PreviousItemGuid": "481ed195-ac8d-440f-b3fa-38e4054bb805",
         "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
       }
     ],
@@ -127,6 +142,10 @@
     {
       "ItemId": "af491abf-f381-4765-916a-6b9dee7554a1",
       "PreviousItemId": "0451e06d-c055-4d9d-b036-8935f2999aca"
+    },
+    {
+      "ItemId": "6b11c91d-e5c8-4198-95aa-0061c20ca295",
+      "PreviousItemId": "af491abf-f381-4765-916a-6b9dee7554a1"
     }
   ],
   "HandledEvents": [
@@ -163,7 +182,9 @@
     "InfoText_Errors",
     "NoticeSubject",
     "DialogError_RecordCountLessThanOne",
-    "InfoText_LoginNames"
+    "InfoText_LoginNames",
+    "ModuleSetupsDatabookName",
+    "ErrorNotCreatedSetupDatabook"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",

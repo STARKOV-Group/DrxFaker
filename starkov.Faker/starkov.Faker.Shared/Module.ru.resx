@@ -104,4 +104,10 @@
    Учетные записи:
 {0}</value>
   </data>
+  <data name="ModuleSetupsDatabookName" xml:space="preserve">
+    <value>Настройка модуля</value>
+  </data>
+  <data name="ErrorNotCreatedSetupDatabook" xml:space="preserve">
+    <value>Для настройки модуля необходимо создать запись, выполнив инициализацию</value>
+  </data>
 </root>

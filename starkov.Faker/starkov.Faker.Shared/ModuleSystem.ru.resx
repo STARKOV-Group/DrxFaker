@@ -103,4 +103,13 @@
   <data name="CoverDescription_ParametersMathcing" xml:space="preserve">
     <value>Список соответствий заполняемых параметров сущности</value>
   </data>
+  <data name="CoverGroup_Settings" xml:space="preserve">
+    <value>Настройка</value>
+  </data>
+  <data name="CoverAction_OpenModuleSetup" xml:space="preserve">
+    <value>Настройки модуля</value>
+  </data>
+  <data name="CoverDescription_OpenModuleSetup" xml:space="preserve">
+    <value>Открыть настройки модуля</value>
+  </data>
 </root>

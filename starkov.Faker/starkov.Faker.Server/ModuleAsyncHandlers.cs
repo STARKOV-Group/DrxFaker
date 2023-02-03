@@ -39,6 +39,8 @@ namespace starkov.Faker.Server
       var errors = new List<string>();
       var createdEntityCount = 0;
       var firstEntityId = 0;
+      var maxLoginNamesNumber = Functions.ModuleSetup.GetLoginNamesNumber();
+      var maxAttachmentsNumber = Functions.ModuleSetup.GetAttachmentsNumber();
       
       for (var i = 0; i < args.Count; i++)
       {
@@ -49,7 +51,7 @@ namespace starkov.Faker.Server
             #region Создание учетных записей
             if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login)
             {
-              CreateLogin(databook, propertiesStructure, ref loginNames);
+              CreateLogin(databook, propertiesStructure, maxLoginNamesNumber, ref loginNames);
               createdEntityCount++;
               
               session.Dispose();
@@ -121,7 +123,7 @@ namespace starkov.Faker.Server
             try
             {
               entity.Save();
-              if (attachments.Count <= 30)
+              if (attachments.Count < maxAttachmentsNumber)
                 attachments.Add(entity);
               
               createdEntityCount++;
@@ -175,8 +177,9 @@ namespace starkov.Faker.Server
     /// </summary>
     /// <param name="databook">Справочник соответствие заполняемых параметров сущности.</param>
     /// <param name="propertiesStructure">Список с информацией о реквизитах учетной записи.</param>
+    /// <param name="maxLoginNamesNumber">Максимальное кол-во выводимых наименований учетных записей.</param>
     /// <param name="loginNames">Список наименований учетных записей.</param>
-    public virtual void CreateLogin(Faker.IParametersMatching databook, List<Structures.Module.PropertyInfo> propertiesStructure, ref List<string> loginNames)
+    public virtual void CreateLogin(Faker.IParametersMatching databook, List<Structures.Module.PropertyInfo> propertiesStructure, int maxLoginNamesNumber, ref List<string> loginNames)
     {
       if (databook == null)
         return;
@@ -185,7 +188,7 @@ namespace starkov.Faker.Server
       var password = databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
       Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
       
-      if (loginNames.Count <= 30)
+      if (loginNames.Count < maxLoginNamesNumber)
         loginNames.Add(login);
     }
     

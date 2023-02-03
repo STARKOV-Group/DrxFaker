@@ -14,6 +14,7 @@ namespace starkov.Faker.Server
     public override void Initializing(Sungero.Domain.ModuleInitializingEventArgs e)
     {
       FillDatabookTypes();
+      CreateModuleSetup();
     }
     
     /// <summary>
@@ -148,6 +149,21 @@ namespace starkov.Faker.Server
         "50a0d7aa-1f04-4e4a-8f0c-044e0ba99949", //Элемент очереди синхронизации контрагентов
         "f9a3ec37-0fd4-4343-a295-9394ba830a0e"  //Элемент очереди синхронизации сообщений
       };
+    }
+    
+    /// <summary>
+    /// Создать запись справочника Настройка модуля.
+    /// </summary>
+    public static void CreateModuleSetup()
+    {
+      if (Faker.ModuleSetups.GetAll().Any())
+        return;
+      
+      var databook = Faker.ModuleSetups.Create();
+      databook.Name = starkov.Faker.Resources.ModuleSetupsDatabookName;
+      databook.LoginNamesNumber = 30;
+      databook.AttachmentsNumber = 30;
+      databook.Save();
     }
   }
 

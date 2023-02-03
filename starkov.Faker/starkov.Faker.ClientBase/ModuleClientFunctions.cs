@@ -15,6 +15,21 @@ namespace starkov.Faker.Client
   {
 
     /// <summary>
+    /// Открыть настройки модуля.
+    /// </summary>
+    public virtual void OpenModuleSetup()
+    {
+      var databook = Functions.ModuleSetup.Remote.GetModuleSetup();
+      if (databook == null)
+      {
+        Dialogs.ShowMessage(starkov.Faker.Resources.ErrorNotCreatedSetupDatabook, MessageType.Error);
+        return;
+      }
+      
+      databook.Show();
+    }
+
+    /// <summary>
     /// Вывод диалога для запуска генерации сущностей.
     /// </summary>
     public virtual void ShowDIalogForGenerateEntity()
