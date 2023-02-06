@@ -121,10 +121,10 @@ namespace starkov.Faker.Client
                             var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
                             
                             if (customType == Constants.Module.CustomType.Date &&
-                                (personalValuesField[0] as IDateDialogValue).Value.GetValueOrDefault() > (personalValuesField[1] as IDateDialogValue).Value.GetValueOrDefault(Calendar.SqlMaxValue))
+                                ((IDateDialogValue)personalValuesField[0]).Value.GetValueOrDefault() > ((IDateDialogValue)personalValuesField[1]).Value.GetValueOrDefault(Calendar.SqlMaxValue))
                               arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo);
                             else if (customType == Constants.Module.CustomType.Numeric &&
-                                     (personalValuesField[0] as IIntegerDialogValue).Value.GetValueOrDefault() > (personalValuesField[1] as IIntegerDialogValue).Value.GetValueOrDefault(int.MaxValue))
+                                     ((IIntegerDialogValue)personalValuesField[0]).Value.GetValueOrDefault() > ((IIntegerDialogValue)personalValuesField[1]).Value.GetValueOrDefault(int.MaxValue))
                               arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo);
                           });
       
@@ -239,8 +239,8 @@ namespace starkov.Faker.Client
     {
       foreach (var control in controls)
       {
-        (control as IDialogControl).IsVisible = false;
-        (control as IDialogControl).IsRequired = false;
+        ((IDialogControl)control).IsVisible = false;
+        ((IDialogControl)control).IsRequired = false;
       }
       controls.Clear();
     }
@@ -368,20 +368,45 @@ namespace starkov.Faker.Client
       if (control == null)
         return result;
       
+      var controlType = control.GetType();
       if (customType == Constants.Module.CustomType.Enumeration || customType == Constants.Module.CustomType.Navigation)
-        result = (control as IDialogControl<string>).Value;
-      else if (control is IDateDialogValue)
-        result = (control as IDateDialogValue).Value.GetValueOrDefault().ToShortDateString();
-      else if (control is IBooleanDialogValue)
-        result = (control as IBooleanDialogValue).Value.GetValueOrDefault().ToString();
-      else if (control is IIntegerDialogValue)
-        result = (control as IIntegerDialogValue).Value.GetValueOrDefault().ToString();
-      else if (control is IStringDialogValue)
-        result = (control as IStringDialogValue).Value;
-      else if (control is IDropDownDialogValue)
-        result = (control as IDropDownDialogValue).Value;
+        result = ((IDialogControl<string>)control).Value;
+      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.DateDialogControl)))
+        result = ((IDateDialogValue)control).Value.GetValueOrDefault().ToShortDateString();
+      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.BooleanDialogControl)))
+        result = ((IBooleanDialogValue)control).Value.GetValueOrDefault().ToString();
+      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.IntegerDialogControl)))
+        result = ((IIntegerDialogValue)control).Value.GetValueOrDefault().ToString();
+      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.StringDialogControl)))
+        result = ((IStringDialogValue)control).Value;
+      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.DropDownDialogControl)))
+        result = ((IDropDownDialogValue)control).Value;
       
       return result;
+    }
+    
+    /// <summary>
+    /// Получить обобщенный тип по типу контрола.
+    /// </summary>
+    /// <param name="customType">Обобщенное наименование типа свойства.</param>
+    /// <param name="control">Контрол.</param>
+    /// <returns>Обобщенное наименование типа.</returns>
+    public static string GetMatchingControlTypeToCustomType(string customType, object control)
+    {
+      if (customType == Constants.Module.CustomType.Enumeration || customType == Constants.Module.CustomType.Navigation)
+        return customType;
+      
+      var controlType = control.GetType();
+      if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.DateDialogControl)))
+        customType = Constants.Module.CustomType.Date;
+      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.BooleanDialogControl)))
+        customType = Constants.Module.CustomType.Bool;
+      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.IntegerDialogControl)))
+        customType = Constants.Module.CustomType.Numeric;
+      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.StringDialogControl)))
+        customType = Constants.Module.CustomType.String;
+      
+      return customType;
     }
     
     #endregion

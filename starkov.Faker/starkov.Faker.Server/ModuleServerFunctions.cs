@@ -141,7 +141,7 @@ namespace starkov.Faker.Server
       var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
-        return faker.Name.FirstName(enumGender as Bogus.DataSets.Name.Gender?);
+        return faker.Name.FirstName((Bogus.DataSets.Name.Gender?)enumGender);
       
       return faker.Name.FirstName();
     }
@@ -156,7 +156,7 @@ namespace starkov.Faker.Server
       var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
-        return faker.Name.LastName(enumGender as Bogus.DataSets.Name.Gender?);
+        return faker.Name.LastName((Bogus.DataSets.Name.Gender?)enumGender);
       
       return faker.Name.LastName();
     }
@@ -171,7 +171,7 @@ namespace starkov.Faker.Server
       var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
-        return faker.Name.FullName(enumGender as Bogus.DataSets.Name.Gender?);
+        return faker.Name.FullName((Bogus.DataSets.Name.Gender?)enumGender);
       
       return faker.Name.FullName();
     }
@@ -573,27 +573,35 @@ namespace starkov.Faker.Server
         #region Получение локализованных значений перечислений
         
         var enumInfo = new List<Structures.Module.EnumerationInfo>();
-        if (propertyMetadata is Sungero.Metadata.EnumPropertyMetadata)
+        if (Equals(propertyMetadata.GetType(), typeof(Sungero.Metadata.EnumPropertyMetadata)))
         {
           var infoProperties = entity.Info.Properties;
           var propertyEnumeration = infoProperties.GetType().GetProperty(propertyMetadata.Name);
           if (propertyEnumeration != null)
           {
-            var enumPropertyInfo = propertyEnumeration.GetValue(infoProperties) as Sungero.Domain.Shared.EnumPropertyInfo;
-            foreach (string val in (propertyMetadata as Sungero.Metadata.EnumPropertyMetadata).Values.Select(m => m.Name))
+            var enumPropertyInfo = (Sungero.Domain.Shared.EnumPropertyInfo)propertyEnumeration.GetValue(infoProperties);
+            foreach (string val in ((Sungero.Metadata.EnumPropertyMetadata)propertyMetadata).Values.Select(m => m.Name))
               enumInfo.Add(Structures.Module.EnumerationInfo.Create(val, enumPropertyInfo.GetLocalizedValue(new Enumeration(val))));
           }
         }
         
         #endregion
         
+        var entityGuid = string.Empty;
+        if (Equals(propertyMetadata.GetType(), typeof(Sungero.Metadata.NavigationPropertyMetadata)))
+            entityGuid = ((Sungero.Metadata.NavigationPropertyMetadata)propertyMetadata)?.EntityGuid.ToString();
+        
+        int? strLength = null;
+        if (Equals(propertyMetadata.GetType(), typeof(Sungero.Metadata.StringPropertyMetadata)))
+          strLength = ((Sungero.Metadata.StringPropertyMetadata)propertyMetadata)?.Length;
+        
         propertiesList.Add(Structures.Module.PropertyInfo.Create(propertyMetadata.Name,
                                                                  propertyMetadata.GetLocalizedName().ToString(),
                                                                  propertyMetadata.PropertyType.ToString(),
-                                                                 (propertyMetadata as Sungero.Metadata.NavigationPropertyMetadata)?.EntityGuid.ToString() ?? string.Empty,
+                                                                 entityGuid,
                                                                  propertyMetadata.IsRequired,
                                                                  enumInfo,
-                                                                 (propertyMetadata as Sungero.Metadata.StringPropertyMetadata)?.Length));
+                                                                 strLength));
       }
       
       using (var session = new Sungero.Domain.Session())

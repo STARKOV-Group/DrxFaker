@@ -57,28 +57,5 @@ namespace starkov.Faker.Shared
       dict.TryGetValue(type, out customType);
       return customType;
     }
-    
-    /// <summary>
-    /// Получить обобщенный тип по типу контрола.
-    /// </summary>
-    /// <param name="customType">Обобщенное наименование типа свойства.</param>
-    /// <param name="control">Контрол.</param>
-    /// <returns>Обобщенное наименование типа.</returns>
-    public static string GetMatchingControlTypeToCustomType(string customType, object control)
-    {
-      if (customType == Constants.Module.CustomType.Enumeration || customType == Constants.Module.CustomType.Navigation)
-        return customType;
-      
-      if (control is CommonLibrary.IDateDialogValue)
-        customType = Constants.Module.CustomType.Date;
-      else if (control is CommonLibrary.IBooleanDialogValue)
-        customType = Constants.Module.CustomType.Bool;
-      else if (control is CommonLibrary.IIntegerDialogValue)
-        customType = Constants.Module.CustomType.Numeric;
-      else if (control is CommonLibrary.IStringDialogValue)
-        customType = Constants.Module.CustomType.String;
-      
-      return customType;
-    }
   }
 }

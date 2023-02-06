@@ -77,9 +77,9 @@ namespace starkov.Faker.Server
                   continue;
                 
                 var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow, propertiesStructure);
-                if (propertyValue is string && parametersRow.StringPropLength.HasValue)
+                if (Equals(propertyValue.GetType(), typeof(string)) && parametersRow.StringPropLength.HasValue)
                 {
-                  var str = propertyValue as string;
+                  var str = propertyValue.ToString();
                   if (str.Length > parametersRow.StringPropLength.Value)
                     propertyValue = str.Substring(0, parametersRow.StringPropLength.Value);
                 }
@@ -188,7 +188,7 @@ namespace starkov.Faker.Server
       if (databook == null)
         return;
       
-      var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure) as string;
+      var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure).ToString();
       var password = databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
       Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
       

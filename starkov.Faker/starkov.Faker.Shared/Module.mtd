@@ -160,6 +160,11 @@
       "NameGuid": "ee416e35-314b-4368-9387-81a04ed99c23",
       "Name": "Extension",
       "Scope": "Both"
+    },
+    {
+      "NameGuid": "07122a01-afd1-4038-b940-f59690c76896",
+      "Name": "WebApi",
+      "Scope": "Both"
     }
   ],
   "Overridden": [
