@@ -19,6 +19,8 @@ namespace starkov.Faker.Shared
       _obj.State.Properties.AttachmentsNumber.IsEnabled = !_obj.IsAttachAllEntities.GetValueOrDefault();
       _obj.State.Properties.LoginNamesNumber.IsRequired = !_obj.IsShowAllLoginNames.GetValueOrDefault();
       _obj.State.Properties.LoginNamesNumber.IsEnabled = !_obj.IsShowAllLoginNames.GetValueOrDefault();
+      
+      _obj.State.Properties.DocumentWithVersion.IsRequired = true;
     }
   }
 }

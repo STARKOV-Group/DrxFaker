@@ -184,7 +184,8 @@
     "DialogError_RecordCountLessThanOne",
     "InfoText_LoginNames",
     "ModuleSetupsDatabookName",
-    "ErrorNotCreatedSetupDatabook"
+    "ErrorNotCreatedSetupDatabook",
+    "DocumentWithVersionName"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",

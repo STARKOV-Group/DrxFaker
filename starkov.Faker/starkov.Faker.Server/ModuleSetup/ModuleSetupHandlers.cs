@@ -7,6 +7,15 @@ using starkov.Faker.ModuleSetup;
 
 namespace starkov.Faker
 {
+  partial class ModuleSetupDocumentWithVersionPropertyFilteringServerHandler<T>
+  {
+
+    public virtual IQueryable<T> DocumentWithVersionFiltering(IQueryable<T> query, Sungero.Domain.PropertyFilteringEventArgs e)
+    {
+      return query.Where(d => d.HasVersions);
+    }
+  }
+
   partial class ModuleSetupServerHandlers
   {
 

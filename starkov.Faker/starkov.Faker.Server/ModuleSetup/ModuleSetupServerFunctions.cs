@@ -45,6 +45,19 @@ namespace starkov.Faker.Server
       
       return databook.IsAttachAllEntities.GetValueOrDefault() ? Int32.MaxValue : databook.AttachmentsNumber.GetValueOrDefault();
     }
+    
+    /// <summary>
+    /// Получить документ, использующийся при генерации версий документов.
+    /// </summary>
+    /// <returns>Документ, использующийся при генерации версий документов.</returns>
+    public static Sungero.Docflow.IOfficialDocument GetDocumentWithVersion()
+    {
+      var databook = GetModuleSetup();
+      if (databook == null)
+        return null;
+      
+      return databook.DocumentWithVersion;
+    }
 
   }
 }

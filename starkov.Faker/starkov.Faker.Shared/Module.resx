@@ -110,4 +110,7 @@ First entry ID: {0}</value>
   <data name="ErrorNotCreatedSetupDatabook" xml:space="preserve">
     <value>To configure a module, you need to create an entry by initializing</value>
   </data>
+  <data name="DocumentWithVersionName" xml:space="preserve">
+    <value>The document used to generate document versions</value>
+  </data>
 </root>

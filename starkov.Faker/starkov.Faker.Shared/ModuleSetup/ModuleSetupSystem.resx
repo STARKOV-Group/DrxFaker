@@ -85,4 +85,10 @@
   <data name="ControlGroup_7d8700e5c92049b1a47a3e9031a7bab2" xml:space="preserve">
     <value>Configuring attachments in notification to administrator</value>
   </data>
+  <data name="Property_DocumentWithVersion" xml:space="preserve">
+    <value>The document used to generate document versions</value>
+  </data>
+  <data name="ControlGroup_f33d8b5de191445d90dbdd77df440c46" xml:space="preserve">
+    <value>Setting up document generation</value>
+  </data>
 </root>

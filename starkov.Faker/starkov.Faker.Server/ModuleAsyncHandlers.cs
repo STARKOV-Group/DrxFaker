@@ -4,7 +4,6 @@ using System.Linq;
 using Sungero.Core;
 using Sungero.CoreEntities;
 using Bogus;
-using PdfSharp.Pdf;
 using Sungero.Domain.Shared;
 using System.IO;
 using System.Diagnostics;
@@ -41,6 +40,11 @@ namespace starkov.Faker.Server
       var firstEntityId = 0;
       var maxLoginNamesNumber = Functions.ModuleSetup.GetLoginNamesNumber();
       var maxAttachmentsNumber = Functions.ModuleSetup.GetAttachmentsNumber();
+      
+      Sungero.Content.IElectronicDocumentVersions documentVersion = null;
+      var isNeedCreateVersion = databook.EntityType == Faker.ParametersMatching.EntityType.Document && databook.IsNeedCreateVersion.GetValueOrDefault();
+      if (isNeedCreateVersion)
+        documentVersion = Functions.ModuleSetup.GetDocumentWithVersion()?.LastVersion;
       
       for (var i = 0; i < args.Count; i++)
       {
@@ -99,11 +103,11 @@ namespace starkov.Faker.Server
             #endregion
             
             #region Создание версии документа
-            if (databook.EntityType == Faker.ParametersMatching.EntityType.Document && databook.IsNeedCreateVersion.GetValueOrDefault())
+            if (isNeedCreateVersion)
             {
               try
               {
-                CreateDocumentVersion(entity);
+                CreateDocumentVersion(entity, documentVersion);
               }
               catch (Exception ex)
               {
@@ -196,20 +200,20 @@ namespace starkov.Faker.Server
     /// Создать версию документа.
     /// </summary>
     /// <param name="entity">Документ.</param>
-    public virtual void CreateDocumentVersion(IEntity entity)
+    /// <param name="documentVersion">Версия документа.</param>
+    public virtual void CreateDocumentVersion(IEntity entity, Sungero.Content.IElectronicDocumentVersions documentVersion)
     {
       var document = Sungero.Docflow.OfficialDocuments.As(entity);
-      if (document == null)
+      if (document == null || documentVersion == null)
         return;
       
-      var emptyPdf = new PdfDocument();
-      emptyPdf.AddPage();
-
-      using (var stream = new MemoryStream())
+      var version = documentVersion.PublicBody?.Size != 0 ?
+        documentVersion.PublicBody :
+        documentVersion.Body;
+      using (var stream = version.Read())
       {
-        emptyPdf.Save(stream, false);
         stream.Seek(0, SeekOrigin.Begin);
-        document.CreateVersionFrom(stream, Constants.Module.DocumentFormats.Pdf);
+        document.CreateVersionFrom(stream, documentVersion.AssociatedApplication.Extension);
       }
     }
     

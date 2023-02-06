@@ -45,7 +45,7 @@
           "ColumnSpan": 1,
           "GroupType": "GroupBox",
           "ParentGuid": "1ca898ce-efd7-4ac2-b27c-247c67cd5b88",
-          "RowNumber": 0,
+          "RowNumber": 1,
           "RowSpan": 1
         },
         {
@@ -97,6 +97,30 @@
           "ParentGuid": "7d8700e5-c920-49b1-a47a-3e9031a7bab2",
           "PropertyGuid": "39c6098d-25c9-47f6-b8f7-0db65661004d",
           "RowNumber": 1,
+          "RowSpan": 1,
+          "Settings": []
+        },
+        {
+          "$type": "Sungero.Metadata.ControlGroupMetadata, Sungero.Metadata",
+          "NameGuid": "f33d8b5d-e191-445d-90db-dd77df440c46",
+          "Name": "DocumentSettingsGroup",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "GroupType": "GroupBox",
+          "ParentGuid": "1ca898ce-efd7-4ac2-b27c-247c67cd5b88",
+          "RowNumber": 0,
+          "RowSpan": 1
+        },
+        {
+          "$type": "Sungero.Metadata.ControlMetadata, Sungero.Metadata",
+          "NameGuid": "250d5004-85d0-4c0a-ae83-157454f48d31",
+          "Name": "DocumentWithVersion",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.DropDownEditorToNavigationBinder",
+          "ParentGuid": "f33d8b5d-e191-445d-90db-dd77df440c46",
+          "PropertyGuid": "91becd40-26e3-4c08-9093-5e9eb051ba0f",
+          "RowNumber": 0,
           "RowSpan": 1,
           "Settings": []
         }
@@ -172,6 +196,19 @@
       ],
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
       "PreviousPropertyGuid": "9e8a0c84-36e7-4320-80b2-2912b44e7210"
+    },
+    {
+      "$type": "Sungero.Metadata.NavigationPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "91becd40-26e3-4c08-9093-5e9eb051ba0f",
+      "Name": "DocumentWithVersion",
+      "Code": "DocumentWithVe",
+      "EntityGuid": "58cca102-1e97-4f07-b6ac-fd866a8b7cb1",
+      "FlatListInStandaloneLookup": true,
+      "HandledEvents": [
+        "LookupServer"
+      ],
+      "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.DropDownEditorToNavigationBinder",
+      "PreviousPropertyGuid": "5155d03f-f62f-48d9-9a1f-299cfd4bd902"
     }
   ],
   "PublicStructures": [],

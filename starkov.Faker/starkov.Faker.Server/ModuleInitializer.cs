@@ -5,6 +5,8 @@ using Sungero.Core;
 using Sungero.CoreEntities;
 using Sungero.Domain.Initialization;
 using Sungero.Domain.Shared;
+using PdfSharp.Pdf;
+using System.IO;
 
 namespace starkov.Faker.Server
 {
@@ -14,7 +16,8 @@ namespace starkov.Faker.Server
     public override void Initializing(Sungero.Domain.ModuleInitializingEventArgs e)
     {
       FillDatabookTypes();
-      CreateModuleSetup();
+      var databook = CreateModuleSetup();
+      CreateDocWithVersionForModuleSetup(databook);
     }
     
     /// <summary>
@@ -154,17 +157,56 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Создать запись справочника Настройка модуля.
     /// </summary>
-    public static void CreateModuleSetup()
+    /// <returns>Справочник Настройка модуля.</returns>
+    public static Faker.IModuleSetup CreateModuleSetup()
     {
-      if (Faker.ModuleSetups.GetAll().Any())
+      InitializationLogger.Debug("Init: Create module setup");
+      
+      var databook = Faker.ModuleSetups.GetAll().FirstOrDefault();
+      if (databook == null)
+      {
+        databook = Faker.ModuleSetups.Create();
+        databook.Name = starkov.Faker.Resources.ModuleSetupsDatabookName;
+        databook.LoginNamesNumber = 30;
+        databook.AttachmentsNumber = 30;
+        databook.Save();
+      }
+      
+      return databook;
+    }
+    
+    /// <summary>
+    /// Создать документ, который будет использоваться для генрации версий документов.
+    /// </summary>
+    /// <param name="databook">Справочник Настройка модуля.</param>
+    public static void CreateDocWithVersionForModuleSetup(Faker.IModuleSetup databook)
+    {
+      InitializationLogger.Debug("Init: Create document with version for module setup");
+      
+      if (databook == null || databook.DocumentWithVersion != null)
         return;
       
-      var databook = Faker.ModuleSetups.Create();
-      databook.Name = starkov.Faker.Resources.ModuleSetupsDatabookName;
-      databook.LoginNamesNumber = 30;
-      databook.AttachmentsNumber = 30;
+      var document = Sungero.Docflow.SimpleDocuments.Create();
+      document.Name = starkov.Faker.Resources.DocumentWithVersionName;
+      
+      var emptyPdf = new PdfDocument();
+      emptyPdf.AddPage();
+      
+      using (var stream = new MemoryStream())
+      {
+        emptyPdf.Save(stream, false);
+        stream.Seek(0, SeekOrigin.Begin);
+        document.CreateVersionFrom(stream, Constants.Module.DocumentFormats.Pdf);
+      }
+      
+      emptyPdf.Dispose();
+      
+      foreach (var propState in document.State.Properties)
+        propState.IsRequired = false;
+      document.Save();
+      
+      databook.DocumentWithVersion = document;
       databook.Save();
     }
   }
-
 }

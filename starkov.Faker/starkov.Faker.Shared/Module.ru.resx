@@ -110,4 +110,7 @@
   <data name="ErrorNotCreatedSetupDatabook" xml:space="preserve">
     <value>Для настройки модуля необходимо создать запись, выполнив инициализацию</value>
   </data>
+  <data name="DocumentWithVersionName" xml:space="preserve">
+    <value>Документ, использующийся при генерации версий документов</value>
+  </data>
 </root>
