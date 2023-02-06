@@ -288,8 +288,7 @@ namespace starkov.Faker.Server
       if (!entities.Any())
         return null;
       
-      var faker = new Bogus.Faker();
-      return entities.Skip(faker.Random.Int(0, entities.Count() - 1)).FirstOrDefault();
+      return PickRandomEntityFromQueryable(entities);
     }
     
     /// <summary>
@@ -302,8 +301,7 @@ namespace starkov.Faker.Server
       if (!logins.Any())
         return null;
       
-      var faker = new Bogus.Faker();
-      return logins.Skip(faker.Random.Int(0, logins.Count() - 1)).FirstOrDefault();
+      return Sungero.CoreEntities.Logins.As(PickRandomEntityFromQueryable(logins));
     }
     
     #endregion
@@ -499,6 +497,20 @@ namespace starkov.Faker.Server
     #endregion
     
     #region Общие функции
+    
+    /// <summary>
+    /// Выбор случайной сущности из запроса.
+    /// </summary>
+    /// <param name="entities">Сущности.</param>
+    /// <returns>Случайно выбранная сущность.</returns>
+    public virtual IEntity PickRandomEntityFromQueryable(IQueryable<IEntity> entities)
+    {
+      if (!entities.Any())
+        return null;
+      
+      var faker = new Bogus.Faker();
+      return entities.Skip(faker.Random.Int(0, entities.Count() - 1)).FirstOrDefault();
+    }
     
     /// <summary>
     /// Запустить АО для генерации сущностей.
