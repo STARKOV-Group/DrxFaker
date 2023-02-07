@@ -65,6 +65,6 @@
     <value>Данный Guid не соответствует ни одному типу сущности</value>
   </data>
   <data name="ErrorTypeIsAbstract" xml:space="preserve">
-    <value>Данный тип является абстрактным</value>
+    <value>Данный тип не является справочником или является абстрактным типом</value>
   </data>
 </root>

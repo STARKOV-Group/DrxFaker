@@ -554,7 +554,7 @@ namespace starkov.Faker.Server
         .Where(m => !excludePropertyTypes.Contains(m.PropertyType));
       
       //Учетные записи
-      if (guid == Constants.Module.Guids.Login)
+      if (guid == Constants.Module.Guids.Login.ToString())
       {
         var additionalExcludeProps = Functions.Module.GetAdditionalExcludePropForLogins();
         properties = properties.Where(m => !additionalExcludeProps.Contains(m.Name));

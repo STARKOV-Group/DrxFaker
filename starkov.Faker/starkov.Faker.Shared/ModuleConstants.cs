@@ -149,7 +149,37 @@ namespace starkov.Faker.Constants
       /// <summary>
       /// GUID справочника "Учетная запись".
       /// </summary>
-      public const string Login = "55f542e9-4645-4f8d-999e-73cc71df62fd";
+      public static readonly Guid Login = Guid.Parse("55f542e9-4645-4f8d-999e-73cc71df62fd");
+      
+      /// <summary>
+      /// GUID справочника "Наша организация".
+      /// </summary>
+      public static readonly Guid BusinessUnit = Guid.Parse("eff95720-181f-4f7d-892d-dec034c7b2ab");
+      
+      /// <summary>
+      /// GUID справочника "Подразделение".
+      /// </summary>
+      public static readonly Guid Department = Guid.Parse("61b1c19f-26e2-49a5-b3d3-0d3618151e12");
+      
+      /// <summary>
+      /// GUID справочника "Персона".
+      /// </summary>
+      public static readonly Guid Person = Guid.Parse("f5509cdc-ac0c-4507-a4d3-61d7a0a9b6f6");
+      
+      /// <summary>
+      /// GUID справочника "Сотрудник".
+      /// </summary>
+      public static readonly Guid Employee = Guid.Parse("b7905516-2be5-4931-961c-cb38d5677565");
+      
+      /// <summary>
+      /// GUID справочника "Должность".
+      /// </summary>
+      public static readonly Guid JobTitle = Guid.Parse("4a37aec4-764c-4c14-8887-e1ecafa5b4c5");
+      
+      /// <summary>
+      /// GUID справочника "Организация".
+      /// </summary>
+      public static readonly Guid Company = Guid.Parse("593e143c-616c-4d95-9457-fd916c4aa7f8");
     }
     
     /// <summary>

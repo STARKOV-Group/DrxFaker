@@ -65,6 +65,6 @@
     <value>The given Guid does not match any entity type</value>
   </data>
   <data name="ErrorTypeIsAbstract" xml:space="preserve">
-    <value>This type is abstract</value>
+    <value>This type is not a reference type or is an abstract type</value>
   </data>
 </root>

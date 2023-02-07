@@ -53,7 +53,7 @@ namespace starkov.Faker.Server
           using (Sungero.Domain.Session session = new Sungero.Domain.Session(true, false))
           {
             #region Создание учетных записей
-            if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login)
+            if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login.ToString())
             {
               CreateLogin(databook, propertiesStructure, maxLoginNamesNumber, ref loginNames);
               createdEntityCount++;
