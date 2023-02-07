@@ -16,6 +16,7 @@ namespace starkov.Faker
         return;
       
       _obj.Name = e.NewValue.Name;
+      AvailabilityRequisites();
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
       FillRequiredPropsIntoParameters(e.NewValue.DocumentTypeGuid);
@@ -28,6 +29,7 @@ namespace starkov.Faker
         return;
       
       _obj.Name = e.NewValue.Name;
+      AvailabilityRequisites();
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
       FillRequiredPropsIntoParameters(e.NewValue.DatabookTypeGuid);
@@ -61,6 +63,7 @@ namespace starkov.Faker
       prop.DocumentType.IsVisible = isDocument;
       prop.DatabookType.IsVisible = isDataBook;
       prop.IsNeedCreateVersion.IsVisible = isDocument;
+      prop.Name.IsEnabled = _obj.DatabookType != null || _obj.DocumentType != null;
     }
     
     /// <summary>

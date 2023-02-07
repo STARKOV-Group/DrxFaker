@@ -139,4 +139,7 @@
   <data name="Error_WrongWayToAddValue" xml:space="preserve">
     <value>You can add values only by clicking the corresponding button</value>
   </data>
+  <data name="DialogInfoNoAvailableParams" xml:space="preserve">
+    <value>There is no data to select</value>
+  </data>
 </root>

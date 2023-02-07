@@ -139,4 +139,7 @@
   <data name="Error_WrongWayToAddValue" xml:space="preserve">
     <value>Добавлять значения можно только по соответствующей кнопке</value>
   </data>
+  <data name="DialogInfoNoAvailableParams" xml:space="preserve">
+    <value>Отсутствуют данные для выбора</value>
+  </data>
 </root>
