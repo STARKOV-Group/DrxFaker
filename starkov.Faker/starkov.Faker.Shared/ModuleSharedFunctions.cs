@@ -3,11 +3,305 @@ using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
 using Sungero.CoreEntities;
+using CommonLibrary;
+using Sungero.Domain.Shared;
+using Sungero.Metadata;
 
 namespace starkov.Faker.Shared
 {
   public class ModuleFunctions
   {
+    
+    #region Проверка и приведение типов
+    
+    /// <summary>
+    /// Сравнить объект с типом.
+    /// </summary>
+    /// <param name="comparedObject">Объект для сравнения.</param>
+    /// <param name="comparedType">Тип для сравнения.</param>
+    /// <returns>True - если тип объекта совпадает с входным типом, иначе false.</returns>
+    public static bool CompareObjectWithType(object comparedObject, System.Type comparedType)
+    {
+      if (comparedObject == null)
+        return false;
+      
+      var objectType = comparedObject.GetType();
+      return Equals(objectType, comparedType);
+    }
+    
+    #region Приведение типов метаданных
+    
+    /// <summary>
+    /// Приведение объекта к типу EnumPropertyInfo.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом EnumPropertyInfo, либо null при ошибке во время приведения к типу.</returns>
+    public static Sungero.Domain.Shared.EnumPropertyInfo CastToEnumPropertyInfo(object castEntity)
+    {
+      EnumPropertyInfo val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (EnumPropertyInfo)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("EnumPropertyInfo", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу EnumPropertyMetadata.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом EnumPropertyMetadata, либо null при ошибке во время приведения к типу.</returns>
+    public static Sungero.Metadata.EnumPropertyMetadata CastToEnumPropertyMetadata(object castEntity)
+    {
+      EnumPropertyMetadata val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (EnumPropertyMetadata)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("EnumPropertyMetadata", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу NavigationPropertyMetadata.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом NavigationPropertyMetadata, либо null при ошибке во время приведения к типу.</returns>
+    public static Sungero.Metadata.NavigationPropertyMetadata CastToNavigationPropertyMetadata(object castEntity)
+    {
+      NavigationPropertyMetadata val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (NavigationPropertyMetadata)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("NavigationPropertyMetadata", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу StringPropertyMetadata.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом StringPropertyMetadata, либо null при ошибке во время приведения к типу.</returns>
+    public static Sungero.Metadata.StringPropertyMetadata CastToStringPropertyMetadata(object castEntity)
+    {
+      StringPropertyMetadata val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (StringPropertyMetadata)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("StringPropertyMetadata", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    #endregion
+    
+    #region Приведение типов диалога
+    
+    /// <summary>
+    /// Приведение объекта к типу DateDialogValue.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом DateDialogValue, либо null при ошибке во время приведения к типу.</returns>
+    public static CommonLibrary.IDateDialogValue CastToDateDialogValue(object castEntity)
+    {
+      IDateDialogValue val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IDateDialogValue)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IDateDialogValue", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу BooleanDialogValue.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом BooleanDialogValue, либо null при ошибке во время приведения к типу.</returns>
+    public static CommonLibrary.IBooleanDialogValue CastToBooleanDialogValue(object castEntity)
+    {
+      IBooleanDialogValue val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IBooleanDialogValue)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IBooleanDialogValue", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу IntegerDialogValue.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом IntegerDialogValue, либо null при ошибке во время приведения к типу.</returns>
+    public static CommonLibrary.IIntegerDialogValue CastToIntegerDialogValue(object castEntity)
+    {
+      IIntegerDialogValue val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IIntegerDialogValue)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IIntegerDialogValue", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу StringDialogValue.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом StringDialogValue, либо null при ошибке во время приведения к типу.</returns>
+    public static CommonLibrary.IStringDialogValue CastToStringDialogValue(object castEntity)
+    {
+      IStringDialogValue val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IStringDialogValue)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IStringDialogValue", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу DropDownDialogValue.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом DropDownDialogValue, либо null при ошибке во время приведения к типу.</returns>
+    public static CommonLibrary.IDropDownDialogValue CastToDropDownDialogValue(object castEntity)
+    {
+      IDropDownDialogValue val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IDropDownDialogValue)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IDropDownDialogValue", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу DialogControl(string).
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом DialogControl(string), либо null при ошибке во время приведения к типу.</returns>
+    public static CommonLibrary.IDialogControl<string> CastToDialogControlString(object castEntity)
+    {
+      IDialogControl<string> val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IDialogControl<string>)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IDialogControl<string>", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу DialogControl.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом DialogControl, либо null при ошибке во время приведения к типу.</returns>
+    public static CommonLibrary.IDialogControl CastToDialogControl(object castEntity)
+    {
+      IDialogControl val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IDialogControl)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IDialogControl", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    #endregion
+    
+    #endregion
 
     #region Получение вариантов заполнения
     
@@ -106,6 +400,8 @@ namespace starkov.Faker.Shared
     
     #endregion
     
+    #region Общие функции
+    
     /// <summary>
     /// Получить список наименований всех сущностей по Guid типа.
     /// </summary>
@@ -177,5 +473,7 @@ namespace starkov.Faker.Shared
         Sungero.Metadata.PropertyType.Image
       };
     }
+    
+    #endregion
   }
 }

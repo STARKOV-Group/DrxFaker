@@ -113,4 +113,9 @@
   <data name="DocumentWithVersionName" xml:space="preserve">
     <value>Документ, использующийся при генерации версий документов</value>
   </data>
+  <data name="ErrorDuringCast" xml:space="preserve">
+    <value>Error while cast object in {0}. 
+Error: {1}. 
+StackTrace: {2}</value>
+  </data>
 </root>

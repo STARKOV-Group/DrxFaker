@@ -74,7 +74,7 @@ namespace starkov.Faker.Server
                 continue;
               
               var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow, propertiesStructure);
-              if (Equals(propertyValue.GetType(), typeof(string)) && parametersRow.StringPropLength.HasValue)
+              if (Functions.Module.CompareObjectWithType(propertyValue, typeof(string)) && parametersRow.StringPropLength.HasValue)
               {
                 var str = propertyValue.ToString();
                 if (str.Length > parametersRow.StringPropLength.Value)

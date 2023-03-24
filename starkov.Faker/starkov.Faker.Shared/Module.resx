@@ -113,4 +113,9 @@ First entry ID: {0}</value>
   <data name="DocumentWithVersionName" xml:space="preserve">
     <value>The document used to generate document versions</value>
   </data>
+  <data name="ErrorDuringCast" xml:space="preserve">
+    <value>Error while cast object in {0}. 
+Error: {1}. 
+StackTrace: {2}</value>
+  </data>
 </root>

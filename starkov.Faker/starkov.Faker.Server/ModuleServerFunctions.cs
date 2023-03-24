@@ -141,7 +141,7 @@ namespace starkov.Faker.Server
       var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
-        return faker.Name.FirstName((Bogus.DataSets.Name.Gender?)enumGender);
+        return faker.Name.FirstName(CastToBogusGender(enumGender));
       
       return faker.Name.FirstName();
     }
@@ -156,7 +156,7 @@ namespace starkov.Faker.Server
       var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
-        return faker.Name.LastName((Bogus.DataSets.Name.Gender?)enumGender);
+        return faker.Name.LastName(CastToBogusGender(enumGender));
       
       return faker.Name.LastName();
     }
@@ -171,7 +171,7 @@ namespace starkov.Faker.Server
       var faker = new Bogus.Faker(Constants.Module.BogusLanguages.Russian);
       Bogus.DataSets.Name.Gender enumGender;
       if (Enum.TryParse(gender, out enumGender))
-        return faker.Name.FullName((Bogus.DataSets.Name.Gender?)enumGender);
+        return faker.Name.FullName(CastToBogusGender(enumGender));
       
       return faker.Name.FullName();
     }
@@ -499,6 +499,30 @@ namespace starkov.Faker.Server
     #region Общие функции
     
     /// <summary>
+    /// Приведение объекта к типу Bogus.DataSets.Name.Gender.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом Bogus.DataSets.Name.Gender, либо null при ошибке во время приведения к типу.</returns>
+    public static Bogus.DataSets.Name.Gender? CastToBogusGender(object castEntity)
+    {
+      Bogus.DataSets.Name.Gender? val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (Bogus.DataSets.Name.Gender?)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("Bogus.DataSets.Name.Gender?", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
     /// Выбор случайной сущности из запроса.
     /// </summary>
     /// <param name="entities">Сущности.</param>
@@ -573,27 +597,27 @@ namespace starkov.Faker.Server
         #region Получение локализованных значений перечислений
         
         var enumInfo = new List<Structures.Module.EnumerationInfo>();
-        if (Equals(propertyMetadata.GetType(), typeof(Sungero.Metadata.EnumPropertyMetadata)))
+        if (Functions.Module.CompareObjectWithType(propertyMetadata, typeof(Sungero.Metadata.EnumPropertyMetadata)))
         {
           var infoProperties = entity.Info.Properties;
           var propertyEnumeration = infoProperties.GetType().GetProperty(propertyMetadata.Name);
           if (propertyEnumeration != null)
           {
-            var enumPropertyInfo = (Sungero.Domain.Shared.EnumPropertyInfo)propertyEnumeration.GetValue(infoProperties);
-            foreach (string val in ((Sungero.Metadata.EnumPropertyMetadata)propertyMetadata).Values.Select(m => m.Name))
-              enumInfo.Add(Structures.Module.EnumerationInfo.Create(val, enumPropertyInfo.GetLocalizedValue(new Enumeration(val))));
+            var enumPropertyInfo = Functions.Module.CastToEnumPropertyInfo(propertyEnumeration.GetValue(infoProperties));
+            foreach (string val in Functions.Module.CastToEnumPropertyMetadata(propertyMetadata)?.Values.Select(m => m.Name))
+              enumInfo.Add(Structures.Module.EnumerationInfo.Create(val, enumPropertyInfo?.GetLocalizedValue(new Enumeration(val)) ?? string.Empty));
           }
         }
         
         #endregion
         
         var entityGuid = string.Empty;
-        if (Equals(propertyMetadata.GetType(), typeof(Sungero.Metadata.NavigationPropertyMetadata)))
-            entityGuid = ((Sungero.Metadata.NavigationPropertyMetadata)propertyMetadata)?.EntityGuid.ToString();
+        if (Functions.Module.CompareObjectWithType(propertyMetadata, typeof(Sungero.Metadata.NavigationPropertyMetadata)))
+          entityGuid = Functions.Module.CastToNavigationPropertyMetadata(propertyMetadata)?.EntityGuid.ToString() ?? string.Empty;
         
         int? strLength = null;
-        if (Equals(propertyMetadata.GetType(), typeof(Sungero.Metadata.StringPropertyMetadata)))
-          strLength = ((Sungero.Metadata.StringPropertyMetadata)propertyMetadata)?.Length;
+        if (Functions.Module.CompareObjectWithType(propertyMetadata, typeof(Sungero.Metadata.StringPropertyMetadata)))
+          strLength = Functions.Module.CastToStringPropertyMetadata(propertyMetadata)?.Length;
         
         propertiesList.Add(Structures.Module.PropertyInfo.Create(propertyMetadata.Name,
                                                                  propertyMetadata.GetLocalizedName().ToString(),

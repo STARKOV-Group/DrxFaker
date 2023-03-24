@@ -190,7 +190,8 @@
     "InfoText_LoginNames",
     "ModuleSetupsDatabookName",
     "ErrorNotCreatedSetupDatabook",
-    "DocumentWithVersionName"
+    "DocumentWithVersionName",
+    "ErrorDuringCast"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",

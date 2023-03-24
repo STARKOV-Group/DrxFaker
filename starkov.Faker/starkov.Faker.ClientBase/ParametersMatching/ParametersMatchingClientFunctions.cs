@@ -124,10 +124,12 @@ namespace starkov.Faker.Client
                             var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
                             
                             if (customType == Constants.Module.CustomType.Date &&
-                                ((IDateDialogValue)personalValuesField[0]).Value.GetValueOrDefault() > ((IDateDialogValue)personalValuesField[1]).Value.GetValueOrDefault(Calendar.SqlMaxValue))
+                                Functions.Module.CastToDateDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() > 
+                                Functions.Module.CastToDateDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(Calendar.SqlMaxValue))
                               arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo);
                             else if (customType == Constants.Module.CustomType.Numeric &&
-                                     ((IIntegerDialogValue)personalValuesField[0]).Value.GetValueOrDefault() > ((IIntegerDialogValue)personalValuesField[1]).Value.GetValueOrDefault(int.MaxValue))
+                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() > 
+                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(int.MaxValue))
                               arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo);
                           });
       
@@ -242,8 +244,12 @@ namespace starkov.Faker.Client
     {
       foreach (var control in controls)
       {
-        ((IDialogControl)control).IsVisible = false;
-        ((IDialogControl)control).IsRequired = false;
+        var castedControl = Functions.Module.CastToDialogControl(control);
+        if (castedControl == null)
+          continue;
+        
+        castedControl.IsVisible = false;
+        castedControl.IsRequired = false;
       }
       controls.Clear();
     }
@@ -371,21 +377,20 @@ namespace starkov.Faker.Client
       if (control == null)
         return result;
       
-      var controlType = control.GetType();
       if (customType == Constants.Module.CustomType.Enumeration || customType == Constants.Module.CustomType.Navigation)
-        result = ((IDialogControl<string>)control).Value;
-      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.DateDialogControl)))
-        result = ((IDateDialogValue)control).Value.GetValueOrDefault().ToShortDateString();
-      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.BooleanDialogControl)))
-        result = ((IBooleanDialogValue)control).Value.GetValueOrDefault().ToString();
-      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.IntegerDialogControl)))
-        result = ((IIntegerDialogValue)control).Value.GetValueOrDefault().ToString();
-      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.StringDialogControl)))
-        result = ((IStringDialogValue)control).Value;
-      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.DropDownDialogControl)))
-        result = ((IDropDownDialogValue)control).Value;
+        result = Functions.Module.CastToDialogControlString(control)?.Value;
+      else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.DateDialogControl)))
+        result = Functions.Module.CastToDateDialogValue(control)?.Value.GetValueOrDefault().ToShortDateString();
+      else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.BooleanDialogControl)))
+        result = Functions.Module.CastToBooleanDialogValue(control)?.Value.GetValueOrDefault().ToString();
+      else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.IntegerDialogControl)))
+        result = Functions.Module.CastToIntegerDialogValue(control)?.Value.GetValueOrDefault().ToString();
+      else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.StringDialogControl)))
+        result = Functions.Module.CastToStringDialogValue(control)?.Value;
+      else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.DropDownDialogControl)))
+        result = Functions.Module.CastToDropDownDialogValue(control)?.Value;
       
-      return result;
+      return result ?? string.Empty;
     }
     
     /// <summary>
@@ -399,14 +404,13 @@ namespace starkov.Faker.Client
       if (customType == Constants.Module.CustomType.Enumeration || customType == Constants.Module.CustomType.Navigation)
         return customType;
       
-      var controlType = control.GetType();
-      if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.DateDialogControl)))
+      if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.DateDialogControl)))
         customType = Constants.Module.CustomType.Date;
-      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.BooleanDialogControl)))
+      else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.BooleanDialogControl)))
         customType = Constants.Module.CustomType.Bool;
-      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.IntegerDialogControl)))
+      else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.IntegerDialogControl)))
         customType = Constants.Module.CustomType.Numeric;
-      else if (Equals(controlType, typeof(Sungero.WebAPI.Dialogs.StringDialogControl)))
+      else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.StringDialogControl)))
         customType = Constants.Module.CustomType.String;
       
       return customType;
