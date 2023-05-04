@@ -80,36 +80,27 @@
         "NameGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
         "Name": "Functions",
         "BackgroundPosition": "Stretch",
-        "IconName": "GroupIconGroup_b4df1d9f5e6d4050a204889a6543671a.png",
-        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+        "IconName": "GroupIconGroup_b4df1d9f5e6d4050a204889a6543671a.png"
       },
       {
         "NameGuid": "481ed195-ac8d-440f-b3fa-38e4054bb805",
         "Name": "Databooks",
         "BackgroundPosition": "Stretch",
         "IconName": "GroupIconDatabooks_481ed195ac8d440fb3fa38e4054bb805.png",
-        "PreviousItemGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
-        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+        "PreviousItemGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a"
       },
       {
         "NameGuid": "2baec73a-3d5e-447a-8294-85d7af74c57e",
         "Name": "Settings",
         "BackgroundPosition": "Stretch",
         "IconName": "GroupIconSettings_2baec73a3d5e447a829485d7af74c57e.png",
-        "PreviousItemGuid": "481ed195-ac8d-440f-b3fa-38e4054bb805",
-        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+        "PreviousItemGuid": "481ed195-ac8d-440f-b3fa-38e4054bb805"
       }
     ],
     "Header": {
       "NameGuid": "abbbd1db-47eb-4f83-9fa3-e179eddadebb",
       "BackgroundPosition": "Stretch"
-    },
-    "Tabs": [
-      {
-        "NameGuid": "e65e553b-7467-47e5-8c13-3c8dd77d5aea",
-        "Name": "Tab"
-      }
-    ]
+    }
   },
   "Dependencies": [
     {
@@ -203,7 +194,7 @@
   "Versions": [
     {
       "Type": "ModuleMetadata",
-      "Number": 8
+      "Number": 6
     },
     {
       "Type": "DomainApi",
