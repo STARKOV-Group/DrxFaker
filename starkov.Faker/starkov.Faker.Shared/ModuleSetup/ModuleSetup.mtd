@@ -134,7 +134,6 @@
   "HideFromCreationArea": true,
   "HideFromNavigationEditorCreationArea": true,
   "IconResourcesKeys": [],
-  "IntegrationServiceName": "FakerModuleSetup",
   "IsAutoCreated": true,
   "OperationsClass": "",
   "Overridden": [

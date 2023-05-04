@@ -537,6 +537,37 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
+    /// Создать логин.
+    /// </summary>
+    /// <param name="loginName">Логин.</param>
+    /// <param name="password">Пароль.</param>
+    [Public]
+    public virtual void CreateLogin(string loginName, string password)
+    {
+      var login = Logins.Create();
+      login.LoginName = loginName;
+      login.TypeAuthentication = Sungero.CoreEntities.Login.TypeAuthentication.Password;
+      var credentials = this.GetCredentials(password).Split(new string[] { "|" }, StringSplitOptions.None);
+      Sungero.Domain.Shared.RemoteFunctionExecutor.Execute(Guid.Parse("55f542e9-4645-4f8d-999e-73cc71df62fd"), "SetLoginPassword", login, credentials[0], credentials[1]);
+    }
+    
+    /// <summary>
+    /// Получить реквизиты для входа по паролю.
+    /// </summary>
+    /// <param name="password">Пароль.</param>
+    /// <returns>Реквизиты для входа.</returns>
+    private string GetCredentials(string password)
+    {
+      var salt = CommonLibrary.Hashing.PasswordHashManager.Instance.GenerateSalt();
+      var passwordHash = CommonLibrary.Hashing.PasswordHashManager.Instance.GenerateHash(CommonLibrary.StringUtils.ToSecureString(password));
+      passwordHash = CommonLibrary.Hashing.PasswordHashManager.Instance.AddSaltToHash(passwordHash, salt);
+      var passwordHashString = System.Convert.ToBase64String(passwordHash);
+      var saltString = System.Convert.ToBase64String(salt);
+      
+      return string.Join("|", passwordHashString, saltString);
+    }
+    
+    /// <summary>
     /// Запустить АО для генерации сущностей.
     /// </summary>
     /// <param name="count">Кол-во создаваемых записей.</param>
@@ -547,7 +578,7 @@ namespace starkov.Faker.Server
       var asyncHandler = Faker.AsyncHandlers.EntitiesGeneration.Create();
       asyncHandler.Count = count;
       asyncHandler.DatabookId = databookId;
-      asyncHandler.ExecuteAsync(starkov.Faker.Resources.AsyncEndWorkMessage);
+      asyncHandler.ExecuteAsync();
     }
     
     /// <summary>

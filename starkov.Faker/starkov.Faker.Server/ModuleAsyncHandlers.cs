@@ -182,7 +182,7 @@ namespace starkov.Faker.Server
       
       var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure).ToString();
       var password = databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
-      Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
+      PublicFunctions.Module.CreateLogin(login, password);
       
       if (loginNames.Count < maxLoginNamesNumber)
         loginNames.Add(login);
