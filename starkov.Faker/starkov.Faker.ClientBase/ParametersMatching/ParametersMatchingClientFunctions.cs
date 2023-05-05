@@ -11,7 +11,7 @@ namespace starkov.Faker.Client
 {
   partial class ParametersMatchingFunctions
   {
-    
+
     /// <summary>
     /// Показ диалога для изменения данных в табличной части.
     /// </summary>
@@ -20,7 +20,13 @@ namespace starkov.Faker.Client
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogChangeData);
       
       #region Данные для диалога
-      var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid);
+      var guid = string.Empty;
+      if (_obj.DatabookType != null)
+        guid = _obj.DatabookType.DatabookTypeGuid;
+      else if (_obj.DocumentType != null)
+        guid = _obj.DocumentType.DocumentTypeGuid;
+      
+      var propInfo = Functions.Module.Remote.GetPropertiesType(guid);
       #endregion
       
       #region Поля диалога
@@ -82,8 +88,14 @@ namespace starkov.Faker.Client
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
       #region Данные для диалога
+      var guid = string.Empty;
+      if (_obj.DatabookType != null)
+        guid = _obj.DatabookType.DatabookTypeGuid;
+      else if (_obj.DocumentType != null)
+        guid = _obj.DocumentType.DocumentTypeGuid;
+      
       var parameterRow = _obj.Parameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());      
-      var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
+      var propInfo = Functions.Module.Remote.GetPropertiesType(guid)
         .Where(i => rowId.HasValue ?
                parameterRow.PropertyName == i.Name :
                !_obj.Parameters.Select(p => p.PropertyName).Contains(i.Name));
@@ -325,12 +337,12 @@ namespace starkov.Faker.Client
     {
       if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
       {
-        var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
+        var controlType = GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
         controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ChosenValue));
       }
       else if (!string.IsNullOrEmpty(parameterRow.ValueFrom) && !string.IsNullOrEmpty(parameterRow.ValueTo))
       {
-        var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
+        var controlType = GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
         controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ValueFrom));
         controls[1].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[1], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ValueTo));
       }
