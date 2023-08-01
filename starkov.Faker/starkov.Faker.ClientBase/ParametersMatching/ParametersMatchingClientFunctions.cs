@@ -67,9 +67,15 @@ namespace starkov.Faker.Client
       dialog.Buttons.AddCancel();
       
       if (dialog.Show() == changeBtn)
-        ShowDialogForSelectParameters(_obj.Parameters.FirstOrDefault(p => isUnique ?
-                                                                     p.LocalizedPropertyName == localizedValuesField.Value :
-                                                                     p.PropertyName == propertyNameField.Value)?.Id);
+      {
+        var rowId = _obj.Parameters.FirstOrDefault(p => isUnique ?
+                                                   p.LocalizedPropertyName == localizedValuesField.Value :
+                                                   p.PropertyName == propertyNameField.Value)?.Id;
+        if (rowId != null)
+          ShowDialogForSelectParameters(Convert.ToInt32(rowId));
+        else
+          ShowDialogForSelectParameters(null);
+      }
       #endregion
     }
 

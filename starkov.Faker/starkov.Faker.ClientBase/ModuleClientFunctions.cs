@@ -49,7 +49,7 @@ namespace starkov.Faker.Client
       
       if (dialog.Show() == DialogButtons.Ok)
       {
-        Functions.Module.Remote.CreateAsyncForGenerateEntities(countField.Value.GetValueOrDefault(), entityField.Value.Id);
+        Functions.Module.Remote.CreateAsyncForGenerateEntities(countField.Value.GetValueOrDefault(), Convert.ToInt32(entityField.Value.Id));
         Dialogs.ShowMessage(starkov.Faker.Resources.MessageEntityGenerationProcessStarted);
       }
     }

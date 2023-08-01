@@ -129,7 +129,7 @@ namespace starkov.Faker.Server
             
             createdEntityCount++;
             if (firstEntityId == 0)
-              firstEntityId = entity.Id;
+              firstEntityId = Convert.ToInt32(entity.Id);
           }
           catch (Exception ex)
           {
