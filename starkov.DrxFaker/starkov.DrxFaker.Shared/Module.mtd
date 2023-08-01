@@ -29,6 +29,8 @@
   "Importance": "Medium",
   "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
   "InterfaceNamespace": "starkov.DrxFaker",
+  "IsolatedAssemblyName": "starkov.DrxFaker.Isolated",
+  "IsolatedNamespace": "starkov.DrxFaker.Isolated",
   "OrderedSpecialFolders": [],
   "PublicStructures": [],
   "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
