@@ -68,13 +68,13 @@ namespace starkov.Faker.Client
       
       if (dialog.Show() == changeBtn)
       {
-        var rowId = _obj.Parameters.FirstOrDefault(p => isUnique ?
-                                                   p.LocalizedPropertyName == localizedValuesField.Value :
-                                                   p.PropertyName == propertyNameField.Value)?.Id;
-        if (rowId != null)
-          ShowDialogForSelectParameters(Convert.ToInt32(rowId));
+        var row = _obj.Parameters.FirstOrDefault(p => isUnique ?
+                                                 p.LocalizedPropertyName == localizedValuesField.Value :
+                                                 p.PropertyName == propertyNameField.Value);
+        if (row != null)
+          ShowDialogForSelectParameters(Convert.ToInt32(row.Id), !string.IsNullOrEmpty(row.FillOption));
         else
-          ShowDialogForSelectParameters(null);
+          ShowDialogForSelectParameters(null, false);
       }
       #endregion
     }
@@ -83,12 +83,13 @@ namespace starkov.Faker.Client
     /// Показ диалога для выбора данных.
     /// </summary>
     /// <param name="rowId">Номер строки.</param>
-    public void ShowDialogForSelectParameters(int? rowId)
+    /// <param name="isFillValue">Признак заполнения значений.</param>
+    public void ShowDialogForSelectParameters(int? rowId, bool isFillValue)
     {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
       #region Данные для диалога
-      var parameterRow = _obj.Parameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());      
+      var parameterRow = _obj.Parameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());
       var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
         .Where(i => rowId.HasValue ?
                parameterRow.PropertyName == i.Name :
@@ -130,11 +131,11 @@ namespace starkov.Faker.Client
                             var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
                             
                             if (customType == Constants.Module.CustomType.Date &&
-                                Functions.Module.CastToDateDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() > 
+                                Functions.Module.CastToDateDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
                                 Functions.Module.CastToDateDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(Calendar.SqlMaxValue))
                               arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo);
                             else if (customType == Constants.Module.CustomType.Numeric &&
-                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() > 
+                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
                                      Functions.Module.CastToIntegerDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(int.MaxValue))
                               arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo);
                           });
@@ -183,6 +184,14 @@ namespace starkov.Faker.Client
                                            return;
                                          
                                          ShowDialogControlsByParameter(dialog, arg.NewValue, selectedPropInfo, ref personalValuesField);
+                                         
+                                         if (isFillValue && !string.IsNullOrEmpty(arg.OldValue))
+                                           isFillValue = false;
+                                         if (!isFillValue)
+                                         {
+                                           isFillValue = !personalValuesField.Any();
+                                           HideDialogControl(ref personalValuesField);
+                                         }
                                        });
       #endregion
       
@@ -223,7 +232,10 @@ namespace starkov.Faker.Client
         newRow.ValueFrom = null;
         newRow.ValueTo = null;
         
-        if (personalValuesField.Count == 1)
+        if (!isFillValue)
+          ShowDialogForSelectParameters(Convert.ToInt32(newRow.Id), true);
+        
+        else if (personalValuesField.Count == 1)
           newRow.ChosenValue = GetValueFromDialogControl(personalValuesField[0],
                                                          newRow.PropertyType,
                                                          newRow.PropertyTypeGuid);
@@ -237,10 +249,35 @@ namespace starkov.Faker.Client
                                                      newRow.PropertyTypeGuid);
         }
       }
+      else if (!string.IsNullOrEmpty(parameterRow?.FillOption) &&
+               IsNeedSelectValue(parameterRow.FillOption) &&
+               string.IsNullOrEmpty(parameterRow.ChosenValue) &&
+               string.IsNullOrEmpty(parameterRow.ValueFrom) &&
+               string.IsNullOrEmpty(parameterRow.ValueTo) &&
+               isFillValue)
+        parameterRow.FillOption = string.Empty;
       #endregion
     }
 
     #region Работа с контролами диалога
+    
+    /// <summary>
+    /// Проверка на необходимость выбора значения для варианта заполнения.
+    /// </summary>
+    /// <param name="selectedValue">Вариант заполнения.</param>
+    public virtual bool IsNeedSelectValue(string fillOption)
+    {
+      var options = new List<string>() {
+        Constants.Module.FillOptions.Common.FixedValue,
+        Constants.Module.FillOptions.Date.Period,
+        Constants.Module.FillOptions.Numeric.NumberWithLength,
+        Constants.Module.FillOptions.Numeric.NumberRange,
+        Constants.Module.FillOptions.String.FirstName,
+        Constants.Module.FillOptions.String.LastName,
+        Constants.Module.FillOptions.String.FullName
+      };
+      return options.Contains(fillOption);
+    }
     
     /// <summary>
     /// Скрыть контролы диалога.

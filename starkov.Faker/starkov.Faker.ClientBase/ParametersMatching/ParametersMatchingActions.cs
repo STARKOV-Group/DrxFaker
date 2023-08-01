@@ -23,7 +23,7 @@ namespace starkov.Faker.Client
         throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.ErrorToAddDataFillEntityType);
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
-      Functions.ParametersMatching.ShowDialogForSelectParameters(obj, null);
+      Functions.ParametersMatching.ShowDialogForSelectParameters(obj, null, false);
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
 
