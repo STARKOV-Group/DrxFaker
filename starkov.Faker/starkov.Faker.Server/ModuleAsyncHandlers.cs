@@ -37,7 +37,7 @@ namespace starkov.Faker.Server
       var loginNames = new List<string>();
       var errors = new List<string>();
       var createdEntityCount = 0;
-      var firstEntityId = 0;
+      long firstEntityId = 0;
       var maxLoginNamesNumber = Functions.ModuleSetup.GetLoginNamesNumber();
       var maxAttachmentsNumber = Functions.ModuleSetup.GetAttachmentsNumber();
       
@@ -82,6 +82,8 @@ namespace starkov.Faker.Server
               }
               else if (Equals(property.PropertyType, typeof(double)) || Equals(property.PropertyType, typeof(double?)))
                 propertyValue = Convert.ToDouble(propertyValue);
+              else if (Equals(property.PropertyType, typeof(long)) || Equals(property.PropertyType, typeof(long?)))
+                propertyValue = Convert.ToInt64(propertyValue);
               
               property.SetValue(entity, propertyValue);
             }
@@ -129,7 +131,7 @@ namespace starkov.Faker.Server
             
             createdEntityCount++;
             if (firstEntityId == 0)
-              firstEntityId = Convert.ToInt32(entity.Id);
+              firstEntityId = entity.Id;
           }
           catch (Exception ex)
           {
@@ -223,7 +225,7 @@ namespace starkov.Faker.Server
     public virtual void SendNoticeToAdministrators(Faker.IParametersMatching databook,
                                                    int createdEntityCount,
                                                    int desiredEntityCount,
-                                                   int firstEntityId,
+                                                   long firstEntityId,
                                                    string elapsedTime,
                                                    List<string> loginNames,
                                                    List<string> errors,
@@ -248,7 +250,7 @@ namespace starkov.Faker.Server
     /// <param name="loginNames">Список наименований учетных записей.</param>
     /// <param name="errors">Список ошибок при генерации.</param>
     /// <returns>Текст уведомления для администраторов.</returns>
-    public virtual string CreateNoticeTextToAdministrators(int firstEntityId,
+    public virtual string CreateNoticeTextToAdministrators(long firstEntityId,
                                                            string elapsedTime,
                                                            List<string> loginNames,
                                                            List<string> errors)
