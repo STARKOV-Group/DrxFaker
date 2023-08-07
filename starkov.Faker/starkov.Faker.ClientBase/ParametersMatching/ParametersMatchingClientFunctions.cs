@@ -233,7 +233,7 @@ namespace starkov.Faker.Client
         newRow.ValueTo = null;
         
         if (!isFillValue)
-          ShowDialogForSelectParameters(Convert.ToInt32(newRow.Id), true);
+          ShowDialogForSelectParameters(newRow.Id, true);
         
         else if (personalValuesField.Count == 1)
           newRow.ChosenValue = GetValueFromDialogControl(personalValuesField[0],
