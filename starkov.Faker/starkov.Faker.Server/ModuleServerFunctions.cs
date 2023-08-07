@@ -542,7 +542,7 @@ namespace starkov.Faker.Server
     /// <param name="count">Кол-во создаваемых записей.</param>
     /// <param name="databookId">ИД справочника по которому будет происходить генерация.</param>
     [Remote]
-    public virtual void CreateAsyncForGenerateEntities(int count, int databookId)
+    public virtual void CreateAsyncForGenerateEntities(int count, long databookId)
     {
       var asyncHandler = Faker.AsyncHandlers.EntitiesGeneration.Create();
       asyncHandler.Count = count;

@@ -11,9 +11,9 @@
       "IsHandlerGenerated": true,
       "Parameters": [
         {
-          "NameGuid": "19ebcfc7-e5d0-42f9-bdcf-8532ac52412e",
+          "NameGuid": "0d8f920f-71d0-4f3e-b3e9-f5bb07191cd8",
           "Name": "DatabookId",
-          "ParameterType": "Integer"
+          "ParameterType": "LongInteger"
         },
         {
           "NameGuid": "f8d7d478-2426-4479-bb61-ace9b5113803",

@@ -72,7 +72,7 @@ namespace starkov.Faker.Client
                                                  p.LocalizedPropertyName == localizedValuesField.Value :
                                                  p.PropertyName == propertyNameField.Value);
         if (row != null)
-          ShowDialogForSelectParameters(Convert.ToInt32(row.Id), !string.IsNullOrEmpty(row.FillOption));
+          ShowDialogForSelectParameters(row.Id, !string.IsNullOrEmpty(row.FillOption));
         else
           ShowDialogForSelectParameters(null, false);
       }
@@ -84,7 +84,7 @@ namespace starkov.Faker.Client
     /// </summary>
     /// <param name="rowId">Номер строки.</param>
     /// <param name="isFillValue">Признак заполнения значений.</param>
-    public void ShowDialogForSelectParameters(int? rowId, bool isFillValue)
+    public void ShowDialogForSelectParameters(long? rowId, bool isFillValue)
     {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
