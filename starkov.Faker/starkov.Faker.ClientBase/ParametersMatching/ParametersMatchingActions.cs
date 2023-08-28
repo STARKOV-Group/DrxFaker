@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -7,6 +7,18 @@ using starkov.Faker.ParametersMatching;
 
 namespace starkov.Faker.Client
 {
+  partial class ParametersMatchingParametersActions
+  {
+    public virtual void ChangeSelectedDataInParameters(Sungero.Domain.Client.ExecuteChildCollectionActionArgs e)
+    {
+      Functions.ParametersMatching.ShowDialogForSelectParameters(_obj.ParametersMatching, _obj.Id, !string.IsNullOrEmpty(_obj.FillOption));
+    }
+
+    public virtual bool CanChangeSelectedDataInParameters(Sungero.Domain.Client.CanExecuteChildCollectionActionArgs e)
+    {
+      return true;
+    }
+  }
 
   internal static class ParametersMatchingParametersStaticActions
   {
@@ -38,7 +50,7 @@ namespace starkov.Faker.Client
       if (obj.DatabookType == null && obj.DocumentType == null)
         throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.ErrorToChangeDataFillEntityType);
       
-      Functions.ParametersMatching.ShowDialogForChangeParameters(obj);
+      Functions.ParametersMatching.ShowDialogForSelectParameters(obj, null, false, true);
     }
   }
 }

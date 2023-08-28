@@ -136,4 +136,19 @@
   <data name="Property_IsNeedCreateVersion" xml:space="preserve">
     <value>Create version</value>
   </data>
+  <data name="Action_ChangeSelectedDataInParametersConfirmationDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_ChangeSelectedDataInParametersHint" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInParametersConfirmationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_ChangeSelectedDataInParametersDescription" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInParameters" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
 </root>
