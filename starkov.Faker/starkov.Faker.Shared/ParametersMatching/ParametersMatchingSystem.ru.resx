@@ -124,4 +124,13 @@
   <data name="Property_IsNeedCreateVersion" xml:space="preserve">
     <value>Создать версию</value>
   </data>
+  <data name="Action_ChangeSelectedDataInParameters" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInParametersHint" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInParametersDescription" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
 </root>
