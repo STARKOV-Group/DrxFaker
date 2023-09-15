@@ -7,6 +7,8 @@ using Sungero.Domain.Initialization;
 using Sungero.Domain.Shared;
 using PdfSharp.Pdf;
 using System.IO;
+using Sungero.Company;
+using Sungero.Parties;
 
 namespace starkov.Faker.Server
 {
@@ -16,6 +18,7 @@ namespace starkov.Faker.Server
     public override void Initializing(Sungero.Domain.ModuleInitializingEventArgs e)
     {
       FillDatabookTypes();
+      FillParametersMatching();
       
       var databook = CreateModuleSetup();
       CreateDocWithVersionForModuleSetup(databook);
@@ -99,6 +102,138 @@ namespace starkov.Faker.Server
         }
       }
     }
+    
+    /// <summary>
+    /// Заполнить справочник "Соответствие заполняемых параметров сущности".
+    /// </summary>
+    public static void FillParametersMatching()
+    {
+      if (ParametersMatchings.GetAll().Any())
+        return;
+      
+      InitializationLogger.Debug("Init: Fill parameters matching");
+      
+      #region Создание записи для Нашей организации
+      var businessUnitProp = BusinessUnits.Info.Properties;
+      var businessUnitDict = new Dictionary<string, string>() {
+        { businessUnitProp.Status.Name, Constants.Module.FillOptions.Common.NullValue },
+        { businessUnitProp.Name.Name, Constants.Module.FillOptions.String.CompanyName }
+      };
+      
+      CreateParametersMatchingByGUID(Constants.Module.Guids.BusinessUnit, businessUnitDict);
+      #endregion
+      
+      #region Создание записи для Подразделения
+      var departmentProp = Departments.Info.Properties;
+      var departmentDict = new Dictionary<string, string>() {
+        { departmentProp.Status.Name, Constants.Module.FillOptions.Common.NullValue },
+        { departmentProp.Name.Name, Constants.Module.FillOptions.String.Department }
+      };
+      
+      CreateParametersMatchingByGUID(Constants.Module.Guids.Department, departmentDict);
+      #endregion
+      
+      #region Создание записи для Должности
+      var jobTitleProp = JobTitles.Info.Properties;
+      var jobTitleDict = new Dictionary<string, string>() {
+        { jobTitleProp.Status.Name, Constants.Module.FillOptions.Common.NullValue },
+        { jobTitleProp.Name.Name, Constants.Module.FillOptions.String.JobTitle }
+      };
+      
+      CreateParametersMatchingByGUID(Constants.Module.Guids.JobTitle, jobTitleDict);
+      #endregion
+      
+      #region Создание записи для Учетной записи
+      var loginProp = Logins.Info.Properties;
+      var loginDict = new Dictionary<string, string>() {
+        { loginProp.Status.Name, Constants.Module.FillOptions.Common.NullValue },
+        { loginProp.LoginName.Name, Constants.Module.FillOptions.String.Login },
+        { Constants.Module.PropertyNames.Password, "11111" }
+      };
+      
+      CreateParametersMatchingByGUID(Constants.Module.Guids.Login, loginDict);
+      #endregion
+      
+      #region Создание записи для Персоны
+      var personProp = People.Info.Properties;
+      var personDict = new Dictionary<string, string>() {
+        { personProp.Status.Name, Constants.Module.FillOptions.Common.NullValue },
+        { personProp.Name.Name, Constants.Module.FillOptions.Common.NullValue },
+        { personProp.LastName.Name, Constants.Module.FillOptions.String.LastName },
+        { personProp.FirstName.Name, Constants.Module.FillOptions.String.FirstName }
+      };
+      
+      CreateParametersMatchingByGUID(Constants.Module.Guids.Person, personDict);
+      #endregion
+      
+      #region Создание записи для Сотрудника
+      var employeeProp = Employees.Info.Properties;
+      var employeeDict = new Dictionary<string, string>() {
+        { employeeProp.Status.Name, Constants.Module.FillOptions.Common.NullValue },
+        { employeeProp.Name.Name, Constants.Module.FillOptions.Common.NullValue },
+        { employeeProp.Person.Name, Constants.Module.FillOptions.Common.RandomValue },
+        { employeeProp.Department.Name, Constants.Module.FillOptions.Common.RandomValue }
+      };
+      
+      CreateParametersMatchingByGUID(Constants.Module.Guids.Employee, employeeDict);
+      #endregion
+    }
+    
+    #region Функции для работы с справочником "Соответствие заполняемых параметров сущности"
+    
+    /// <summary>
+    /// Создать запись справочника "Соответствие заполняемых параметров сущности".
+    /// </summary>
+    /// <param name="databookGuid">GUID справочника.</param>
+    /// <param name="dict">Словарь с наименованием свойства и вариантом его заполнения.</param>
+    private static void CreateParametersMatchingByGUID(Guid databookGuid, Dictionary<string, string> dict)
+    {
+      try
+      {
+        var stringGuid = databookGuid.ToString();
+        var databook = ParametersMatchings.Create();
+        databook.EntityType = Faker.ParametersMatching.EntityType.DataBook;
+        databook.DatabookType = DatabookTypes.GetAll(t => t.DatabookTypeGuid == stringGuid || t.AncestorGuids.Any(a => a.Guid == stringGuid)).FirstOrDefault();
+        databook.Name = databook.DatabookType.Name;
+        
+        ((Sungero.Domain.Shared.IExtendedEntity)databook).Params[Constants.ParametersMatching.ParamsForChangeCollection] = true;
+        var propInfo = Functions.Module.GetPropertiesType(stringGuid);
+        foreach (var prop in propInfo.Where(i => i.IsRequired))
+        {
+          var newRow = databook.Parameters.AddNew();
+          newRow.PropertyName = prop.Name;
+          newRow.LocalizedPropertyName = prop.LocalizedName;
+          newRow.PropertyType = Functions.ParametersMatching.GetMatchingTypeToCustomType(prop.Type);
+          newRow.PropertyTypeGuid = prop.PropertyGuid;
+          newRow.IsRequired = prop.IsRequired;
+          newRow.StringPropLength = prop.MaxStringLength;
+        }
+        
+        foreach (var row in dict)
+          FillOptionInCollection(databook, row.Key, row.Value);
+        
+        databook.Save();
+      }
+      catch (Exception ex)
+      {
+        Logger.ErrorFormat("Init: CreateParametersMatchingByGUID error ", ex);
+      }
+    }
+    
+    /// <summary>
+    /// Заполнить свойство "Вариант заполнения" в строке коллекции параметров.
+    /// </summary>
+    /// <param name="databook">Справочник.</param>
+    /// <param name="propertyName">Наименование свойства.</param>
+    /// <param name="fillOption">Вариант заполнения.</param>
+    private static void FillOptionInCollection(IParametersMatching databook, string propertyName, string fillOption)
+    {
+      var row = databook.Parameters.FirstOrDefault(r => r.PropertyName == propertyName);
+      if (row != null)
+        row.FillOption = fillOption;
+    }
+    
+    #endregion
     
     /// <summary>
     /// Получить список Guid-ов объектов для заполнения.
