@@ -212,6 +212,9 @@ namespace starkov.Faker.Server
         foreach (var row in dict)
           FillOptionInCollection(databook, row.Key, row.Value);
         
+        foreach (var emptyRow in databook.Parameters.Where(r => string.IsNullOrEmpty(r.FillOption)))
+          emptyRow.FillOption = Constants.Module.FillOptions.Common.NullValue;
+        
         databook.Save();
       }
       catch (Exception ex)
