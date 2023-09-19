@@ -314,8 +314,24 @@ namespace starkov.Faker.Server
     /// Получить значение свойства по параметрам.
     /// </summary>
     /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="propertiesInfo">Список с информацией о свойствах.</param>
     /// <returns>Значение свойства.</returns>
-    public virtual object GetPropertyValueByParameters(IParametersMatchingParameters parameterRow, List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
+    public virtual object GetPropertyValueByParameters(IParametersMatchingParameters parameterRow,
+                                                       List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
+    {
+      return GetPropertyValueByParameters(parameterRow, propertiesInfo, new Dictionary<string, IEntity>());
+    }
+    
+    /// <summary>
+    /// Получить значение свойства по параметрам.
+    /// </summary>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="propertiesInfo">Список с информацией о свойствах.</param>
+    /// <param name="cache">Кэш.</param>
+    /// <returns>Значение свойства.</returns>
+    public virtual object GetPropertyValueByParameters(IParametersMatchingParameters parameterRow,
+                                                       List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo,
+                                                       System.Collections.Generic.Dictionary<string, IEntity> cache)
     {
       object result = null;
       if (parameterRow == null)
@@ -332,7 +348,7 @@ namespace starkov.Faker.Server
       else if (parameterRow.PropertyType == Constants.Module.CustomType.Enumeration)
         result = GetEnumByParameters(parameterRow, propertiesInfo);
       else if (parameterRow.PropertyType == Constants.Module.CustomType.Navigation)
-        result = GetEntityByParameters(parameterRow);
+        result = GetEntityByParameters(parameterRow, cache);
       
       return result;
     }
@@ -460,8 +476,9 @@ namespace starkov.Faker.Server
     /// Получить сущность по параметрам.
     /// </summary>
     /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="cache">Кэш.</param>
     /// <returns>Сущность.</returns>
-    public virtual IEntity GetEntityByParameters(IParametersMatchingParameters parameterRow)
+    public virtual IEntity GetEntityByParameters(IParametersMatchingParameters parameterRow, System.Collections.Generic.Dictionary<string, IEntity> cache)
     {
       int num;
       IEntity entity = null;
@@ -479,7 +496,7 @@ namespace starkov.Faker.Server
         }
         
         if (int.TryParse(idInString, out num))
-          entity = GetEntityByTypeGuidAndId(parameterRow.PropertyTypeGuid, num);
+          entity = GetEntityByTypeGuidAndId(parameterRow.PropertyTypeGuid, num, cache);
       }
       else if (parameterRow.FillOption == Constants.Module.FillOptions.Common.RandomValue)
       {
@@ -675,15 +692,19 @@ namespace starkov.Faker.Server
     /// </summary>
     /// <param name="typeGuid">Guid типа сущности.</param>
     /// <param name="id">ИД сущности.</param>
+    /// <param name="cache">Кэш.</param>
     /// <returns>Cущность.</returns>
-    [Remote(IsPure = true, PackResultEntityEagerly = true)]
-    public virtual IEntity GetEntityByTypeGuidAndId(string typeGuid, int id)
+    public virtual IEntity GetEntityByTypeGuidAndId(string typeGuid, int id, System.Collections.Generic.Dictionary<string, IEntity> cache)
     {
-      var entityType = Sungero.Domain.Shared.TypeExtension.GetTypeByGuid(Guid.Parse(typeGuid));
-      using (var session = new Sungero.Domain.Session())
+      var key = string.Format("{0} {1}", typeGuid, id);
+      IEntity entity = null;
+      if (!cache.TryGetValue(key, out entity))
       {
-        return session.GetAll(entityType).FirstOrDefault(ent => ent.Id == id);
+        entity = GetEntitiesByTypeGuid(typeGuid).FirstOrDefault(ent => ent.Id == id);
+        cache.Add(key, entity);
       }
+      
+      return entity;
     }
     
     /// <summary>

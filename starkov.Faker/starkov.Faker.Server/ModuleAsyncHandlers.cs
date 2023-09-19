@@ -46,6 +46,7 @@ namespace starkov.Faker.Server
       if (isNeedCreateVersion)
         documentVersion = Functions.ModuleSetup.GetDocumentWithVersion()?.LastVersion;
       
+      var cache = new Dictionary<string, IEntity>();
       for (var i = 0; i < args.Count; i++)
       {
         try
@@ -73,7 +74,7 @@ namespace starkov.Faker.Server
               if (property == null)
                 continue;
               
-              var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow, propertiesStructure);
+              var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow, propertiesStructure, cache);
               if (Functions.Module.CompareObjectWithType(propertyValue, typeof(string)) && parametersRow.StringPropLength.HasValue)
               {
                 var str = propertyValue.ToString();
