@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -22,12 +22,17 @@ namespace starkov.Faker
         throw new AppliedCodeException(starkov.Faker.ModuleSetups.Resources.ErrorNegativeValue);
     }
 
-    public virtual void IsShowAllLoginNamesValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
+    public virtual void IsSeparateAsyncValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
     {
       Functions.ModuleSetup.SetProperties(_obj);
     }
 
     public virtual void IsAttachAllEntitiesValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
+    {
+      Functions.ModuleSetup.SetProperties(_obj);
+    }
+
+    public virtual void IsShowAllLoginNamesValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
     {
       Functions.ModuleSetup.SetProperties(_obj);
     }
