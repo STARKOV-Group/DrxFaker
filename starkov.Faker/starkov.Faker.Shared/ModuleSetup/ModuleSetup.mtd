@@ -135,6 +135,43 @@
           "RowNumber": 0,
           "RowSpan": 1,
           "Settings": []
+        },
+        {
+          "$type": "Sungero.Metadata.ControlGroupMetadata, Sungero.Metadata",
+          "NameGuid": "f38860a7-1084-4117-ae8a-17fe08d3b34c",
+          "Name": "AsyncSettingsGroup",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "GroupType": "GroupBox",
+          "ParentGuid": "1ca898ce-efd7-4ac2-b27c-247c67cd5b88",
+          "RowNumber": 2,
+          "RowSpan": 1
+        },
+        {
+          "$type": "Sungero.Metadata.ControlMetadata, Sungero.Metadata",
+          "NameGuid": "7cc3d415-f4b4-4403-b017-06781775aeaf",
+          "Name": "IsSeparateAsync",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
+          "ParentGuid": "f38860a7-1084-4117-ae8a-17fe08d3b34c",
+          "PropertyGuid": "31126646-2869-41ab-978b-32747049dcea",
+          "RowNumber": 0,
+          "RowSpan": 1,
+          "Settings": []
+        },
+        {
+          "$type": "Sungero.Metadata.ControlMetadata, Sungero.Metadata",
+          "NameGuid": "6a6ffb0e-5c5e-4df0-b932-ecc56b955827",
+          "Name": "AsyncEntitiesNumber",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.NumericEditorToIntAndDoubleBinder",
+          "ParentGuid": "f38860a7-1084-4117-ae8a-17fe08d3b34c",
+          "PropertyGuid": "9cd40e63-e5ef-4055-9691-0429a35a4284",
+          "RowNumber": 1,
+          "RowSpan": 1,
+          "Settings": []
         }
       ]
     }
@@ -221,6 +258,25 @@
       ],
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.DropDownEditorToNavigationBinder",
       "PreviousPropertyGuid": "5155d03f-f62f-48d9-9a1f-299cfd4bd902"
+    },
+    {
+      "$type": "Sungero.Metadata.BooleanPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "31126646-2869-41ab-978b-32747049dcea",
+      "Name": "IsSeparateAsync",
+      "Code": "IsSeparateAsyn",
+      "HandledEvents": [
+        "ValueInputClient"
+      ],
+      "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
+      "PreviousPropertyGuid": "91becd40-26e3-4c08-9093-5e9eb051ba0f"
+    },
+    {
+      "$type": "Sungero.Metadata.IntegerPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "9cd40e63-e5ef-4055-9691-0429a35a4284",
+      "Name": "AsyncEntitiesNumber",
+      "Code": "AsyncEntitiesN",
+      "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.NumericEditorToIntAndDoubleBinder",
+      "PreviousPropertyGuid": "31126646-2869-41ab-978b-32747049dcea"
     }
   ],
   "PublicStructures": [],

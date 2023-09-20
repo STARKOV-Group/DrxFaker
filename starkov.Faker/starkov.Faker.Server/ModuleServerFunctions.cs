@@ -561,10 +561,21 @@ namespace starkov.Faker.Server
     [Remote]
     public virtual void CreateAsyncForGenerateEntities(int count, int databookId)
     {
-      var asyncHandler = Faker.AsyncHandlers.EntitiesGeneration.Create();
-      asyncHandler.Count = count;
-      asyncHandler.DatabookId = databookId;
-      asyncHandler.ExecuteAsync(starkov.Faker.Resources.AsyncEndWorkMessage);
+      var setup = Functions.ModuleSetup.GetModuleSetup();
+      var loopMax = setup.IsSeparateAsync.GetValueOrDefault() ? setup.AsyncEntitiesNumber.GetValueOrDefault(500) : count;
+      for (var i = 0; i <= count/loopMax; i++)
+      {
+        var loopCount = loopMax;
+        if (count - loopMax * (i + 1) < 0)
+          loopCount = count - loopMax * i;
+        if (loopCount <= 0)
+          break;
+        
+        var asyncHandler = Faker.AsyncHandlers.EntitiesGeneration.Create();
+        asyncHandler.Count = loopCount;
+        asyncHandler.DatabookId = databookId;
+        asyncHandler.ExecuteAsync(starkov.Faker.Resources.AsyncEndWorkMessage);
+      }
     }
     
     /// <summary>

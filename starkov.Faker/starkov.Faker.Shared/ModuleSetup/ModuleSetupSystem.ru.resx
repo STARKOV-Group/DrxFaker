@@ -91,4 +91,13 @@
   <data name="ControlGroup_f33d8b5de191445d90dbdd77df440c46" xml:space="preserve">
     <value>Настройка генерации документов</value>
   </data>
+  <data name="Property_IsSeparateAsync" xml:space="preserve">
+    <value>Разделять генерацию данных на множество асинхронных обработчиков</value>
+  </data>
+  <data name="ControlGroup_f38860a710844117ae8a17fe08d3b34c" xml:space="preserve">
+    <value>Настройка асинхронных обработчиков</value>
+  </data>
+  <data name="Property_AsyncEntitiesNumber" xml:space="preserve">
+    <value>Количество сущностей, создаваемых в асинхронном обработчике</value>
+  </data>
 </root>
