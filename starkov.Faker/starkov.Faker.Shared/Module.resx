@@ -71,7 +71,7 @@
     <value>Entity generation process started successfully</value>
   </data>
   <data name="AsyncEndWorkMessage" xml:space="preserve">
-    <value>The entity generation process has completed its work.
+    <value>The process of generating {0} entities has completed its work.
 More details are sent in the notification.</value>
   </data>
   <data name="LocalizedPassword" xml:space="preserve">
@@ -117,5 +117,8 @@ First entry ID: {0}</value>
     <value>Error while cast object in {0}. 
 Error: {1}. 
 StackTrace: {2}</value>
+  </data>
+  <data name="AsyncEndWorkSimpleMessage" xml:space="preserve">
+    <value>The process of generating {0} entities has completed its work.</value>
   </data>
 </root>

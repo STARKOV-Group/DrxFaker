@@ -83,7 +83,7 @@
     <value>Attach all entities</value>
   </data>
   <data name="ControlGroup_7d8700e5c92049b1a47a3e9031a7bab2" xml:space="preserve">
-    <value>Configuring attachments in notification to administrator</value>
+    <value>Setting up notifications for administrators</value>
   </data>
   <data name="Property_DocumentWithVersion" xml:space="preserve">
     <value>The document used to generate document versions</value>
@@ -99,5 +99,8 @@
   </data>
   <data name="Property_AsyncEntitiesNumber" xml:space="preserve">
     <value>Number of entities created in the asynchronous handler</value>
+  </data>
+  <data name="Property_IsDisableNotifications" xml:space="preserve">
+    <value>Disable notifications</value>
   </data>
 </root>
