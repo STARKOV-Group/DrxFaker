@@ -33,6 +33,7 @@ namespace starkov.Faker.Server
       var stopWatch = new Stopwatch();
       stopWatch.Start();
       
+      var isDisableNotify = Functions.ModuleSetup.GetModuleSetup()?.IsDisableNotifications.GetValueOrDefault() ?? false;
       var attachments = new List<IEntity>();
       var loginNames = new List<string>();
       var errors = new List<string>();
@@ -125,7 +126,7 @@ namespace starkov.Faker.Server
           try
           {
             entity.Save();
-            if (attachments.Count < maxAttachmentsNumber)
+            if (!isDisableNotify && attachments.Count < maxAttachmentsNumber)
               attachments.Add(entity);
             
             createdEntityCount++;
@@ -156,17 +157,18 @@ namespace starkov.Faker.Server
                                       ts.Milliseconds / 10);
       
       #region Отправка уведомления администраторам
-      SendNoticeToAdministrators(databook,
-                                 createdEntityCount,
-                                 args.Count,
-                                 firstEntityId,
-                                 elapsedTime,
-                                 loginNames,
-                                 errors,
-                                 attachments);
+      if (!isDisableNotify)
+        SendNoticeToAdministrators(databook,
+                                   createdEntityCount,
+                                   args.Count,
+                                   firstEntityId,
+                                   elapsedTime,
+                                   loginNames,
+                                   errors,
+                                   attachments);
       #endregion
       
-      Logger.DebugFormat("End async handler EntitiesGeneration");
+      Logger.DebugFormat("End async handler EntitiesGeneration by databook with id {0}. Count of created entity {1}, elapsed time {2}", databook.Id, createdEntityCount, elapsedTime);
     }
     
     /// <summary>

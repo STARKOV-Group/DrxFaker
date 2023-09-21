@@ -191,7 +191,8 @@
     "ModuleSetupsDatabookName",
     "ErrorNotCreatedSetupDatabook",
     "DocumentWithVersionName",
-    "ErrorDuringCast"
+    "ErrorDuringCast",
+    "AsyncEndWorkSimpleMessage"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",

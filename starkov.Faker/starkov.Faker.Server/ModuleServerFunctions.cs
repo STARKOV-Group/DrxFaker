@@ -574,7 +574,9 @@ namespace starkov.Faker.Server
         var asyncHandler = Faker.AsyncHandlers.EntitiesGeneration.Create();
         asyncHandler.Count = loopCount;
         asyncHandler.DatabookId = databookId;
-        asyncHandler.ExecuteAsync(starkov.Faker.Resources.AsyncEndWorkMessage);
+        asyncHandler.ExecuteAsync(setup.IsDisableNotifications.GetValueOrDefault() ?
+                                  starkov.Faker.Resources.AsyncEndWorkSimpleMessageFormat(loopCount) :
+                                  starkov.Faker.Resources.AsyncEndWorkMessageFormat(loopCount));
       }
     }
     

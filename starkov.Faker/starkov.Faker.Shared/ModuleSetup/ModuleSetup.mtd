@@ -44,7 +44,7 @@
         {
           "$type": "Sungero.Metadata.ControlGroupMetadata, Sungero.Metadata",
           "NameGuid": "7d8700e5-c920-49b1-a47a-3e9031a7bab2",
-          "Name": "AttachmentInfoGroup",
+          "Name": "NotificationGroup",
           "ColumnDefinitions": [
             {
               "Percentage": 50.0
@@ -69,7 +69,7 @@
           "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.NumericEditorToIntAndDoubleBinder",
           "ParentGuid": "7d8700e5-c920-49b1-a47a-3e9031a7bab2",
           "PropertyGuid": "a05c0c89-a920-4cae-b12e-bdda956186d6",
-          "RowNumber": 0,
+          "RowNumber": 1,
           "RowSpan": 1,
           "Settings": []
         },
@@ -82,7 +82,7 @@
           "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
           "ParentGuid": "7d8700e5-c920-49b1-a47a-3e9031a7bab2",
           "PropertyGuid": "5155d03f-f62f-48d9-9a1f-299cfd4bd902",
-          "RowNumber": 0,
+          "RowNumber": 1,
           "RowSpan": 1,
           "Settings": []
         },
@@ -95,7 +95,7 @@
           "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
           "ParentGuid": "7d8700e5-c920-49b1-a47a-3e9031a7bab2",
           "PropertyGuid": "9e8a0c84-36e7-4320-80b2-2912b44e7210",
-          "RowNumber": 1,
+          "RowNumber": 2,
           "RowSpan": 1,
           "Settings": []
         },
@@ -108,7 +108,7 @@
           "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.NumericEditorToIntAndDoubleBinder",
           "ParentGuid": "7d8700e5-c920-49b1-a47a-3e9031a7bab2",
           "PropertyGuid": "39c6098d-25c9-47f6-b8f7-0db65661004d",
-          "RowNumber": 1,
+          "RowNumber": 2,
           "RowSpan": 1,
           "Settings": []
         },
@@ -170,6 +170,19 @@
           "ParentGuid": "f38860a7-1084-4117-ae8a-17fe08d3b34c",
           "PropertyGuid": "9cd40e63-e5ef-4055-9691-0429a35a4284",
           "RowNumber": 1,
+          "RowSpan": 1,
+          "Settings": []
+        },
+        {
+          "$type": "Sungero.Metadata.ControlMetadata, Sungero.Metadata",
+          "NameGuid": "52756c1b-9988-4cd1-870f-c27833781979",
+          "Name": "IsDisableNotifications",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
+          "ParentGuid": "7d8700e5-c920-49b1-a47a-3e9031a7bab2",
+          "PropertyGuid": "dc0eeb89-121c-49f2-b66a-d0e8846f4341",
+          "RowNumber": 0,
           "RowSpan": 1,
           "Settings": []
         }
@@ -277,6 +290,17 @@
       "Code": "AsyncEntitiesN",
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.NumericEditorToIntAndDoubleBinder",
       "PreviousPropertyGuid": "31126646-2869-41ab-978b-32747049dcea"
+    },
+    {
+      "$type": "Sungero.Metadata.BooleanPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "dc0eeb89-121c-49f2-b66a-d0e8846f4341",
+      "Name": "IsDisableNotifications",
+      "Code": "IsDisableNotif",
+      "HandledEvents": [
+        "ValueInputClient"
+      ],
+      "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
+      "PreviousPropertyGuid": "9cd40e63-e5ef-4055-9691-0429a35a4284"
     }
   ],
   "PublicStructures": [],

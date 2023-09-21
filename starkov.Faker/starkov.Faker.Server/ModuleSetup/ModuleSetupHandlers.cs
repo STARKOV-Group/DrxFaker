@@ -24,6 +24,7 @@ namespace starkov.Faker
       _obj.IsShowAllLoginNames = false;
       _obj.IsAttachAllEntities = false;
       _obj.IsSeparateAsync = false;
+      _obj.IsDisableNotifications = false;
     }
   }
 

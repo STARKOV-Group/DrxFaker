@@ -15,13 +15,17 @@ namespace starkov.Faker.Shared
     /// </summary>
     public virtual void SetProperties()
     {
-      _obj.State.Properties.AttachmentsNumber.IsRequired = !_obj.IsAttachAllEntities.GetValueOrDefault();
-      _obj.State.Properties.AttachmentsNumber.IsEnabled = !_obj.IsAttachAllEntities.GetValueOrDefault();
-      _obj.State.Properties.LoginNamesNumber.IsRequired = !_obj.IsShowAllLoginNames.GetValueOrDefault();
-      _obj.State.Properties.LoginNamesNumber.IsEnabled = !_obj.IsShowAllLoginNames.GetValueOrDefault();
-      _obj.State.Properties.AsyncEntitiesNumber.IsEnabled = _obj.IsSeparateAsync.GetValueOrDefault();
+      var isAllowNotify = !_obj.IsDisableNotifications.GetValueOrDefault();
       
+      _obj.State.Properties.AttachmentsNumber.IsRequired = !_obj.IsAttachAllEntities.GetValueOrDefault() && isAllowNotify;
+      _obj.State.Properties.LoginNamesNumber.IsRequired = !_obj.IsShowAllLoginNames.GetValueOrDefault() && isAllowNotify;
       _obj.State.Properties.DocumentWithVersion.IsRequired = true;
+      
+      _obj.State.Properties.AttachmentsNumber.IsEnabled = !_obj.IsAttachAllEntities.GetValueOrDefault() && isAllowNotify;
+      _obj.State.Properties.LoginNamesNumber.IsEnabled = !_obj.IsShowAllLoginNames.GetValueOrDefault() && isAllowNotify;
+      _obj.State.Properties.IsShowAllLoginNames.IsEnabled = isAllowNotify;
+      _obj.State.Properties.IsAttachAllEntities.IsEnabled = isAllowNotify;
+      _obj.State.Properties.AsyncEntitiesNumber.IsEnabled = _obj.IsSeparateAsync.GetValueOrDefault();
     }
   }
 }

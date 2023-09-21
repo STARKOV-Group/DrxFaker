@@ -22,6 +22,11 @@ namespace starkov.Faker
         throw new AppliedCodeException(starkov.Faker.ModuleSetups.Resources.ErrorNegativeValue);
     }
 
+    public virtual void IsDisableNotificationsValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
+    {
+      Functions.ModuleSetup.SetProperties(_obj);
+    }
+
     public virtual void IsSeparateAsyncValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
     {
       Functions.ModuleSetup.SetProperties(_obj);
