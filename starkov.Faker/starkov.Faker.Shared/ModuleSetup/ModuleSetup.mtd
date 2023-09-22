@@ -288,6 +288,9 @@
       "NameGuid": "9cd40e63-e5ef-4055-9691-0429a35a4284",
       "Name": "AsyncEntitiesNumber",
       "Code": "AsyncEntitiesN",
+      "HandledEvents": [
+        "ValueInputClient"
+      ],
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.NumericEditorToIntAndDoubleBinder",
       "PreviousPropertyGuid": "31126646-2869-41ab-978b-32747049dcea"
     },

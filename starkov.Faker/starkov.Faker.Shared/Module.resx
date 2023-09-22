@@ -121,4 +121,7 @@ StackTrace: {2}</value>
   <data name="AsyncEndWorkSimpleMessage" xml:space="preserve">
     <value>The process of generating {0} entities has completed its work.</value>
   </data>
+  <data name="ErrorNegativeNumber" xml:space="preserve">
+    <value>The entered number must be greater than 0</value>
+  </data>
 </root>

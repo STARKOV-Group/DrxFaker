@@ -121,4 +121,7 @@ StackTrace: {2}</value>
   <data name="AsyncEndWorkSimpleMessage" xml:space="preserve">
     <value>Процесс по генерации {0} сущностей завершил свою работу.</value>
   </data>
+  <data name="ErrorNegativeNumber" xml:space="preserve">
+    <value>Введенное число должно быть больше 0</value>
+  </data>
 </root>
