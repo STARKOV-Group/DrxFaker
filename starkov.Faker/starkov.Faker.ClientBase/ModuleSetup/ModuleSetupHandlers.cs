@@ -10,6 +10,12 @@ namespace starkov.Faker
   partial class ModuleSetupClientHandlers
   {
 
+    public virtual void AsyncEntitiesNumberValueInput(Sungero.Presentation.IntegerValueInputEventArgs e)
+    {
+      if (e.NewValue.HasValue && e.NewValue.Value <= 0)
+        e.AddError(Faker.Resources.ErrorNegativeNumber);
+    }
+
     public virtual void LoginNamesNumberValueInput(Sungero.Presentation.IntegerValueInputEventArgs e)
     {
       if (e.NewValue.GetValueOrDefault() < 0)

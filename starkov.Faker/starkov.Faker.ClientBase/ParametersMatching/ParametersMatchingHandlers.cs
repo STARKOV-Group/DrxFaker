@@ -64,6 +64,11 @@ namespace starkov.Faker
       prop.DatabookType.IsVisible = isDataBook;
       prop.IsNeedCreateVersion.IsVisible = isDocument;
       prop.Name.IsEnabled = _obj.DatabookType != null || _obj.DocumentType != null;
+      
+      //Столбцы коллекций
+      prop.Parameters.Properties.ChosenValue.IsVisible = _obj.Parameters.Any(r => !string.IsNullOrEmpty(r.ChosenValue));
+      prop.Parameters.Properties.ValueFrom.IsVisible = _obj.Parameters.Any(r => !string.IsNullOrEmpty(r.ValueFrom));
+      prop.Parameters.Properties.ValueTo.IsVisible = _obj.Parameters.Any(r => !string.IsNullOrEmpty(r.ValueTo));
     }
     
     /// <summary>
