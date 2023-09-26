@@ -313,10 +313,10 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить значение свойства по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="parameterRow">Структура с параметрами.</param>
     /// <param name="propertiesInfo">Список с информацией о свойствах.</param>
     /// <returns>Значение свойства.</returns>
-    public virtual object GetPropertyValueByParameters(IParametersMatchingParameters parameterRow,
+    public virtual object GetPropertyValueByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow,
                                                        List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
     {
       return GetPropertyValueByParameters(parameterRow, propertiesInfo, new Dictionary<string, IEntity>());
@@ -325,11 +325,11 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить значение свойства по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="parameterRow">Структура с параметрами.</param>
     /// <param name="propertiesInfo">Список с информацией о свойствах.</param>
     /// <param name="cache">Кэш.</param>
     /// <returns>Значение свойства.</returns>
-    public virtual object GetPropertyValueByParameters(IParametersMatchingParameters parameterRow,
+    public virtual object GetPropertyValueByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow,
                                                        List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo,
                                                        System.Collections.Generic.Dictionary<string, IEntity> cache)
     {
@@ -356,9 +356,9 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить дату по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="parameterRow">Структура с параметрами.</param>
     /// <returns>Дата.</returns>
-    public virtual DateTime GetDateByParameters(IParametersMatchingParameters parameterRow)
+    public virtual DateTime GetDateByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow)
     {
       DateTime date = Calendar.Today;
       
@@ -374,9 +374,9 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить логическое значение по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="parameterRow">Структура с параметрами.</param>
     /// <returns>Логическое значение.</returns>
-    public virtual bool GetBoolByParameters(IParametersMatchingParameters parameterRow)
+    public virtual bool GetBoolByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow)
     {
       bool logic = false;
       
@@ -392,9 +392,9 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить число по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="parameterRow">Структура с параметрами.</param>
     /// <returns>Число.</returns>
-    public virtual int GetIntByParameters(IParametersMatchingParameters parameterRow)
+    public virtual int GetIntByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow)
     {
       int num = 0;
       
@@ -412,9 +412,9 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить строку по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="parameterRow">Структура с параметрами.</param>
     /// <returns>Строка.</returns>
-    public virtual string GetStringByParameters(IParametersMatchingParameters parameterRow)
+    public virtual string GetStringByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow)
     {
       var str = string.Empty;
       
@@ -457,12 +457,12 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить перечисление по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="parameterRow">Структура с параметрами.</param>
     /// <returns>Перечисление.</returns>
-    public virtual Enumeration? GetEnumByParameters(IParametersMatchingParameters parameterRow, List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
+    public virtual Enumeration? GetEnumByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow, List<starkov.Faker.Structures.Module.PropertyInfo> propertiesInfo)
     {
       Enumeration? newEnum = null;
-      var enumValues = propertiesInfo.FirstOrDefault(i => i.Name == parameterRow.PropertyName).EnumCollection;
+      var enumValues = propertiesInfo.FirstOrDefault(i => i.Name == parameterRow.Name).EnumCollection;
       
       if (parameterRow.FillOption == Constants.Module.FillOptions.Common.FixedValue)
         newEnum = new Enumeration(enumValues.Where(i => i.LocalizedName == parameterRow.ChosenValue).Select(i => i.Name).FirstOrDefault());
@@ -475,10 +475,10 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Получить сущность по параметрам.
     /// </summary>
-    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="parameterRow">Структура с параметрами.</param>
     /// <param name="cache">Кэш.</param>
     /// <returns>Сущность.</returns>
-    public virtual IEntity GetEntityByParameters(IParametersMatchingParameters parameterRow, System.Collections.Generic.Dictionary<string, IEntity> cache)
+    public virtual IEntity GetEntityByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow, System.Collections.Generic.Dictionary<string, IEntity> cache)
     {
       int num;
       IEntity entity = null;
@@ -500,7 +500,7 @@ namespace starkov.Faker.Server
       }
       else if (parameterRow.FillOption == Constants.Module.FillOptions.Common.RandomValue)
       {
-        if (parameterRow.PropertyName == "Login" &&
+        if (parameterRow.Name == "Login" &&
             !string.IsNullOrEmpty(databook.DatabookType?.DatabookTypeGuid) &&
             Equals(TypeExtension.GetTypeByGuid(Guid.Parse(databook.DatabookType.DatabookTypeGuid)), typeof(Sungero.Company.IEmployee)))
           entity = PickRandomLogin();
@@ -580,6 +580,40 @@ namespace starkov.Faker.Server
       }
     }
     
+    #endregion
+    
+    #region Получение информации о свойствах
+    
+    /// <summary>
+    /// Получить список с информацией о колекциях типа сущности.
+    /// </summary>
+    /// <param name="guid">Guid типа сущности.</param>
+    /// <returns>Список с информацией о колекциях типа сущности.</returns>
+    [Remote]
+    public virtual List<Structures.Module.CollectionInfo> GetCollectionPropertiesType(string guid)
+    {
+      var collectionList = new List<Structures.Module.CollectionInfo>();
+      
+      var typeGuid = Guid.Parse(guid);
+      var type = TypeExtension.GetTypeByGuid(typeGuid);
+      if (type == null)
+        return collectionList;
+      
+      var typeMetadata = type.GetFinalType().GetEntityMetadata();
+      var excludeProperties = Functions.Module.GetExcludeProperties();
+      var properties = typeMetadata.Properties.Where(m => !excludeProperties.Contains(m.Name))
+        .Where(m => Equals(m.PropertyType, Sungero.Metadata.PropertyType.Collection));
+      
+      foreach (var propertyMetadata in properties)
+      {
+        collectionList.Add(Structures.Module.CollectionInfo.Create(propertyMetadata.Name,
+                                                                   propertyMetadata.GetLocalizedName().ToString(),
+                                                                   GetPropertiesType(guid, propertyMetadata.Name)));
+      }
+      
+      return collectionList;
+    }
+    
     /// <summary>
     /// Получить список с информацией о реквизитах типа сущности.
     /// </summary>
@@ -587,6 +621,18 @@ namespace starkov.Faker.Server
     /// <returns>Список с информацией о реквизитах типа сущности.</returns>
     [Remote]
     public virtual List<Structures.Module.PropertyInfo> GetPropertiesType(string guid)
+    {
+      return GetPropertiesType(guid, string.Empty);
+    }
+    
+    /// <summary>
+    /// Получить список с информацией о реквизитах типа сущности.
+    /// </summary>
+    /// <param name="guid">Guid типа сущности.</param>
+    /// <param name="collectionName">Наименование коллекции.</param>
+    /// <returns>Список с информацией о реквизитах типа сущности.</returns>
+    [Remote]
+    public virtual List<Structures.Module.PropertyInfo> GetPropertiesType(string guid, string collectionName)
     {
       var propertiesList = new List<Structures.Module.PropertyInfo>();
       
@@ -596,16 +642,27 @@ namespace starkov.Faker.Server
         return propertiesList;
       
       var typeMetadata = type.GetFinalType().GetEntityMetadata();
-      IEntity entity = null;
-      AccessRights.AllowRead(() =>
-                             {
-                               entity = CreateEntityByTypeGuid(typeMetadata.NameGuid.ToString());
-                             });
       
+      var properties = Enumerable.Empty<Sungero.Metadata.PropertyMetadata>();
       var excludeProperties = Functions.Module.GetExcludeProperties();
       var excludePropertyTypes = Functions.Module.GetExcludePropertyTypes();
-      var properties = typeMetadata.Properties.Where(m => !excludeProperties.Contains(m.Name))
-        .Where(m => !excludePropertyTypes.Contains(m.PropertyType));
+      if (string.IsNullOrEmpty(collectionName))
+      {
+        properties = typeMetadata.Properties.Where(m => !excludeProperties.Contains(m.Name))
+          .Where(m => !excludePropertyTypes.Contains(m.PropertyType));
+      }
+      else
+      {
+        properties = typeMetadata.Properties.Where(m => m.Name == collectionName)
+          .Cast<Sungero.Metadata.CollectionPropertyMetadata>()
+          .FirstOrDefault()
+          .InterfaceMetadata
+          .Properties
+          .Where(m => !excludeProperties.Contains(m.Name))
+          .Where(m => !excludePropertyTypes.Contains(m.PropertyType))
+          .Where(m => !Functions.Module.CompareObjectWithType(m, typeof(Sungero.Metadata.NavigationPropertyMetadata)) ||
+                 !Functions.Module.CastToNavigationPropertyMetadata(m).IsReferenceToRootEntity);
+      }
       
       //Учетные записи
       if (guid == Constants.Module.Guids.Login.ToString())
@@ -622,14 +679,30 @@ namespace starkov.Faker.Server
                                                                  null));
       }
       
+      var isAnyEnum = properties.Any(m => Functions.Module.CompareObjectWithType(m, typeof(Sungero.Metadata.EnumPropertyMetadata)));
+      IEntity entity = null;
+      if (isAnyEnum)
+      {
+        AccessRights.AllowRead(() => {
+                                 entity = CreateEntityByTypeGuid(typeMetadata.NameGuid.ToString());
+                               });
+      }
+      
       foreach (var propertyMetadata in properties)
       {
         #region Получение локализованных значений перечислений
         
         var enumInfo = new List<Structures.Module.EnumerationInfo>();
-        if (Functions.Module.CompareObjectWithType(propertyMetadata, typeof(Sungero.Metadata.EnumPropertyMetadata)))
+        if (isAnyEnum && Functions.Module.CompareObjectWithType(propertyMetadata, typeof(Sungero.Metadata.EnumPropertyMetadata)))
         {
-          var infoProperties = entity.Info.Properties;
+          var entityPropInfo = entity.Info.Properties;
+          object infoProperties = entityPropInfo;
+          if (!string.IsNullOrEmpty(collectionName))
+          {
+            var collectionInfo = entityPropInfo.GetType().GetProperties().FirstOrDefault(p => p.Name == collectionName).GetValue(entityPropInfo);
+            infoProperties = collectionInfo.GetType().GetProperty("Properties").GetValue(collectionInfo);
+          }
+          
           var propertyEnumeration = infoProperties.GetType().GetProperty(propertyMetadata.Name);
           if (propertyEnumeration != null)
           {
@@ -658,9 +731,12 @@ namespace starkov.Faker.Server
                                                                  strLength));
       }
       
-      using (var session = new Sungero.Domain.Session())
+      if (entity != null)
       {
-        session.Delete(entity);
+        using (var session = new Sungero.Domain.Session())
+        {
+          session.Delete(entity);
+        }
       }
       
       return propertiesList;

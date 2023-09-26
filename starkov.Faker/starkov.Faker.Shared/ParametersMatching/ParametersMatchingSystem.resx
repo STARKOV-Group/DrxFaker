@@ -151,4 +151,52 @@
   <data name="Action_ChangeSelectedDataInParameters" xml:space="preserve">
     <value>Change selected entry</value>
   </data>
+  <data name="Property_CollectionParameters" xml:space="preserve">
+    <value>Collection parameters</value>
+  </data>
+  <data name="Action_AddDataInCollectionParameters" xml:space="preserve">
+    <value>Add data</value>
+  </data>
+  <data name="Action_AddDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Add collection details</value>
+  </data>
+  <data name="Action_AddDataInCollectionParametersHint" xml:space="preserve">
+    <value>Add collection details</value>
+  </data>
+  <data name="Action_AddDataInCollectionParametersConfirmationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_AddDataInCollectionParametersConfirmationDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParameters" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParametersHint" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParametersConfirmationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParametersConfirmationDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_DeleteDataInCollectionParameters" xml:space="preserve">
+    <value>Delete collection data</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Delete collection data</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersHint" xml:space="preserve">
+    <value>Delete collection data</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete all data associated with the selected collection?</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersConfirmationDescription" xml:space="preserve">
+    <value />
+  </data>
 </root>
