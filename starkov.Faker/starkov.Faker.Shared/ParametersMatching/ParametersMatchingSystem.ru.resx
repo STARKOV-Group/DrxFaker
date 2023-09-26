@@ -133,4 +133,37 @@
   <data name="Action_ChangeSelectedDataInParametersDescription" xml:space="preserve">
     <value>Изменить выделенную запись</value>
   </data>
+  <data name="Property_CollectionParameters" xml:space="preserve">
+    <value>Параметры коллекции</value>
+  </data>
+  <data name="Action_AddDataInCollectionParameters" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInCollectionParametersHint" xml:space="preserve">
+    <value>Добавить данные о коллекции</value>
+  </data>
+  <data name="Action_AddDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Добавить данные о коллекции</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParameters" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParametersHint" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParameters" xml:space="preserve">
+    <value>Удалить данные о коллекции</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersHint" xml:space="preserve">
+    <value>Удалить данные о коллекции</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Удалить данные о коллекции</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersConfirmationMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить все данные связанные с выбранной коллекцией?</value>
+  </data>
 </root>

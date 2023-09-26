@@ -32,6 +32,54 @@ namespace starkov.Faker.Shared
     #region Приведение типов метаданных
     
     /// <summary>
+    /// Приведение объекта к типу IEntity.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом IEntity, либо null при ошибке во время приведения к типу.</returns>
+    public static Sungero.Domain.Shared.IEntity CastToEntity(object castEntity)
+    {
+      IEntity val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IEntity)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IEntity", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
+    /// Приведение объекта к типу IChildEntityCollection<IChildEntity>.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом IChildEntityCollection<IChildEntity>, либо null при ошибке во время приведения к типу.</returns>
+    public static Sungero.Domain.Shared.IChildEntityCollection<IChildEntity> CastToChildEntityCollection(object castEntity)
+    {
+      IChildEntityCollection<IChildEntity> val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (IChildEntityCollection<IChildEntity>)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("IChildEntityCollection<IChildEntity>", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
     /// Приведение объекта к типу EnumPropertyInfo.
     /// </summary>
     /// <param name="castEntity">Объект для приведения.</param>
@@ -442,7 +490,9 @@ namespace starkov.Faker.Shared
         "HasVersions",
         "LastVersionSignatureType",
         "HasPublicBody",
-        "Storage"
+        "Storage",
+        "Versions",
+        "Parameters"
       };
     }
     
