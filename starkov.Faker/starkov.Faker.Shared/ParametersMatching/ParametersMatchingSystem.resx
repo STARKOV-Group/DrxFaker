@@ -118,21 +118,6 @@
   <data name="Action_AddDataInParametersConfirmationDescription" xml:space="preserve">
     <value />
   </data>
-  <data name="Action_ChangeDataInParametersConfirmationDescription" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Action_ChangeDataInParametersHint" xml:space="preserve">
-    <value>Change data</value>
-  </data>
-  <data name="Action_ChangeDataInParametersConfirmationMessage" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Action_ChangeDataInParametersDescription" xml:space="preserve">
-    <value>Change data</value>
-  </data>
-  <data name="Action_ChangeDataInParameters" xml:space="preserve">
-    <value>Change data</value>
-  </data>
   <data name="Property_IsNeedCreateVersion" xml:space="preserve">
     <value>Create version</value>
   </data>

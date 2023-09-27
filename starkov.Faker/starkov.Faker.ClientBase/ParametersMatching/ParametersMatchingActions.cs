@@ -82,19 +82,5 @@ namespace starkov.Faker.Client
       Functions.ParametersMatching.ShowDialogForSelectParameters(obj, null);
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
-
-    public static bool CanChangeDataInParameters(Sungero.Domain.Client.CanExecuteChildCollectionActionArgs e)
-    {
-      return true;
-    }
-
-    public static void ChangeDataInParameters(Sungero.Domain.Client.ExecuteChildCollectionActionArgs e)
-    {
-      var obj = ParametersMatchings.As(e.RootEntity);
-      if (obj.DatabookType == null && obj.DocumentType == null)
-        throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.ErrorToChangeDataFillEntityType);
-      
-      Functions.ParametersMatching.ShowDialogForSelectParameters(obj, null, false, true);
-    }
   }
 }
