@@ -85,14 +85,9 @@ namespace starkov.Faker.Client
                             var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyCollectionField.Value).Properties.FirstOrDefault(p => p.Name == propertyNameField.Value);
                             var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
                             
-                            if (customType == Constants.Module.CustomType.Date &&
-                                Functions.Module.CastToDateDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
-                                Functions.Module.CastToDateDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(Calendar.SqlMaxValue))
-                              arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo);
-                            else if (customType == Constants.Module.CustomType.Numeric &&
-                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
-                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(int.MaxValue))
-                              arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo);
+                            var error = ValidateControls(customType, personalValuesField);
+                            if (!string.IsNullOrEmpty(error))
+                              arg.AddError(error);
                           });
       
       propertyNameField.SetOnValueChanged((arg) =>
@@ -132,20 +127,11 @@ namespace starkov.Faker.Client
       
       isLocalizedCollectionValues.SetOnValueChanged((arg) =>
                                                     {
-                                                      if (arg.NewValue.GetValueOrDefault())
-                                                      {
-                                                        localizedCollectionField.IsRequired = true;
-                                                        localizedCollectionField.IsEnabled = true;
-                                                        propertyCollectionField.IsRequired = false;
-                                                        propertyCollectionField.IsEnabled = false;
-                                                      }
-                                                      else
-                                                      {
-                                                        propertyCollectionField.IsRequired = true;
-                                                        propertyCollectionField.IsEnabled = true;
-                                                        localizedCollectionField.IsRequired = false;
-                                                        localizedCollectionField.IsEnabled = false;
-                                                      }
+                                                      var isLocalazied = arg.NewValue.GetValueOrDefault();
+                                                      localizedCollectionField.IsRequired = isLocalazied;
+                                                      localizedCollectionField.IsEnabled = isLocalazied;
+                                                      propertyCollectionField.IsRequired = !isLocalazied;
+                                                      propertyCollectionField.IsEnabled = !isLocalazied;
                                                       
                                                       propertyCollectionField.Value = null;
                                                       localizedCollectionField.Value = null;
@@ -183,7 +169,7 @@ namespace starkov.Faker.Client
         if (!string.IsNullOrEmpty(parameterRow.FillOption))
         {
           parameterField.Value = parameterRow.FillOption;
-          FillDialogControlFromCollectionTable(parameterRow, ref personalValuesField);
+          FillDialogControlFromTable(parameterRow, ref personalValuesField);
         }
       }
       
@@ -257,26 +243,13 @@ namespace starkov.Faker.Client
     /// <param name="isFillValue">Признак заполнения значений.</param>
     public void ShowDialogForSelectParameters(long? rowId, bool isFillValue)
     {
-      ShowDialogForSelectParameters(rowId, isFillValue, false);
-    }
-
-    /// <summary>
-    /// Показ диалога для выбора данных.
-    /// </summary>
-    /// <param name="rowId">Номер строки.</param>
-    /// <param name="isFillValue">Признак заполнения значений.</param>
-    /// <param name="isChange">Признак изменения значения в коллекции.</param>
-    public void ShowDialogForSelectParameters(long? rowId, bool isFillValue, bool isChange)
-    {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
       #region Данные для диалога
       var parameterRow = _obj.Parameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());
       var selectedPropertyNames = _obj.Parameters.Select(p => p.PropertyName);
       var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
-        .Where(i => rowId.HasValue ?
-               parameterRow.PropertyName == i.Name :
-               isChange ? selectedPropertyNames.Contains(i.Name) : !selectedPropertyNames.Contains(i.Name));
+        .Where(i => rowId.HasValue ? parameterRow.PropertyName == i.Name : !selectedPropertyNames.Contains(i.Name));
       
       if (!propInfo.Any())
       {
@@ -314,14 +287,9 @@ namespace starkov.Faker.Client
                             var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyNameField.Value);
                             var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
                             
-                            if (customType == Constants.Module.CustomType.Date &&
-                                Functions.Module.CastToDateDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
-                                Functions.Module.CastToDateDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(Calendar.SqlMaxValue))
-                              arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo);
-                            else if (customType == Constants.Module.CustomType.Numeric &&
-                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
-                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(int.MaxValue))
-                              arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo);
+                            var error = ValidateControls(customType, personalValuesField);
+                            if (!string.IsNullOrEmpty(error))
+                              arg.AddError(error);
                           });
       
       propertyNameField.SetOnValueChanged((arg) =>
@@ -355,20 +323,11 @@ namespace starkov.Faker.Client
       
       isLocalizedValues.SetOnValueChanged((arg) =>
                                           {
-                                            if (arg.NewValue.GetValueOrDefault())
-                                            {
-                                              localizedValuesField.IsRequired = true;
-                                              localizedValuesField.IsEnabled = true;
-                                              propertyNameField.IsRequired = false;
-                                              propertyNameField.IsEnabled = false;
-                                            }
-                                            else
-                                            {
-                                              propertyNameField.IsRequired = true;
-                                              propertyNameField.IsEnabled = true;
-                                              localizedValuesField.IsRequired = false;
-                                              localizedValuesField.IsEnabled = false;
-                                            }
+                                            var isLocalazied = arg.NewValue.GetValueOrDefault();
+                                            localizedValuesField.IsRequired = isLocalazied;
+                                            localizedValuesField.IsEnabled = isLocalazied;
+                                            propertyNameField.IsRequired = !isLocalazied;
+                                            propertyNameField.IsEnabled = !isLocalazied;
                                             
                                             propertyNameField.Value = null;
                                             localizedValuesField.Value = null;
@@ -424,15 +383,13 @@ namespace starkov.Faker.Client
       {
         var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyNameField.Value);
         
-        var newRow = rowId.HasValue ? parameterRow :
-          isChange ? _obj.Parameters.FirstOrDefault(p => p.PropertyName == propertyNameField.Value) : _obj.Parameters.AddNew();
+        var newRow = rowId.HasValue ? parameterRow : _obj.Parameters.AddNew();
         newRow.PropertyName = selectedPropInfo.Name;
         newRow.LocalizedPropertyName = selectedPropInfo.LocalizedName;
         newRow.PropertyType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
         newRow.PropertyTypeGuid = selectedPropInfo.PropertyGuid;
         newRow.StringPropLength = selectedPropInfo.MaxStringLength;
         newRow.FillOption = parameterField.Value;
-        
         newRow.ChosenValue = null;
         newRow.ValueFrom = null;
         newRow.ValueTo = null;
@@ -467,6 +424,29 @@ namespace starkov.Faker.Client
     #endregion
 
     #region Работа с контролами диалога
+    
+    /// <summary>
+    /// Проверка контролов на валидность.
+    /// </summary>
+    /// <param name="customType">Обобщенный тип.</param>
+    /// <param name="personalValuesField">Список контролов.</param>
+    /// <returns>Если все корректно, то пустая строка, иначе строка с ошибками.</returns>
+    public virtual string ValidateControls(string customType, List<object> personalValuesField)
+    {
+      var error = string.Empty;
+      
+      if (customType == Constants.Module.CustomType.Date &&
+          Functions.Module.CastToDateDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
+          Functions.Module.CastToDateDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(Calendar.SqlMaxValue))
+        error = starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo;
+      
+      if (customType == Constants.Module.CustomType.Numeric &&
+          Functions.Module.CastToIntegerDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
+          Functions.Module.CastToIntegerDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(int.MaxValue))
+        error = starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo;
+      
+      return error;
+    }
     
     /// <summary>
     /// Проверка на необходимость выбора значения для варианта заполнения.
@@ -567,23 +547,21 @@ namespace starkov.Faker.Client
     }
     
     /// <summary>
-    /// Заполнить генерируемые контролы диалога значениями из таблицы.
+    /// Заполнить генерируемые контролы диалога значениями из таблицы параметров.
     /// </summary>
     /// <param name="parameterRow">Строка с параметрами.</param>
     /// <param name="controls">Контролы.</param>
     public virtual void FillDialogControlFromTable(Faker.IParametersMatchingParameters parameterRow, ref List<object> controls)
     {
-      if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
-      {
-        var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
-        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ChosenValue));
-      }
-      else if (!string.IsNullOrEmpty(parameterRow.ValueFrom) && !string.IsNullOrEmpty(parameterRow.ValueTo))
-      {
-        var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
-        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ValueFrom));
-        controls[1].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[1], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ValueTo));
-      }
+      var parameterStruct = Structures.Module.ParameterInfo.Create(parameterRow.ParametersMatching,
+                                                                   parameterRow.PropertyName,
+                                                                   parameterRow.PropertyTypeGuid,
+                                                                   parameterRow.PropertyType,
+                                                                   parameterRow.FillOption,
+                                                                   parameterRow.ChosenValue,
+                                                                   parameterRow.ValueFrom,
+                                                                   parameterRow.ValueTo);
+      FillDialogControlFromTable(parameterStruct, ref controls);
     }
     
     /// <summary>
@@ -591,7 +569,25 @@ namespace starkov.Faker.Client
     /// </summary>
     /// <param name="parameterRow">Строка с параметрами.</param>
     /// <param name="controls">Контролы.</param>
-    public virtual void FillDialogControlFromCollectionTable(Faker.IParametersMatchingCollectionParameters parameterRow, ref List<object> controls)
+    public virtual void FillDialogControlFromTable(Faker.IParametersMatchingCollectionParameters parameterRow, ref List<object> controls)
+    {
+      var parameterStruct = Structures.Module.ParameterInfo.Create(parameterRow.ParametersMatching,
+                                                                   parameterRow.PropertyName,
+                                                                   parameterRow.PropertyTypeGuid,
+                                                                   parameterRow.PropertyType,
+                                                                   parameterRow.FillOption,
+                                                                   parameterRow.ChosenValue,
+                                                                   parameterRow.ValueFrom,
+                                                                   parameterRow.ValueTo);
+      FillDialogControlFromTable(parameterStruct, ref controls);
+    }
+    
+    /// <summary>
+    /// Заполнить генерируемые контролы диалога значениями из структуры.
+    /// </summary>
+    /// <param name="parameterRow">Структура с параметрами.</param>
+    /// <param name="controls">Контролы.</param>
+    public virtual void FillDialogControlFromTable(Faker.Structures.Module.ParameterInfo parameterRow, ref List<object> controls)
     {
       if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
       {

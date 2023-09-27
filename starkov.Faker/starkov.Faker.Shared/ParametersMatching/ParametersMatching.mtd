@@ -14,16 +14,6 @@
       "SmallIconName": "Action_AddDataInParameters_small_d3b50b3558264fe3977700be7887b5e4.png"
     },
     {
-      "NameGuid": "ec46cff3-e4bf-49da-8d4b-170d45b3a6e1",
-      "Name": "ChangeDataInParameters",
-      "ActionArea": "ChildCollection",
-      "CollectionPropertyGuid": "ea1972ed-b62c-4025-b842-99ea87f0f098",
-      "GenerateHandler": true,
-      "IsEmptySelectionAllowed": true,
-      "LargeIconName": "Action_ChangeDataInParameters_large_ec46cff3e4bf49da8d4b170d45b3a6e1.png",
-      "SmallIconName": "Action_ChangeDataInParameters_small_ec46cff3e4bf49da8d4b170d45b3a6e1.png"
-    },
-    {
       "NameGuid": "eb6f96d8-0e1e-485c-b9e6-b997388f8edc",
       "Name": "ChangeSelectedDataInParameters",
       "ActionArea": "ChildCollection",

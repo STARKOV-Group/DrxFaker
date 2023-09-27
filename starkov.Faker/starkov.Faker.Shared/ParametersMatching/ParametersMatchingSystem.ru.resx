@@ -112,15 +112,6 @@
   <data name="Action_AddDataInParametersDescription" xml:space="preserve">
     <value>Добавить данные</value>
   </data>
-  <data name="Action_ChangeDataInParametersDescription" xml:space="preserve">
-    <value>Изменить данные</value>
-  </data>
-  <data name="Action_ChangeDataInParametersHint" xml:space="preserve">
-    <value>Изменить данные</value>
-  </data>
-  <data name="Action_ChangeDataInParameters" xml:space="preserve">
-    <value>Изменить данные</value>
-  </data>
   <data name="Property_IsNeedCreateVersion" xml:space="preserve">
     <value>Создать версию</value>
   </data>
