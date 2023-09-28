@@ -142,4 +142,16 @@
   <data name="DialogInfoNoAvailableParams" xml:space="preserve">
     <value>Отсутствуют данные для выбора</value>
   </data>
+  <data name="Error_WrongWayToDelete" xml:space="preserve">
+    <value>Удалять значения можно только по соответствующей кнопке</value>
+  </data>
+  <data name="DialogFieldLocalizedCollectionValue" xml:space="preserve">
+    <value>Локализованное значение коллекции</value>
+  </data>
+  <data name="DialogFieldCollectionName" xml:space="preserve">
+    <value>Наименование коллекции</value>
+  </data>
+  <data name="DialogInfoLocalizedCollectionNotUnique" xml:space="preserve">
+    <value>Локализованные значения коллекций не уникальны</value>
+  </data>
 </root>
