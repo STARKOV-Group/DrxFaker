@@ -71,7 +71,7 @@
     <value>Процесс по генерации сущностей успешно запущен</value>
   </data>
   <data name="AsyncEndWorkMessage" xml:space="preserve">
-    <value>Процесс по генерации сущностей завершил свою работу.
+    <value>Процесс по генерации {0} сущностей завершил свою работу.
 Более детальная информация отправлена в уведомлении.</value>
   </data>
   <data name="LocalizedPassword" xml:space="preserve">
@@ -117,5 +117,11 @@
     <value>Error while cast object in {0}. 
 Error: {1}. 
 StackTrace: {2}</value>
+  </data>
+  <data name="AsyncEndWorkSimpleMessage" xml:space="preserve">
+    <value>Процесс по генерации {0} сущностей завершил свою работу.</value>
+  </data>
+  <data name="ErrorNegativeNumber" xml:space="preserve">
+    <value>Введенное число должно быть больше 0</value>
   </data>
 </root>

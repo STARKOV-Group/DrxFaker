@@ -11,94 +11,23 @@ namespace starkov.Faker.Client
 {
   partial class ParametersMatchingFunctions
   {
-
-    /// <summary>
-    /// Показ диалога для изменения данных в табличной части.
-    /// </summary>
-    public void ShowDialogForChangeParameters()
-    {
-      var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogChangeData);
-      
-      #region Данные для диалога
-      var guid = string.Empty;
-      if (_obj.DatabookType != null)
-        guid = _obj.DatabookType.DatabookTypeGuid;
-      else if (_obj.DocumentType != null)
-        guid = _obj.DocumentType.DocumentTypeGuid;
-      
-      var propInfo = Functions.Module.Remote.GetPropertiesType(guid);
-      #endregion
-      
-      #region Поля диалога
-      var localizedValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedValue, false)
-        .From(_obj.Parameters.Select(p => p.LocalizedPropertyName).OrderBy(p => p).ToArray());
-      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, false)
-        .From(_obj.Parameters.Select(p => p.PropertyName).OrderBy(p => p).ToArray());
-      
-      var isUnique = propInfo.Select(i => i.LocalizedName).Count() == propInfo.Select(i => i.LocalizedName).Distinct().Count();
-      if (isUnique)
-      {
-        localizedValuesField.IsRequired = true;
-        propertyNameField.IsEnabled = false;
-      }
-      else
-      {
-        propertyNameField.IsRequired = true;
-        localizedValuesField.IsEnabled = false;
-      }
-      #endregion
-      
-      #region Обработчики свойств
-      dialog.SetOnRefresh((arg) =>
-                          {
-                            if (!isUnique)
-                              arg.AddInformation(starkov.Faker.ParametersMatchings.Resources.DialogInfoLocalizedPropertyNotUnique);
-                          });
-      
-      propertyNameField.SetOnValueChanged((arg) =>
-                                          {
-                                            if (!string.IsNullOrEmpty(arg.NewValue))
-                                              localizedValuesField.Value = _obj.Parameters.FirstOrDefault(p => p.PropertyName == arg.NewValue)?.LocalizedPropertyName;
-                                          });
-      
-      localizedValuesField.SetOnValueChanged((arg) =>
-                                             {
-                                               if (!string.IsNullOrEmpty(arg.NewValue))
-                                                 propertyNameField.Value = _obj.Parameters.FirstOrDefault(p => p.LocalizedPropertyName == arg.NewValue)?.PropertyName;
-                                             });
-      #endregion
-      
-      #region Кнопки диалога
-      var changeBtn = dialog.Buttons.AddCustom(starkov.Faker.ParametersMatchings.Resources.DialogButtonChange);
-      dialog.Buttons.AddCancel();
-      
-      if (dialog.Show() == changeBtn)
-        ShowDialogForSelectParameters(_obj.Parameters.FirstOrDefault(p => isUnique ?
-                                                                     p.LocalizedPropertyName == localizedValuesField.Value :
-                                                                     p.PropertyName == propertyNameField.Value)?.Id);
-      #endregion
-    }
-
+    
+    #region Диалог для коллекции CollectionParameters
+    
     /// <summary>
     /// Показ диалога для выбора данных.
     /// </summary>
     /// <param name="rowId">Номер строки.</param>
-    public void ShowDialogForSelectParameters(int? rowId)
+    /// <param name="isFillValue">Признак заполнения значений.</param>
+    public void ShowDialogForSelectCollectionParameters(int? rowId)
     {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
       #region Данные для диалога
-      var guid = string.Empty;
-      if (_obj.DatabookType != null)
-        guid = _obj.DatabookType.DatabookTypeGuid;
-      else if (_obj.DocumentType != null)
-        guid = _obj.DocumentType.DocumentTypeGuid;
-      
-      var parameterRow = _obj.Parameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());      
-      var propInfo = Functions.Module.Remote.GetPropertiesType(guid)
-        .Where(i => rowId.HasValue ?
-               parameterRow.PropertyName == i.Name :
-               !_obj.Parameters.Select(p => p.PropertyName).Contains(i.Name));
+      var parameterRow = _obj.CollectionParameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());
+      var selectedCollectionNames = _obj.CollectionParameters.Select(p => p.CollectionName);
+      var propInfo = Functions.Module.Remote.GetCollectionPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
+        .Where(i => rowId.HasValue ? parameterRow.CollectionName == i.Name : !selectedCollectionNames.Contains(i.Name));
       
       if (!propInfo.Any())
       {
@@ -111,7 +40,215 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Поля диалога
-      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true).From(propInfo.Select(i => i.Name).OrderBy(i => i).ToArray());
+      var localizedCollectionField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedCollectionValue, false)
+        .From(propInfo.Select(i => i.LocalizedName).OrderBy(i => i).ToArray());
+      var propertyCollectionField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldCollectionName, true)
+        .From(propInfo.Select(i => i.Name).OrderBy(i => i).ToArray());
+      var isLocalizedCollectionValues = dialog.AddBoolean(starkov.Faker.ParametersMatchings.Resources.DialogFieldUseLocalizedValue, false);
+      
+      var localizedValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedValue, false)
+        .From(propInfo.SelectMany(i => i.Properties.Select(p => p.LocalizedName)).OrderBy(i => i).ToArray());
+      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true)
+        .From(propInfo.SelectMany(i => i.Properties.Select(p => p.Name)).OrderBy(i => i).ToArray());
+      var parameterField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldFillOption, true);
+      var personalValuesField = new List<object>();
+      
+      var isUnique = propInfo.Select(i => i.LocalizedName).Count() == propInfo.Select(i => i.LocalizedName).Distinct().Count();
+      isLocalizedCollectionValues.IsVisible = isUnique && parameterRow == null;
+      parameterField.IsEnabled = parameterRow != null;
+      
+      if (!rowId.HasValue)
+      {
+        localizedValuesField.IsVisible = false;
+        propertyNameField.IsVisible = false;
+        parameterField.IsVisible = false;
+      }
+      else
+      {
+        isLocalizedCollectionValues.IsVisible = false;
+        localizedCollectionField.IsEnabled = false;
+        propertyCollectionField.IsEnabled = false;
+        propertyNameField.IsEnabled = false;
+        localizedValuesField.IsEnabled = false;
+      }
+      #endregion
+      
+      #region Обработчики свойств
+      dialog.SetOnRefresh((arg) =>
+                          {
+                            if (!isUnique)
+                              arg.AddInformation(starkov.Faker.ParametersMatchings.Resources.DialogInfoLocalizedCollectionNotUnique);
+                            
+                            if (string.IsNullOrEmpty(propertyNameField.Value) || personalValuesField.Count != 2)
+                              return;
+                            
+                            var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyCollectionField.Value).Properties.FirstOrDefault(p => p.Name == propertyNameField.Value);
+                            var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
+                            
+                            var error = ValidateControls(customType, personalValuesField);
+                            if (!string.IsNullOrEmpty(error))
+                              arg.AddError(error);
+                          });
+      
+      propertyNameField.SetOnValueChanged((arg) =>
+                                          {
+                                            HideDialogControl(ref personalValuesField);
+                                            
+                                            if (string.IsNullOrEmpty(arg.NewValue))
+                                            {
+                                              parameterField.From(Array.Empty<string>());
+                                              parameterField.IsEnabled = false;
+                                            }
+                                            else if (arg.NewValue != arg.OldValue)
+                                            {
+                                              var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyCollectionField.Value).Properties.FirstOrDefault(p => p.Name == propertyNameField.Value);
+                                              var parameters = new List<string>();
+                                              if (selectedPropInfo != null)
+                                                parameters = Functions.ParametersMatching.GetMatchingTypeToParameters(selectedPropInfo.Type) ?? parameters;
+                                              
+                                              parameterField.From(parameters.ToArray());
+                                              parameterField.IsEnabled = true;
+                                              
+                                              localizedValuesField.Value = propInfo.FirstOrDefault(i => i.Name == propertyCollectionField.Value).Properties.FirstOrDefault(p => p.Name == propertyNameField.Value)?.LocalizedName;
+                                            }
+                                          });
+      
+      propertyCollectionField.SetOnValueChanged((arg) =>
+                                                {
+                                                  if (!string.IsNullOrEmpty(arg.NewValue) && arg.NewValue != arg.OldValue)
+                                                    localizedCollectionField.Value = propInfo.FirstOrDefault(i => i.Name == arg.NewValue)?.LocalizedName;
+                                                });
+      
+      localizedCollectionField.SetOnValueChanged((arg) =>
+                                                 {
+                                                   if (!string.IsNullOrEmpty(arg.NewValue) && arg.NewValue != arg.OldValue)
+                                                     propertyCollectionField.Value = propInfo.FirstOrDefault(i => i.LocalizedName == arg.NewValue)?.Name;
+                                                 });
+      
+      isLocalizedCollectionValues.SetOnValueChanged((arg) =>
+                                                    {
+                                                      var isLocalazied = arg.NewValue.GetValueOrDefault();
+                                                      localizedCollectionField.IsRequired = isLocalazied;
+                                                      localizedCollectionField.IsEnabled = isLocalazied;
+                                                      propertyCollectionField.IsRequired = !isLocalazied;
+                                                      propertyCollectionField.IsEnabled = !isLocalazied;
+                                                      
+                                                      propertyCollectionField.Value = null;
+                                                      localizedCollectionField.Value = null;
+                                                    });
+      
+      parameterField.SetOnValueChanged((arg) =>
+                                       {
+                                         HideDialogControl(ref personalValuesField);
+                                         
+                                         var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyCollectionField.Value).Properties.FirstOrDefault(p => p.Name == propertyNameField.Value);
+                                         if (selectedPropInfo == null)
+                                           return;
+                                         
+                                         ShowDialogControlsByParameter(dialog, arg.NewValue, selectedPropInfo, ref personalValuesField);
+                                       });
+      #endregion
+      
+      #region Заполнение данных
+      if (isLocalizedCollectionValues.Value != isLocalizedCollectionValues.IsVisible)
+        isLocalizedCollectionValues.Value = isLocalizedCollectionValues.IsVisible;
+      
+      if (parameterRow != null)
+      {
+        propertyCollectionField.Value = propInfo.FirstOrDefault().Name;
+        propertyNameField.Value = propInfo.FirstOrDefault().Properties.FirstOrDefault(p => p.Name == parameterRow.PropertyName).Name;
+        
+        if (!string.IsNullOrEmpty(parameterRow.FillOption))
+        {
+          parameterField.Value = parameterRow.FillOption;
+          FillDialogControlFromTable(parameterRow, ref personalValuesField);
+        }
+      }
+      
+      if (!isUnique)
+      {
+        propertyNameField.IsRequired = true;
+        localizedValuesField.IsEnabled = false;
+      }
+      #endregion
+      
+      #region Кнопки диалога
+      if (dialog.Show() == DialogButtons.Ok)
+      {
+        var newRow = parameterRow;
+        if (!rowId.HasValue)
+        {
+          foreach (var selectedPropInfo in propInfo.FirstOrDefault(i => i.Name == propertyCollectionField.Value).Properties)
+          {
+            newRow = _obj.CollectionParameters.AddNew();
+            newRow.CollectionName = propertyCollectionField.Value;
+            newRow.LocalizedCollectionName = localizedCollectionField.Value;
+            newRow.PropertyName = selectedPropInfo.Name;
+            newRow.LocalizedPropertyName = selectedPropInfo.LocalizedName;
+            newRow.PropertyType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
+            newRow.PropertyTypeGuid = selectedPropInfo.PropertyGuid;
+            newRow.StringPropLength = selectedPropInfo.MaxStringLength;
+          }
+          return;
+        }
+        newRow.FillOption = parameterField.Value;
+        newRow.ChosenValue = null;
+        newRow.ValueFrom = null;
+        newRow.ValueTo = null;
+        
+        if (personalValuesField.Count == 1)
+        {
+          newRow.ChosenValue = GetValueFromDialogControl(personalValuesField[0],
+                                                         newRow.PropertyType,
+                                                         newRow.PropertyTypeGuid);
+        }
+        else if (personalValuesField.Count == 2)
+        {
+          newRow.ValueFrom = GetValueFromDialogControl(personalValuesField[0],
+                                                       newRow.PropertyType,
+                                                       newRow.PropertyTypeGuid);
+          newRow.ValueTo = GetValueFromDialogControl(personalValuesField[1],
+                                                     newRow.PropertyType,
+                                                     newRow.PropertyTypeGuid);
+        }
+      }
+      #endregion
+    }
+    
+    #endregion
+    
+    #region Диалог для коллекции Parameters
+    
+    /// <summary>
+    /// Показ диалога для выбора данных.
+    /// </summary>
+    /// <param name="rowId">Номер строки.</param>
+    /// <param name="isFillValue">Признак заполнения значений.</param>
+    public void ShowDialogForSelectParameters(int? rowId)
+    {
+      var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
+      
+      #region Данные для диалога
+      var parameterRow = _obj.Parameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());
+      var selectedPropertyNames = _obj.Parameters.Select(p => p.PropertyName);
+      var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
+        .Where(i => rowId.HasValue ? parameterRow.PropertyName == i.Name : !selectedPropertyNames.Contains(i.Name));
+      
+      if (!propInfo.Any())
+      {
+        if (parameterRow == null)
+          Dialogs.ShowMessage(starkov.Faker.ParametersMatchings.Resources.DialogInfoNoAvailableParams, MessageType.Information);
+        else
+          Dialogs.ShowMessage(starkov.Faker.ParametersMatchings.Resources.DialogErrorNoPropertyFormat(parameterRow.LocalizedPropertyName), MessageType.Error);
+        return;
+      }
+      #endregion
+      
+      #region Поля диалога
+      var localizedValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedValue, false)
+        .From(propInfo.Select(i => i.LocalizedName).OrderBy(i => i).ToArray());
+      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldPropertyName, true)
+        .From(propInfo.Select(i => i.Name).OrderBy(i => i).ToArray());
       var isLocalizedValues = dialog.AddBoolean(starkov.Faker.ParametersMatchings.Resources.DialogFieldUseLocalizedValue, false);
       var parameterField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldFillOption, true);
       var personalValuesField = new List<object>();
@@ -130,19 +267,12 @@ namespace starkov.Faker.Client
                             if (string.IsNullOrEmpty(propertyNameField.Value) || personalValuesField.Count != 2)
                               return;
                             
-                            var selectedPropInfo = propInfo.FirstOrDefault(i => isLocalizedValues.Value.GetValueOrDefault() ?
-                                                                           i.LocalizedName == propertyNameField.Value :
-                                                                           i.Name == propertyNameField.Value);
+                            var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyNameField.Value);
                             var customType = Functions.ParametersMatching.GetMatchingTypeToCustomType(selectedPropInfo.Type);
                             
-                            if (customType == Constants.Module.CustomType.Date &&
-                                Functions.Module.CastToDateDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() > 
-                                Functions.Module.CastToDateDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(Calendar.SqlMaxValue))
-                              arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo);
-                            else if (customType == Constants.Module.CustomType.Numeric &&
-                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() > 
-                                     Functions.Module.CastToIntegerDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(int.MaxValue))
-                              arg.AddError(starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo);
+                            var error = ValidateControls(customType, personalValuesField);
+                            if (!string.IsNullOrEmpty(error))
+                              arg.AddError(error);
                           });
       
       propertyNameField.SetOnValueChanged((arg) =>
@@ -154,37 +284,43 @@ namespace starkov.Faker.Client
                                               parameterField.From(Array.Empty<string>());
                                               parameterField.IsEnabled = false;
                                             }
-                                            else
+                                            else if (arg.NewValue != arg.OldValue)
                                             {
-                                              var selectedPropInfo = propInfo.FirstOrDefault(i => isLocalizedValues.Value.GetValueOrDefault() ?
-                                                                                             i.LocalizedName == propertyNameField.Value :
-                                                                                             i.Name == propertyNameField.Value);
-                                              
+                                              var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyNameField.Value);
                                               var parameters = new List<string>();
                                               if (selectedPropInfo != null)
                                                 parameters = Functions.ParametersMatching.GetMatchingTypeToParameters(selectedPropInfo.Type) ?? parameters;
+                                              
                                               parameterField.From(parameters.ToArray());
                                               parameterField.IsEnabled = true;
+                                              
+                                              localizedValuesField.Value = propInfo.FirstOrDefault(i => i.Name == arg.NewValue)?.LocalizedName;
                                             }
                                           });
       
+      localizedValuesField.SetOnValueChanged((arg) =>
+                                             {
+                                               if (!string.IsNullOrEmpty(arg.NewValue) && arg.NewValue != arg.OldValue)
+                                                 propertyNameField.Value = propInfo.FirstOrDefault(i => i.LocalizedName == arg.NewValue)?.Name;
+                                             });
+      
       isLocalizedValues.SetOnValueChanged((arg) =>
                                           {
-                                            if (arg.NewValue.GetValueOrDefault())
-                                              propertyNameField.From(propInfo.Select(i => i.LocalizedName).OrderBy(i => i).ToArray());
-                                            else
-                                              propertyNameField.From(propInfo.Select(i => i.Name).OrderBy(i => i).ToArray());
+                                            var isLocalazied = arg.NewValue.GetValueOrDefault();
+                                            localizedValuesField.IsRequired = isLocalazied;
+                                            localizedValuesField.IsEnabled = isLocalazied;
+                                            propertyNameField.IsRequired = !isLocalazied;
+                                            propertyNameField.IsEnabled = !isLocalazied;
                                             
-                                            parameterField.Value = null;
+                                            propertyNameField.Value = null;
+                                            localizedValuesField.Value = null;
                                           });
       
       parameterField.SetOnValueChanged((arg) =>
                                        {
                                          HideDialogControl(ref personalValuesField);
                                          
-                                         var selectedPropInfo = propInfo.FirstOrDefault(i => isLocalizedValues.Value.GetValueOrDefault() ?
-                                                                                        i.LocalizedName == propertyNameField.Value :
-                                                                                        i.Name == propertyNameField.Value);
+                                         var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyNameField.Value);
                                          if (selectedPropInfo == null)
                                            return;
                                          
@@ -201,6 +337,7 @@ namespace starkov.Faker.Client
         var selectedPropInfo = propInfo.FirstOrDefault();
         propertyNameField.Value = selectedPropInfo.Name;
         propertyNameField.IsEnabled = false;
+        localizedValuesField.IsEnabled = false;
         
         if (!string.IsNullOrEmpty(parameterRow.FillOption))
         {
@@ -208,14 +345,18 @@ namespace starkov.Faker.Client
           FillDialogControlFromTable(parameterRow, ref personalValuesField);
         }
       }
+      
+      if (!isUnique)
+      {
+        propertyNameField.IsRequired = true;
+        localizedValuesField.IsEnabled = false;
+      }
       #endregion
       
       #region Кнопки диалога
       if (dialog.Show() == DialogButtons.Ok)
       {
-        var selectedPropInfo = propInfo.FirstOrDefault(i => isLocalizedValues.Value.GetValueOrDefault() ?
-                                                       i.LocalizedName == propertyNameField.Value :
-                                                       i.Name == propertyNameField.Value);
+        var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyNameField.Value);
         
         var newRow = rowId.HasValue ? parameterRow : _obj.Parameters.AddNew();
         newRow.PropertyName = selectedPropInfo.Name;
@@ -224,7 +365,6 @@ namespace starkov.Faker.Client
         newRow.PropertyTypeGuid = selectedPropInfo.PropertyGuid;
         newRow.StringPropLength = selectedPropInfo.MaxStringLength;
         newRow.FillOption = parameterField.Value;
-        
         newRow.ChosenValue = null;
         newRow.ValueFrom = null;
         newRow.ValueTo = null;
@@ -245,8 +385,51 @@ namespace starkov.Faker.Client
       }
       #endregion
     }
+    
+    #endregion
 
     #region Работа с контролами диалога
+    
+    /// <summary>
+    /// Проверка контролов на валидность.
+    /// </summary>
+    /// <param name="customType">Обобщенный тип.</param>
+    /// <param name="personalValuesField">Список контролов.</param>
+    /// <returns>Если все корректно, то пустая строка, иначе строка с ошибками.</returns>
+    public virtual string ValidateControls(string customType, List<object> personalValuesField)
+    {
+      var error = string.Empty;
+      
+      if (customType == Constants.Module.CustomType.Date &&
+          Functions.Module.CastToDateDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
+          Functions.Module.CastToDateDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(Calendar.SqlMaxValue))
+        error = starkov.Faker.ParametersMatchings.Resources.DialogErrorDateFromGreaterDateTo;
+      
+      if (customType == Constants.Module.CustomType.Numeric &&
+          Functions.Module.CastToIntegerDialogValue(personalValuesField[0])?.Value.GetValueOrDefault() >
+          Functions.Module.CastToIntegerDialogValue(personalValuesField[1])?.Value.GetValueOrDefault(int.MaxValue))
+        error = starkov.Faker.ParametersMatchings.Resources.DialogErrorValueFromGreaterValueTo;
+      
+      return error;
+    }
+    
+    /// <summary>
+    /// Проверка на необходимость выбора значения для варианта заполнения.
+    /// </summary>
+    /// <param name="selectedValue">Вариант заполнения.</param>
+    public virtual bool IsNeedSelectValue(string fillOption)
+    {
+      var options = new List<string>() {
+        Constants.Module.FillOptions.Common.FixedValue,
+        Constants.Module.FillOptions.Date.Period,
+        Constants.Module.FillOptions.Numeric.NumberWithLength,
+        Constants.Module.FillOptions.Numeric.NumberRange,
+        Constants.Module.FillOptions.String.FirstName,
+        Constants.Module.FillOptions.String.LastName,
+        Constants.Module.FillOptions.String.FullName
+      };
+      return options.Contains(fillOption);
+    }
     
     /// <summary>
     /// Скрыть контролы диалога.
@@ -329,20 +512,56 @@ namespace starkov.Faker.Client
     }
     
     /// <summary>
-    /// Заполнить генерируемые контролы диалога значениями из таблицы.
+    /// Заполнить генерируемые контролы диалога значениями из таблицы параметров.
     /// </summary>
     /// <param name="parameterRow">Строка с параметрами.</param>
     /// <param name="controls">Контролы.</param>
     public virtual void FillDialogControlFromTable(Faker.IParametersMatchingParameters parameterRow, ref List<object> controls)
     {
+      var parameterStruct = Structures.Module.ParameterInfo.Create(parameterRow.ParametersMatching,
+                                                                   parameterRow.PropertyName,
+                                                                   parameterRow.PropertyTypeGuid,
+                                                                   parameterRow.PropertyType,
+                                                                   parameterRow.FillOption,
+                                                                   parameterRow.ChosenValue,
+                                                                   parameterRow.ValueFrom,
+                                                                   parameterRow.ValueTo);
+      FillDialogControlFromTable(parameterStruct, ref controls);
+    }
+    
+    /// <summary>
+    /// Заполнить генерируемые контролы диалога значениями из таблицы коллекций.
+    /// </summary>
+    /// <param name="parameterRow">Строка с параметрами.</param>
+    /// <param name="controls">Контролы.</param>
+    public virtual void FillDialogControlFromTable(Faker.IParametersMatchingCollectionParameters parameterRow, ref List<object> controls)
+    {
+      var parameterStruct = Structures.Module.ParameterInfo.Create(parameterRow.ParametersMatching,
+                                                                   parameterRow.PropertyName,
+                                                                   parameterRow.PropertyTypeGuid,
+                                                                   parameterRow.PropertyType,
+                                                                   parameterRow.FillOption,
+                                                                   parameterRow.ChosenValue,
+                                                                   parameterRow.ValueFrom,
+                                                                   parameterRow.ValueTo);
+      FillDialogControlFromTable(parameterStruct, ref controls);
+    }
+    
+    /// <summary>
+    /// Заполнить генерируемые контролы диалога значениями из структуры.
+    /// </summary>
+    /// <param name="parameterRow">Структура с параметрами.</param>
+    /// <param name="controls">Контролы.</param>
+    public virtual void FillDialogControlFromTable(Faker.Structures.Module.ParameterInfo parameterRow, ref List<object> controls)
+    {
       if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
       {
-        var controlType = GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
+        var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
         controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ChosenValue));
       }
       else if (!string.IsNullOrEmpty(parameterRow.ValueFrom) && !string.IsNullOrEmpty(parameterRow.ValueTo))
       {
-        var controlType = GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
+        var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
         controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ValueFrom));
         controls[1].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[1], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ValueTo));
       }
