@@ -169,9 +169,13 @@
       "Scope": "Both"
     }
   ],
+  "NeedResetAppliedCache": true,
+  "NeedResetCache": true,
   "Overridden": [
     "Importance",
-    "IsVisible"
+    "IsVisible",
+    "NeedResetCache",
+    "NeedResetAppliedCache"
   ],
   "PublicStructures": [],
   "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
