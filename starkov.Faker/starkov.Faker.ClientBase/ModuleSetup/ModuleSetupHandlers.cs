@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -9,6 +9,12 @@ namespace starkov.Faker
 {
   partial class ModuleSetupClientHandlers
   {
+
+    public virtual void AsyncEntitiesNumberValueInput(Sungero.Presentation.IntegerValueInputEventArgs e)
+    {
+      if (e.NewValue.HasValue && e.NewValue.Value <= 0)
+        e.AddError(Faker.Resources.ErrorNegativeNumber);
+    }
 
     public virtual void LoginNamesNumberValueInput(Sungero.Presentation.IntegerValueInputEventArgs e)
     {
@@ -22,12 +28,22 @@ namespace starkov.Faker
         throw new AppliedCodeException(starkov.Faker.ModuleSetups.Resources.ErrorNegativeValue);
     }
 
-    public virtual void IsShowAllLoginNamesValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
+    public virtual void IsDisableNotificationsValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
+    {
+      Functions.ModuleSetup.SetProperties(_obj);
+    }
+
+    public virtual void IsSeparateAsyncValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
     {
       Functions.ModuleSetup.SetProperties(_obj);
     }
 
     public virtual void IsAttachAllEntitiesValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
+    {
+      Functions.ModuleSetup.SetProperties(_obj);
+    }
+
+    public virtual void IsShowAllLoginNamesValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
     {
       Functions.ModuleSetup.SetProperties(_obj);
     }

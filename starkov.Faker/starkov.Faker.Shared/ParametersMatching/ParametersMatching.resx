@@ -142,4 +142,16 @@
   <data name="DialogInfoNoAvailableParams" xml:space="preserve">
     <value>There is no data to select</value>
   </data>
+  <data name="Error_WrongWayToDelete" xml:space="preserve">
+    <value>You can delete values only by clicking the corresponding button</value>
+  </data>
+  <data name="DialogFieldLocalizedCollectionValue" xml:space="preserve">
+    <value>Localized collection value</value>
+  </data>
+  <data name="DialogFieldCollectionName" xml:space="preserve">
+    <value>Collection name</value>
+  </data>
+  <data name="DialogInfoLocalizedCollectionNotUnique" xml:space="preserve">
+    <value>Localized collection values are not unique</value>
+  </data>
 </root>

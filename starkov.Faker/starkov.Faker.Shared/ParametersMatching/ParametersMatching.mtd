@@ -14,14 +14,46 @@
       "SmallIconName": "Action_AddDataInParameters_small_d3b50b3558264fe3977700be7887b5e4.png"
     },
     {
-      "NameGuid": "ec46cff3-e4bf-49da-8d4b-170d45b3a6e1",
-      "Name": "ChangeDataInParameters",
+      "NameGuid": "eb6f96d8-0e1e-485c-b9e6-b997388f8edc",
+      "Name": "ChangeSelectedDataInParameters",
       "ActionArea": "ChildCollection",
       "CollectionPropertyGuid": "ea1972ed-b62c-4025-b842-99ea87f0f098",
       "GenerateHandler": true,
+      "LargeIconName": "Action_ChangeSelectedDataInParameters_large_eb6f96d80e1e485cb9e6b997388f8edc.png",
+      "SmallIconName": "Action_ChangeDataInParameters1_small_eb6f96d80e1e485cb9e6b997388f8edc.png",
+      "Versions": []
+    },
+    {
+      "NameGuid": "1a35d14c-6711-4d4d-aef7-8f9e552593e3",
+      "Name": "AddDataInCollectionParameters",
+      "ActionArea": "ChildCollection",
+      "CollectionPropertyGuid": "b2ad6b55-e24d-4efd-8768-8b0556bb0b67",
+      "GenerateHandler": true,
       "IsEmptySelectionAllowed": true,
-      "LargeIconName": "Action_ChangeDataInParameters_large_ec46cff3e4bf49da8d4b170d45b3a6e1.png",
-      "SmallIconName": "Action_ChangeDataInParameters_small_ec46cff3e4bf49da8d4b170d45b3a6e1.png"
+      "LargeIconName": "Action_AddDataInParameters1_large_1a35d14c67114d4daef78f9e552593e3.png",
+      "SmallIconName": "Action_AddDataInParameters1_small_1a35d14c67114d4daef78f9e552593e3.png",
+      "Versions": []
+    },
+    {
+      "NameGuid": "5fb54e9a-c178-4e3e-8ccd-5234a366329f",
+      "Name": "ChangeSelectedDataInCollectionParameters",
+      "ActionArea": "ChildCollection",
+      "CollectionPropertyGuid": "b2ad6b55-e24d-4efd-8768-8b0556bb0b67",
+      "GenerateHandler": true,
+      "LargeIconName": "Action_ChangeSelectedDataInParameters1_large_5fb54e9ac1784e3e8ccd5234a366329f.png",
+      "SmallIconName": "Action_ChangeSelectedDataInParameters1_small_5fb54e9ac1784e3e8ccd5234a366329f.png",
+      "Versions": []
+    },
+    {
+      "NameGuid": "7b48f8f8-7811-4259-846d-1c925cf177a2",
+      "Name": "DeleteDataInCollectionParameters",
+      "ActionArea": "ChildCollection",
+      "CollectionPropertyGuid": "b2ad6b55-e24d-4efd-8768-8b0556bb0b67",
+      "GenerateHandler": true,
+      "LargeIconName": "Action_DeleteDataInCollectionParameters_large_7b48f8f878114259846d1c925cf177a2.png",
+      "NeedConfirmation": true,
+      "SmallIconName": "Action_DeleteDataInCollectionParameters_small_7b48f8f878114259846d1c925cf177a2.png",
+      "Versions": []
     }
   ],
   "BaseGuid": "04581d26-0780-4cfd-b3cd-c2cafc5798b0",
@@ -119,6 +151,10 @@
             {
               "Name": "NeedExpand",
               "Value": true
+            },
+            {
+              "Name": "Height",
+              "Value": 100
             }
           ]
         },
@@ -134,6 +170,29 @@
           "RowNumber": 4,
           "RowSpan": 1,
           "Settings": []
+        },
+        {
+          "$type": "Sungero.Metadata.ControlMetadata, Sungero.Metadata",
+          "NameGuid": "96758c4a-b632-4212-a753-c9f3092dd580",
+          "Name": "CollectionParameters",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.GridControlToChildCollectionBinder",
+          "HeaderLocation": "Top",
+          "ParentGuid": "ad049197-9b95-4909-b62f-d9be7c4778f6",
+          "PropertyGuid": "b2ad6b55-e24d-4efd-8768-8b0556bb0b67",
+          "RowNumber": 6,
+          "RowSpan": 1,
+          "Settings": [
+            {
+              "Name": "Height",
+              "Value": 100
+            },
+            {
+              "Name": "NeedExpand",
+              "Value": true
+            }
+          ]
         }
       ]
     }
@@ -225,6 +284,20 @@
       "Code": "IsNeedCreateVe",
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
       "PreviousPropertyGuid": "ea1972ed-b62c-4025-b842-99ea87f0f098"
+    },
+    {
+      "$type": "Sungero.Metadata.CollectionPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "b2ad6b55-e24d-4efd-8768-8b0556bb0b67",
+      "Name": "CollectionParameters",
+      "Code": "ParametersMat2",
+      "EntityGuid": "82017e70-105c-4d62-be00-89b5f8dd6dc4",
+      "HandledEvents": [
+        "AddedShared",
+        "DeletedShared"
+      ],
+      "IsShowedInList": false,
+      "PreviousPropertyGuid": "7c72144f-0b38-41ae-a747-d7f72da818bf",
+      "Versions": []
     }
   ],
   "PublicStructures": [],
@@ -256,7 +329,11 @@
     "DialogErrorNoProperty",
     "Error_DeleteReqValue",
     "Error_WrongWayToAddValue",
-    "DialogInfoNoAvailableParams"
+    "DialogInfoNoAvailableParams",
+    "Error_WrongWayToDelete",
+    "DialogFieldLocalizedCollectionValue",
+    "DialogFieldCollectionName",
+    "DialogInfoLocalizedCollectionNotUnique"
   ],
   "RibbonCardMetadata": {
     "NameGuid": "f1d9396c-6a0f-4d75-86a2-0fa85f2d1132",
