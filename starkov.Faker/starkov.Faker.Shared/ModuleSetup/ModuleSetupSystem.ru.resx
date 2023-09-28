@@ -83,12 +83,24 @@
     <value>Прикреплять все сущности</value>
   </data>
   <data name="ControlGroup_7d8700e5c92049b1a47a3e9031a7bab2" xml:space="preserve">
-    <value>Настройка вложений в уведомлении администратору</value>
+    <value>Настройка уведомлений для администраторов</value>
   </data>
   <data name="Property_DocumentWithVersion" xml:space="preserve">
     <value>Документ, использующийся при генерации версий документов</value>
   </data>
   <data name="ControlGroup_f33d8b5de191445d90dbdd77df440c46" xml:space="preserve">
     <value>Настройка генерации документов</value>
+  </data>
+  <data name="Property_IsSeparateAsync" xml:space="preserve">
+    <value>Разделять генерацию данных на множество асинхронных обработчиков</value>
+  </data>
+  <data name="ControlGroup_f38860a710844117ae8a17fe08d3b34c" xml:space="preserve">
+    <value>Настройка асинхронных обработчиков</value>
+  </data>
+  <data name="Property_AsyncEntitiesNumber" xml:space="preserve">
+    <value>Количество сущностей, создаваемых в асинхронном обработчике</value>
+  </data>
+  <data name="Property_IsDisableNotifications" xml:space="preserve">
+    <value>Отключить отправку уведомлений</value>
   </data>
 </root>
