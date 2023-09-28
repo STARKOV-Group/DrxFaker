@@ -33,6 +33,7 @@ namespace starkov.Faker.Server
       var stopWatch = new Stopwatch();
       stopWatch.Start();
       
+      var isDisableNotify = Functions.ModuleSetup.GetModuleSetup()?.IsDisableNotifications.GetValueOrDefault() ?? false;
       var attachments = new List<IEntity>();
       var loginNames = new List<string>();
       var errors = new List<string>();
@@ -46,6 +47,7 @@ namespace starkov.Faker.Server
       if (isNeedCreateVersion)
         documentVersion = Functions.ModuleSetup.GetDocumentWithVersion()?.LastVersion;
       
+      var cache = new Dictionary<string, IEntity>();
       for (var i = 0; i < args.Count; i++)
       {
         try
@@ -73,16 +75,19 @@ namespace starkov.Faker.Server
               if (property == null)
                 continue;
               
-              var propertyValue = Functions.Module.GetPropertyValueByParameters(parametersRow, propertiesStructure);
-              if (Functions.Module.CompareObjectWithType(propertyValue, typeof(string)) && parametersRow.StringPropLength.HasValue)
-              {
-                var str = propertyValue.ToString();
-                if (str.Length > parametersRow.StringPropLength.Value)
-                  propertyValue = str.Substring(0, parametersRow.StringPropLength.Value);
-              }
-              else if (Equals(property.PropertyType, typeof(double)) || Equals(property.PropertyType, typeof(double?)))
-                propertyValue = Convert.ToDouble(propertyValue);
-              
+              var parameterStruct = Structures.Module.ParameterInfo.Create(parametersRow.ParametersMatching,
+                                                                           parametersRow.PropertyName,
+                                                                           parametersRow.PropertyTypeGuid,
+                                                                           parametersRow.PropertyType,
+                                                                           parametersRow.FillOption,
+                                                                           parametersRow.ChosenValue,
+                                                                           parametersRow.ValueFrom,
+                                                                           parametersRow.ValueTo);
+              var propertyValue = GetPropertyValue(parameterStruct,
+                                                   propertiesStructure,
+                                                   cache,
+                                                   parametersRow.StringPropLength,
+                                                   property);
               property.SetValue(entity, propertyValue);
             }
             catch (Exception ex)
@@ -95,6 +100,68 @@ namespace starkov.Faker.Server
                                  parametersRow.PropertyName,
                                  ex.Message,
                                  ex.StackTrace);
+            }
+          }
+          #endregion
+          
+          #region Заполнение коллекций сущности
+          var collectionStructure = Functions.Module.GetCollectionPropertiesType(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
+          foreach (var collectionName in databook.CollectionParameters.Select(r => r.CollectionName).Distinct())
+          {
+            var rowCount = databook.CollectionParameters.FirstOrDefault(r => r.CollectionName == collectionName).RowCount;
+            var parameters = databook.CollectionParameters
+              .Where(r => r.CollectionName == collectionName)
+              .Where(r => r.FillOption != Constants.Module.FillOptions.Common.NullValue);
+            var collectionInfo = entityProperties.FirstOrDefault(info => info.Name == collectionName);
+            if (collectionInfo == null)
+              continue;
+            
+            var collection = Functions.Module.CastToChildEntityCollection(collectionInfo.GetValue(entity, null));
+            if (collection == null)
+              continue;
+            
+            for (var number = 0; number < rowCount; number++)
+            {
+              var newLine = collection.GetType().GetMethod("AddNew", new Type[0]).Invoke(collection, null);
+              foreach (var parametersRow in parameters)
+              {
+                try
+                {
+                  var property = newLine.GetType().GetProperties().FirstOrDefault(p => p.Name == parametersRow.PropertyName);
+                  if (property == null)
+                    continue;
+                  
+                  var parameterStruct = Structures.Module.ParameterInfo.Create(parametersRow.ParametersMatching,
+                                                                               parametersRow.PropertyName,
+                                                                               parametersRow.PropertyTypeGuid,
+                                                                               parametersRow.PropertyType,
+                                                                               parametersRow.FillOption,
+                                                                               parametersRow.ChosenValue,
+                                                                               parametersRow.ValueFrom,
+                                                                               parametersRow.ValueTo);
+                  var propertyValue = GetPropertyValue(parameterStruct,
+                                                       collectionStructure.FirstOrDefault(s => s.Name == collectionName).Properties,
+                                                       cache,
+                                                       parametersRow.StringPropLength,
+                                                       property);
+                  property.SetValue(newLine, propertyValue);
+                }
+                catch (Exception ex)
+                {
+                  var err = starkov.Faker.Resources.ErrorText_SetValToPropertyFormat(parametersRow.PropertyName, ex.Message);
+                  if (!errors.Contains(err))
+                    errors.Add(err);
+                  
+                  Logger.ErrorFormat("EntitiesGeneration error caused by setting value in property {0}: {1}\r\n   StackTrace: {2}",
+                                     parametersRow.PropertyName,
+                                     ex.Message,
+                                     ex.StackTrace);
+                }
+              }
+              
+              var lineEntity = Functions.Module.CastToEntity(newLine);
+              foreach (var linePropertyState in lineEntity.State.Properties.Where(p => p.IsRequired == true))
+                linePropertyState.IsRequired = false;
             }
           }
           #endregion
@@ -124,7 +191,7 @@ namespace starkov.Faker.Server
           try
           {
             entity.Save();
-            if (attachments.Count < maxAttachmentsNumber)
+            if (!isDisableNotify && attachments.Count < maxAttachmentsNumber)
               attachments.Add(entity);
             
             createdEntityCount++;
@@ -155,17 +222,48 @@ namespace starkov.Faker.Server
                                       ts.Milliseconds / 10);
       
       #region Отправка уведомления администраторам
-      SendNoticeToAdministrators(databook,
-                                 createdEntityCount,
-                                 args.Count,
-                                 firstEntityId,
-                                 elapsedTime,
-                                 loginNames,
-                                 errors,
-                                 attachments);
+      if (!isDisableNotify)
+        SendNoticeToAdministrators(databook,
+                                   createdEntityCount,
+                                   args.Count,
+                                   firstEntityId,
+                                   elapsedTime,
+                                   loginNames,
+                                   errors,
+                                   attachments);
       #endregion
       
-      Logger.DebugFormat("End async handler EntitiesGeneration");
+      Logger.DebugFormat("End async handler EntitiesGeneration by databook with id {0}. Count of created entity {1}, elapsed time {2}", databook.Id, createdEntityCount, elapsedTime);
+    }
+    
+    /// <summary>
+    /// Получить значение для заполнения свойства.
+    /// </summary>
+    /// <param name="parameterRow">Структура с параметрами.</param>
+    /// <param name="propertiesStructure">Список с информацией о свойствах.</param>
+    /// <param name="cache">Кэш.</param>
+    /// <param name="stringPropLength">Максимальная длина строки.</param>
+    /// <param name="property">Информация о свойстве.</param>
+    /// <returns>Сгенерированное значение.</returns>
+    public virtual object GetPropertyValue(Structures.Module.ParameterInfo parameterStructure,
+                                           List<starkov.Faker.Structures.Module.PropertyInfo> propertiesStructure,
+                                           System.Collections.Generic.Dictionary<string, IEntity> cache,
+                                           int? stringPropLength,
+                                           System.Reflection.PropertyInfo property)
+    {
+      var propertyValue = Functions.Module.GetPropertyValueByParameters(parameterStructure, propertiesStructure, cache);
+      if (Functions.Module.CompareObjectWithType(propertyValue, typeof(string)) && stringPropLength.HasValue)
+      {
+        var str = propertyValue.ToString();
+        if (str.Length > stringPropLength.Value)
+          propertyValue = str.Substring(0, stringPropLength.Value);
+      }
+      else if (Equals(property.PropertyType, typeof(double)) || Equals(property.PropertyType, typeof(double?)))
+        propertyValue = Convert.ToDouble(propertyValue);
+      else if (Equals(property.PropertyType, typeof(long)) || Equals(property.PropertyType, typeof(long?)))
+        propertyValue = Convert.ToInt64(propertyValue);
+      
+      return propertyValue;
     }
     
     /// <summary>
@@ -180,7 +278,16 @@ namespace starkov.Faker.Server
       if (databook == null)
         return;
       
-      var login = Functions.Module.GetPropertyValueByParameters(databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.LoginName), propertiesStructure).ToString();
+      var parametersRow = databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.LoginName);
+      var parameterStruct = Structures.Module.ParameterInfo.Create(parametersRow.ParametersMatching,
+                                                                   parametersRow.PropertyName,
+                                                                   parametersRow.PropertyTypeGuid,
+                                                                   parametersRow.PropertyType,
+                                                                   parametersRow.FillOption,
+                                                                   parametersRow.ChosenValue,
+                                                                   parametersRow.ValueFrom,
+                                                                   parametersRow.ValueTo);
+      var login = Functions.Module.GetPropertyValueByParameters(parameterStruct, propertiesStructure).ToString();
       var password = databook.Parameters.FirstOrDefault(p => p.PropertyName == Constants.Module.PropertyNames.Password).ChosenValue;
       Sungero.Company.PublicFunctions.Module.CreateLogin(login, password);
       
