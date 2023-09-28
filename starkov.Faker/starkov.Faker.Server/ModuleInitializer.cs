@@ -148,7 +148,7 @@ namespace starkov.Faker.Server
       var loginDict = new Dictionary<string, string>() {
         { loginProp.Status.Name, Constants.Module.FillOptions.Common.NullValue },
         { loginProp.LoginName.Name, Constants.Module.FillOptions.String.Login },
-        { Constants.Module.PropertyNames.Password, "11111" }
+        { Constants.Module.PropertyNames.Password, Constants.Module.FillOptions.Common.FixedValue }
       };
       
       CreateParametersMatchingByGUID(Constants.Module.Guids.Login, loginDict);
@@ -234,6 +234,9 @@ namespace starkov.Faker.Server
       var row = databook.Parameters.FirstOrDefault(r => r.PropertyName == propertyName);
       if (row != null)
         row.FillOption = fillOption;
+      
+      if (row.PropertyName == Constants.Module.PropertyNames.Password)
+        row.ChosenValue = Constants.Module.BasePassword;
     }
     
     #endregion

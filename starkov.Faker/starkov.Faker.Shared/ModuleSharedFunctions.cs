@@ -471,6 +471,7 @@ namespace starkov.Faker.Shared
       return new List<string> {
         "Id",
         "SID",
+        "Sid",
         "TypeDiscriminator",
         "Params",
         "NeedWriteHistory",
