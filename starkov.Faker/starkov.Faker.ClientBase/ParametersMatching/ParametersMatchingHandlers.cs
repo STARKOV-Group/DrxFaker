@@ -7,9 +7,20 @@ using starkov.Faker.ParametersMatching;
 
 namespace starkov.Faker
 {
+  partial class ParametersMatchingCollectionParametersClientHandlers
+  {
+    public virtual void CollectionParametersRowCountValueInput(Sungero.Presentation.IntegerValueInputEventArgs e)
+    {
+      if (e.NewValue.HasValue && e.NewValue.Value <= 0)
+        e.AddError(Faker.Resources.ErrorNegativeNumber);
+      
+      foreach (var row in _obj.ParametersMatching.CollectionParameters.Where(r => r.CollectionName == _obj.CollectionName))
+        row.RowCount = e.NewValue;
+    }
+  }
+
   partial class ParametersMatchingClientHandlers
   {
-
     public virtual void DocumentTypeValueInput(starkov.Faker.Client.ParametersMatchingDocumentTypeValueInputEventArgs e)
     {
       if (e.NewValue == null || Equals(e.NewValue, e.OldValue))
@@ -64,6 +75,15 @@ namespace starkov.Faker
       prop.DatabookType.IsVisible = isDataBook;
       prop.IsNeedCreateVersion.IsVisible = isDocument;
       prop.Name.IsEnabled = _obj.DatabookType != null || _obj.DocumentType != null;
+      
+      //Столбцы коллекций
+      prop.Parameters.Properties.ChosenValue.IsVisible = _obj.Parameters.Any(r => !string.IsNullOrEmpty(r.ChosenValue));
+      prop.Parameters.Properties.ValueFrom.IsVisible = _obj.Parameters.Any(r => !string.IsNullOrEmpty(r.ValueFrom));
+      prop.Parameters.Properties.ValueTo.IsVisible = _obj.Parameters.Any(r => !string.IsNullOrEmpty(r.ValueTo));
+      
+      prop.CollectionParameters.Properties.ChosenValue.IsVisible = _obj.CollectionParameters.Any(r => !string.IsNullOrEmpty(r.ChosenValue));
+      prop.CollectionParameters.Properties.ValueFrom.IsVisible = _obj.CollectionParameters.Any(r => !string.IsNullOrEmpty(r.ValueFrom));
+      prop.CollectionParameters.Properties.ValueTo.IsVisible = _obj.CollectionParameters.Any(r => !string.IsNullOrEmpty(r.ValueTo));
     }
     
     /// <summary>

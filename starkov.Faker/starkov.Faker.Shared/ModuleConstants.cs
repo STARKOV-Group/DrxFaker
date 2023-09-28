@@ -6,6 +6,11 @@ namespace starkov.Faker.Constants
   public static class Module
   {
     /// <summary>
+    /// Стандартный пароль для учетных записей.
+    /// </summary>
+    public const string BasePassword = "11111";
+    
+    /// <summary>
     /// Наименования свойств.
     /// </summary>
     public static class PropertyNames
