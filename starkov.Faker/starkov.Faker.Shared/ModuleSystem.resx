@@ -68,7 +68,7 @@
     <value>Actions</value>
   </data>
   <data name="CoverTab_Tab" xml:space="preserve">
-    <value>Main</value>
+    <value>Tab</value>
   </data>
   <data name="CoverAction_StartGeneration" xml:space="preserve">
     <value>Start generation</value>

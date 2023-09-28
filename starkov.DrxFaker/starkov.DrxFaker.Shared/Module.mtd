@@ -21,13 +21,16 @@
     "Header": {
       "NameGuid": "b79bfa85-b64e-4276-adee-c7f3524964bf",
       "BackgroundPosition": "Stretch"
-    }
+    },
+    "Tabs": []
   },
   "DesktopViews": [],
   "IconResourcesKeys": [],
   "Importance": "Medium",
   "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
   "InterfaceNamespace": "starkov.DrxFaker",
+  "IsolatedAssemblyName": "starkov.DrxFaker.Isolated",
+  "IsolatedNamespace": "starkov.DrxFaker.Isolated",
   "OrderedSpecialFolders": [],
   "PublicStructures": [],
   "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
@@ -43,11 +46,11 @@
   "Versions": [
     {
       "Type": "SolutionMetadata",
-      "Number": 6
+      "Number": 8
     },
     {
       "Type": "ModuleMetadata",
-      "Number": 6
+      "Number": 8
     },
     {
       "Type": "DomainApi",
