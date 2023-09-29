@@ -20,6 +20,7 @@ namespace starkov.Faker.Shared
       _obj.State.Properties.AttachmentsNumber.IsRequired = !_obj.IsAttachAllEntities.GetValueOrDefault() && isAllowNotify;
       _obj.State.Properties.LoginNamesNumber.IsRequired = !_obj.IsShowAllLoginNames.GetValueOrDefault() && isAllowNotify;
       _obj.State.Properties.DocumentWithVersion.IsRequired = true;
+      _obj.State.Properties.AsyncEntitiesNumber.IsRequired = _obj.IsSeparateAsync.GetValueOrDefault();
       
       _obj.State.Properties.AttachmentsNumber.IsEnabled = !_obj.IsAttachAllEntities.GetValueOrDefault() && isAllowNotify;
       _obj.State.Properties.LoginNamesNumber.IsEnabled = !_obj.IsShowAllLoginNames.GetValueOrDefault() && isAllowNotify;

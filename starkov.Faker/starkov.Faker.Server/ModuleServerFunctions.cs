@@ -603,7 +603,7 @@ namespace starkov.Faker.Server
     public virtual void CreateAsyncForGenerateEntities(int count, int databookId)
     {
       var setup = Functions.ModuleSetup.GetModuleSetup();
-      var loopMax = setup.IsSeparateAsync.GetValueOrDefault() ? setup.AsyncEntitiesNumber.GetValueOrDefault(500) : count;
+      var loopMax = setup.IsSeparateAsync.GetValueOrDefault() ? setup.AsyncEntitiesNumber.GetValueOrDefault(Faker.Constants.Module.BaseEntitiesCount) : count;
       for (var i = 0; i <= count/loopMax; i++)
       {
         var loopCount = loopMax;
