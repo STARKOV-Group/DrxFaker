@@ -36,6 +36,9 @@ namespace starkov.Faker
     public virtual void IsSeparateAsyncValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
     {
       Functions.ModuleSetup.SetProperties(_obj);
+      
+      if (e.NewValue.GetValueOrDefault() && !_obj.AsyncEntitiesNumber.HasValue)
+        _obj.AsyncEntitiesNumber = Faker.Constants.Module.BaseEntitiesCount;
     }
 
     public virtual void IsAttachAllEntitiesValueInput(Sungero.Presentation.BooleanValueInputEventArgs e)
