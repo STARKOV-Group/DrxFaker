@@ -5,6 +5,12 @@ namespace starkov.Faker.Constants
 {
   public static class Module
   {
+    
+    /// <summary>
+    /// Стандартное кол-во записей создаваемое в рамках одного АО.
+    /// </summary>
+    public const int BaseEntitiesCount = 500;
+    
     /// <summary>
     /// Стандартный пароль для учетных записей.
     /// </summary>
