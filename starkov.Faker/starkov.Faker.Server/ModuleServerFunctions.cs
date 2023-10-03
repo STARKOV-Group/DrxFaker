@@ -501,8 +501,8 @@ namespace starkov.Faker.Server
       else if (parameterRow.FillOption == Constants.Module.FillOptions.Common.RandomValue)
       {
         if (parameterRow.Name == "Login" &&
-            !string.IsNullOrEmpty(databook.DatabookType?.DatabookTypeGuid) &&
-            Equals(TypeExtension.GetTypeByGuid(Guid.Parse(databook.DatabookType.DatabookTypeGuid)), typeof(Sungero.Company.IEmployee)))
+            !string.IsNullOrEmpty(databook.EntityType?.EntityTypeGuid) &&
+            Equals(TypeExtension.GetTypeByGuid(Guid.Parse(databook.EntityType.EntityTypeGuid)), typeof(Sungero.Company.IEmployee)))
           entity = PickRandomLogin();
         else
           entity = PickRandomEntity(parameterRow.PropertyTypeGuid, databook.DocumentType?.DocumentTypeGuid);

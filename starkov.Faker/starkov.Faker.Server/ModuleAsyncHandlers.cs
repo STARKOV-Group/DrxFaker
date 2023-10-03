@@ -28,7 +28,7 @@ namespace starkov.Faker.Server
         Logger.DebugFormat("EntitiesGeneration error: No ParametersMatching databooks with id {0}", args.DatabookId);
         return;
       }
-      var propertiesStructure = Functions.Module.GetPropertiesType(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
+      var propertiesStructure = Functions.Module.GetPropertiesType(databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
       
       var stopWatch = new Stopwatch();
       stopWatch.Start();
@@ -43,7 +43,7 @@ namespace starkov.Faker.Server
       var maxAttachmentsNumber = Functions.ModuleSetup.GetAttachmentsNumber();
       
       Sungero.Content.IElectronicDocumentVersions documentVersion = null;
-      var isNeedCreateVersion = databook.EntityType == Faker.ParametersMatching.EntityType.Document && databook.IsNeedCreateVersion.GetValueOrDefault();
+      var isNeedCreateVersion = databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Document && databook.IsNeedCreateVersion.GetValueOrDefault();
       if (isNeedCreateVersion)
         documentVersion = Functions.ModuleSetup.GetDocumentWithVersion()?.LastVersion;
       
@@ -53,7 +53,7 @@ namespace starkov.Faker.Server
         try
         {
           #region Создание учетных записей
-          if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login.ToString())
+          if (databook.EntityType?.EntityTypeGuid == Constants.Module.Guids.Login.ToString())
           {
             CreateLogin(databook, propertiesStructure, maxLoginNamesNumber, ref loginNames);
             createdEntityCount++;
@@ -62,7 +62,7 @@ namespace starkov.Faker.Server
           }
           #endregion
           
-          var finalTypeGuid = databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid;
+          var finalTypeGuid = databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid;
           var entity = Functions.Module.CreateEntityByTypeGuid(finalTypeGuid);
           var entityProperties = entity.GetType().GetProperties();
           
@@ -105,7 +105,7 @@ namespace starkov.Faker.Server
           #endregion
           
           #region Заполнение коллекций сущности
-          var collectionStructure = Functions.Module.GetCollectionPropertiesType(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
+          var collectionStructure = Functions.Module.GetCollectionPropertiesType(databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
           foreach (var collectionName in databook.CollectionParameters.Select(r => r.CollectionName).Distinct())
           {
             var rowCount = databook.CollectionParameters.FirstOrDefault(r => r.CollectionName == collectionName).RowCount;

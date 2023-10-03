@@ -34,7 +34,7 @@ namespace starkov.Faker
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
 
-    public virtual void DatabookTypeValueInput(starkov.Faker.Client.ParametersMatchingDatabookTypeValueInputEventArgs e)
+    public virtual void EntityTypeValueInput(starkov.Faker.Client.ParametersMatchingEntityTypeValueInputEventArgs e)
     {
       if (e.NewValue == null || Equals(e.NewValue, e.OldValue))
         return;
@@ -43,14 +43,14 @@ namespace starkov.Faker
       AvailabilityRequisites();
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
-      FillRequiredPropsIntoParameters(e.NewValue.DatabookTypeGuid);
+      FillRequiredPropsIntoParameters(e.NewValue.EntityTypeGuid);
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
 
-    public virtual void EntityTypeValueInput(Sungero.Presentation.EnumerationValueInputEventArgs e)
+    public virtual void SelectorEntityTypeValueInput(Sungero.Presentation.EnumerationValueInputEventArgs e)
     {
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
-      _obj.DatabookType = null;
+      _obj.EntityType = null;
       _obj.DocumentType = null;
       _obj.IsNeedCreateVersion = false;
       _obj.Parameters.Clear();
@@ -68,13 +68,13 @@ namespace starkov.Faker
     private void AvailabilityRequisites()
     {
       var prop = _obj.State.Properties;
-      var isDocument = _obj.EntityType == EntityType.Document;
-      var isDataBook = _obj.EntityType == EntityType.DataBook;
+      var isDocument = _obj.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Document;
+      var isDataBook = _obj.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.DataBook;
       
       prop.DocumentType.IsVisible = isDocument;
-      prop.DatabookType.IsVisible = isDataBook;
+      prop.EntityType.IsVisible = isDataBook;
       prop.IsNeedCreateVersion.IsVisible = isDocument;
-      prop.Name.IsEnabled = _obj.DatabookType != null || _obj.DocumentType != null;
+      prop.Name.IsEnabled = _obj.EntityType != null || _obj.DocumentType != null;
       
       //Столбцы коллекций
       prop.Parameters.Properties.ChosenValue.IsVisible = _obj.Parameters.Any(r => !string.IsNullOrEmpty(r.ChosenValue));

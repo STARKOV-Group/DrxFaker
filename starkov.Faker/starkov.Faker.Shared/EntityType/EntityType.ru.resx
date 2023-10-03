@@ -58,22 +58,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Property_Name" xml:space="preserve">
-    <value>Name</value>
+  <data name="ErrorInvalidGuid" xml:space="preserve">
+    <value>Недопустимый формат Guid</value>
   </data>
-  <data name="DisplayName" xml:space="preserve">
-    <value>Databook type</value>
+  <data name="ErrorGuidNotMatchAnyEntity" xml:space="preserve">
+    <value>Данный Guid не соответствует ни одному типу сущности</value>
   </data>
-  <data name="AccusativeDisplayName" xml:space="preserve">
-    <value>Databook type</value>
-  </data>
-  <data name="CollectionDisplayName" xml:space="preserve">
-    <value>Databook types</value>
-  </data>
-  <data name="Property_DatabookTypeGuid" xml:space="preserve">
-    <value>Type ID</value>
-  </data>
-  <data name="Property_AncestorGuids" xml:space="preserve">
-    <value>Ancestor guids</value>
+  <data name="ErrorTypeIsAbstract" xml:space="preserve">
+    <value>Данный тип является абстрактным</value>
   </data>
 </root>

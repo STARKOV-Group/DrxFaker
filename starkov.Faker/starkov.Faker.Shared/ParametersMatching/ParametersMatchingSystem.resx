@@ -70,17 +70,17 @@
   <data name="CollectionDisplayName" xml:space="preserve">
     <value>Compliance of the filled parameters of the entity</value>
   </data>
-  <data name="Property_EntityType" xml:space="preserve">
-    <value>Entity type</value>
+  <data name="Property_SelectorEntityType" xml:space="preserve">
+    <value>Type</value>
   </data>
-  <data name="Enum_EntityType_DataBook" xml:space="preserve">
+  <data name="Enum_SelectorEntityType_DataBook" xml:space="preserve">
     <value>Databook</value>
   </data>
-  <data name="Enum_EntityType_Document" xml:space="preserve">
+  <data name="Enum_SelectorEntityType_Document" xml:space="preserve">
     <value>Document</value>
   </data>
-  <data name="Property_DatabookType" xml:space="preserve">
-    <value>Databook type</value>
+  <data name="Property_EntityType" xml:space="preserve">
+    <value>Entity type</value>
   </data>
   <data name="Enum_DatabookType_BusinessUnit" xml:space="preserve">
     <value>Business Unit</value>
@@ -183,5 +183,8 @@
   </data>
   <data name="Action_DeleteDataInCollectionParametersConfirmationDescription" xml:space="preserve">
     <value />
+  </data>
+  <data name="Enum_SelectorEntityType_Task" xml:space="preserve">
+    <value>Task</value>
   </data>
 </root>

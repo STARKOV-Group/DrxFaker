@@ -26,7 +26,7 @@ namespace starkov.Faker.Client
       #region Данные для диалога
       var parameterRow = _obj.CollectionParameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());
       var selectedCollectionNames = _obj.CollectionParameters.Select(p => p.CollectionName);
-      var propInfo = Functions.Module.Remote.GetCollectionPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
+      var propInfo = Functions.Module.Remote.GetCollectionPropertiesType(_obj.EntityType?.EntityTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
         .Where(i => rowId.HasValue ? parameterRow.CollectionName == i.Name : !selectedCollectionNames.Contains(i.Name));
       
       if (!propInfo.Any())
@@ -248,7 +248,7 @@ namespace starkov.Faker.Client
       #region Данные для диалога
       var parameterRow = _obj.Parameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());
       var selectedPropertyNames = _obj.Parameters.Select(p => p.PropertyName);
-      var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.DatabookType?.DatabookTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
+      var propInfo = Functions.Module.Remote.GetPropertiesType(_obj.EntityType?.EntityTypeGuid ?? _obj.DocumentType?.DocumentTypeGuid)
         .Where(i => rowId.HasValue ? parameterRow.PropertyName == i.Name : !selectedPropertyNames.Contains(i.Name));
       
       if (!propInfo.Any())

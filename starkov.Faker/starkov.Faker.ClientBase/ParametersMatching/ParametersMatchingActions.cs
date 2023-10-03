@@ -38,7 +38,7 @@ namespace starkov.Faker.Client
     public static void AddDataInCollectionParameters(Sungero.Domain.Client.ExecuteChildCollectionActionArgs e)
     {
       var obj = ParametersMatchings.As(e.RootEntity);
-      if (obj.DatabookType == null && obj.DocumentType == null)
+      if (obj.EntityType == null && obj.DocumentType == null)
         throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.ErrorToAddDataFillEntityType);
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
@@ -75,7 +75,7 @@ namespace starkov.Faker.Client
     public static void AddDataInParameters(Sungero.Domain.Client.ExecuteChildCollectionActionArgs e)
     {
       var obj = ParametersMatchings.As(e.RootEntity);
-      if (obj.DatabookType == null && obj.DocumentType == null)
+      if (obj.EntityType == null && obj.DocumentType == null)
         throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.ErrorToAddDataFillEntityType);
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);

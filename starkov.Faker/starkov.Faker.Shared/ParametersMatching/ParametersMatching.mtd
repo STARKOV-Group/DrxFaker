@@ -218,8 +218,8 @@
     {
       "$type": "Sungero.Metadata.EnumPropertyMetadata, Sungero.Metadata",
       "NameGuid": "c93bcb14-a144-4266-9c61-f3a9c093fdd8",
-      "Name": "EntityType",
-      "Code": "EntityType",
+      "Name": "SelectorEntityType",
+      "Code": "SelectorEntity",
       "DirectValues": [
         {
           "NameGuid": "d0dddf0b-5e7e-405e-957e-11cbc75e8d89",
@@ -230,6 +230,11 @@
           "NameGuid": "22e9842d-0031-4076-8c8c-2ee348446b7e",
           "Name": "Document",
           "Code": "Document"
+        },
+        {
+          "NameGuid": "46cc454c-cf46-47c3-8cae-36eee75fce97",
+          "Name": "Task",
+          "Code": "Task"
         }
       ],
       "HandledEvents": [
@@ -241,8 +246,8 @@
     {
       "$type": "Sungero.Metadata.NavigationPropertyMetadata, Sungero.Metadata",
       "NameGuid": "c57452f4-a5a1-4a36-955c-06ce1518c813",
-      "Name": "DatabookType",
-      "Code": "DatabookType",
+      "Name": "EntityType",
+      "Code": "EntityType",
       "EntityGuid": "af491abf-f381-4765-916a-6b9dee7554a1",
       "FlatListInStandaloneLookup": true,
       "HandledEvents": [

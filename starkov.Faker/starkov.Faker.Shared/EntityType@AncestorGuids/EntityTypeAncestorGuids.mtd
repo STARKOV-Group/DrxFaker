@@ -1,20 +1,21 @@
 {
   "$type": "Sungero.Metadata.EntityMetadata, Sungero.Metadata",
   "NameGuid": "39fb3cf8-efd4-46e1-b8d0-4720216a187c",
-  "Name": "DatabookTypeAncestorGuids",
+  "Name": "EntityTypeAncestorGuids",
   "AccessRightsMode": "NoRight",
   "BaseGuid": "a3d38bf5-0414-41f6-bb33-a4621d2e5a60",
   "CanBeNavigationPropertyType": true,
-  "Code": "DatabookTypeAn",
+  "Code": "EntityTypeAnce",
   "ExtraSearchProperties": [],
+  "IntegrationServiceName": "DatabookTypeAncestorGuids",
   "IsChildEntity": true,
   "Properties": [
     {
       "$type": "Sungero.Metadata.NavigationPropertyMetadata, Sungero.Metadata",
       "NameGuid": "d0a37f76-e928-43f1-bf2e-d0ada6b4f24c",
-      "Name": "DatabookType",
+      "Name": "EntityType",
       "CanBeSearch": false,
-      "Code": "DatabookType",
+      "Code": "EntityType",
       "EntityGuid": "af491abf-f381-4765-916a-6b9dee7554a1",
       "IsReferenceToRootEntity": true,
       "IsShowedInList": false

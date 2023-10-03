@@ -1,10 +1,10 @@
 {
   "$type": "Sungero.Metadata.EntityMetadata, Sungero.Metadata",
   "NameGuid": "af491abf-f381-4765-916a-6b9dee7554a1",
-  "Name": "DatabookType",
+  "Name": "EntityType",
   "BaseGuid": "04581d26-0780-4cfd-b3cd-c2cafc5798b0",
   "CanBeNavigationPropertyType": true,
-  "Code": "DatabookType",
+  "Code": "EntityType",
   "CreationAreaMetadata": {
     "NameGuid": "f7766750-eee2-4fcd-8003-5c06a90d1f44",
     "Name": "CreationArea",
@@ -78,8 +78,8 @@
     {
       "$type": "Sungero.Metadata.StringPropertyMetadata, Sungero.Metadata",
       "NameGuid": "c2646cef-b24e-4e73-90ea-852af161887e",
-      "Name": "DatabookTypeGuid",
-      "Code": "DatabookTypeGu",
+      "Name": "EntityTypeGuid",
+      "Code": "EntityTypeGuid",
       "HandledEvents": [
         "ValueInputClient"
       ],
@@ -92,7 +92,7 @@
       "$type": "Sungero.Metadata.CollectionPropertyMetadata, Sungero.Metadata",
       "NameGuid": "671d5592-b23e-42ff-9434-8136c597ed56",
       "Name": "AncestorGuids",
-      "Code": "DatabookTypeAn",
+      "Code": "EntityTypeAnce",
       "EntityGuid": "39fb3cf8-efd4-46e1-b8d0-4720216a187c",
       "IsEnabled": false,
       "IsShowedInList": false,
