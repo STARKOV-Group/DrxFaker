@@ -76,4 +76,7 @@
   <data name="Property_AncestorGuids" xml:space="preserve">
     <value>Ancestor guids</value>
   </data>
+  <data name="Property_IsTask" xml:space="preserve">
+    <value>Is task type</value>
+  </data>
 </root>

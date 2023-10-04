@@ -8,7 +8,7 @@
         <property name="View" isnull="true" iskey="true">
           <property name="LinesPerRowMode">None</property>
           <property name="ColumnChooserState" isnull="true" iskey="true">
-            <property name="Location">1372,-102</property>
+            <property name="Location">1368,-102</property>
             <property name="Size">220,250</property>
           </property>
           <property name="AllowMoveColumnToDropArea">false</property>
@@ -30,7 +30,7 @@
             <property name="Name">ParametersMatching_Parameters_PropertyName</property>
             <property name="FieldName">PropertyName</property>
             <property name="VisibleIndex">0</property>
-            <property name="Width">173</property>
+            <property name="Width">174</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item2" isnull="true" iskey="true">
@@ -86,7 +86,7 @@
             <property name="Name">ParametersMatching_Parameters_IsRequired</property>
             <property name="FieldName">IsRequired</property>
             <property name="VisibleIndex">7</property>
-            <property name="Width">173</property>
+            <property name="Width">174</property>
             <property name="ActualWidth">9*</property>
           </property>
         </property>
@@ -101,7 +101,7 @@
         <property name="View" isnull="true" iskey="true">
           <property name="LinesPerRowMode">None</property>
           <property name="ColumnChooserState" isnull="true" iskey="true">
-            <property name="Location">1372,-102</property>
+            <property name="Location">1368,-102</property>
             <property name="Size">220,250</property>
           </property>
           <property name="AllowMoveColumnToDropArea">false</property>
@@ -123,7 +123,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_PropertyName</property>
             <property name="FieldName">PropertyName</property>
             <property name="VisibleIndex">0</property>
-            <property name="Width">173</property>
+            <property name="Width">174</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item2" isnull="true" iskey="true">
@@ -179,7 +179,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_IsRequired</property>
             <property name="FieldName">IsRequired</property>
             <property name="VisibleIndex">7</property>
-            <property name="Width">173</property>
+            <property name="Width">174</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item9" isnull="true" iskey="true">
@@ -187,7 +187,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_CollectionName</property>
             <property name="FieldName">CollectionName</property>
             <property name="VisibleIndex">8</property>
-            <property name="Width">173</property>
+            <property name="Width">174</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item10" isnull="true" iskey="true">

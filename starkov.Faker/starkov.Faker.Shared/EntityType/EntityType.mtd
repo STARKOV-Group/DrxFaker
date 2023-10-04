@@ -81,7 +81,8 @@
       "Name": "EntityTypeGuid",
       "Code": "EntityTypeGuid",
       "HandledEvents": [
-        "ValueInputClient"
+        "ValueInputClient",
+        "ChangedShared"
       ],
       "IsRequired": true,
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.StringEditorToStringBinder",
@@ -98,6 +99,16 @@
       "IsShowedInList": false,
       "IsVisibility": false,
       "PreviousPropertyGuid": "c2646cef-b24e-4e73-90ea-852af161887e"
+    },
+    {
+      "$type": "Sungero.Metadata.BooleanPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "606eb71e-5be6-4268-90be-fa22d3aca59a",
+      "Name": "IsTask",
+      "Code": "IsTask",
+      "IsEnabled": false,
+      "IsVisibility": false,
+      "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
+      "PreviousPropertyGuid": "671d5592-b23e-42ff-9434-8136c597ed56"
     }
   ],
   "PublicStructures": [],

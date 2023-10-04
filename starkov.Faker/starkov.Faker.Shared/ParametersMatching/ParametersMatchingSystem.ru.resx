@@ -160,4 +160,7 @@
   <data name="Enum_SelectorEntityType_Task" xml:space="preserve">
     <value>Задача</value>
   </data>
+  <data name="Property_IsNeedStartTask" xml:space="preserve">
+    <value>Запустить задачу</value>
+  </data>
 </root>

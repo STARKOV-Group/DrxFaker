@@ -76,4 +76,7 @@
   <data name="Property_AncestorGuids" xml:space="preserve">
     <value>Guid'ы предков</value>
   </data>
+  <data name="Property_IsTask" xml:space="preserve">
+    <value>Признак типа задачи</value>
+  </data>
 </root>

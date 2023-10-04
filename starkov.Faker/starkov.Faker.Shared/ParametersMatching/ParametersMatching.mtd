@@ -145,7 +145,7 @@
           "HeaderLocation": "Top",
           "ParentGuid": "ad049197-9b95-4909-b62f-d9be7c4778f6",
           "PropertyGuid": "ea1972ed-b62c-4025-b842-99ea87f0f098",
-          "RowNumber": 5,
+          "RowNumber": 6,
           "RowSpan": 1,
           "Settings": [
             {
@@ -181,7 +181,7 @@
           "HeaderLocation": "Top",
           "ParentGuid": "ad049197-9b95-4909-b62f-d9be7c4778f6",
           "PropertyGuid": "b2ad6b55-e24d-4efd-8768-8b0556bb0b67",
-          "RowNumber": 6,
+          "RowNumber": 7,
           "RowSpan": 1,
           "Settings": [
             {
@@ -193,6 +193,19 @@
               "Value": true
             }
           ]
+        },
+        {
+          "$type": "Sungero.Metadata.ControlMetadata, Sungero.Metadata",
+          "NameGuid": "f696321a-1fda-4bf3-a7f4-b3bd0d7374e0",
+          "Name": "IsNeedStartTask",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
+          "ParentGuid": "ad049197-9b95-4909-b62f-d9be7c4778f6",
+          "PropertyGuid": "40625187-aec3-489f-beb5-b184cb598f6a",
+          "RowNumber": 5,
+          "RowSpan": 1,
+          "Settings": []
         }
       ]
     }
@@ -251,9 +264,11 @@
       "EntityGuid": "af491abf-f381-4765-916a-6b9dee7554a1",
       "FlatListInStandaloneLookup": true,
       "HandledEvents": [
-        "ValueInputClient"
+        "ValueInputClient",
+        "LookupServer"
       ],
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.DropDownEditorToNavigationBinder",
+      "NeedPassEntityToLookupEvent": true,
       "PreviousPropertyGuid": "c93bcb14-a144-4266-9c61-f3a9c093fdd8"
     },
     {
@@ -303,6 +318,14 @@
       "IsShowedInList": false,
       "PreviousPropertyGuid": "7c72144f-0b38-41ae-a747-d7f72da818bf",
       "Versions": []
+    },
+    {
+      "$type": "Sungero.Metadata.BooleanPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "40625187-aec3-489f-beb5-b184cb598f6a",
+      "Name": "IsNeedStartTask",
+      "Code": "IsNeedStartTas",
+      "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
+      "PreviousPropertyGuid": "b2ad6b55-e24d-4efd-8768-8b0556bb0b67"
     }
   ],
   "PublicStructures": [],

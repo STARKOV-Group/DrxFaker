@@ -53,7 +53,9 @@ namespace starkov.Faker
       _obj.EntityType = null;
       _obj.DocumentType = null;
       _obj.IsNeedCreateVersion = false;
+      _obj.IsNeedStartTask = false;
       _obj.Parameters.Clear();
+      _obj.CollectionParameters.Clear();
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
 
@@ -70,10 +72,12 @@ namespace starkov.Faker
       var prop = _obj.State.Properties;
       var isDocument = _obj.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Document;
       var isDataBook = _obj.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.DataBook;
+      var isTask = _obj.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task;
       
       prop.DocumentType.IsVisible = isDocument;
-      prop.EntityType.IsVisible = isDataBook;
+      prop.EntityType.IsVisible = isDataBook || isTask;
       prop.IsNeedCreateVersion.IsVisible = isDocument;
+      prop.IsNeedStartTask.IsVisible = isTask;
       prop.Name.IsEnabled = _obj.EntityType != null || _obj.DocumentType != null;
       
       //Столбцы коллекций
