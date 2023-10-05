@@ -74,7 +74,7 @@
     <value>Количество выводимых наименований учетных записей</value>
   </data>
   <data name="Property_AttachmentsNumber" xml:space="preserve">
-    <value>Количество сущностей вложенных в уведомление</value>
+    <value>Количество сущностей, вложенных в уведомление</value>
   </data>
   <data name="Property_IsShowAllLoginNames" xml:space="preserve">
     <value>Выводить все наименования учетных записей</value>
