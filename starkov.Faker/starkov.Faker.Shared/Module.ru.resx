@@ -124,4 +124,8 @@ StackTrace: {2}</value>
   <data name="ErrorNegativeNumber" xml:space="preserve">
     <value>Введенное число должно быть больше 0</value>
   </data>
+  <data name="ErrorText_SetAttachmentIntoGroup" xml:space="preserve">
+    <value>Ошибка вызванная занесением вложения в группу {0}:
+- {1}</value>
+  </data>
 </root>

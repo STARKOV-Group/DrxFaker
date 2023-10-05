@@ -116,13 +116,13 @@ namespace starkov.Faker.Server
             if (collectionInfo == null)
               continue;
             
-            var collection = Functions.Module.CastToChildEntityCollection(collectionInfo.GetValue(entity, null));
+            var collection = collectionInfo.GetValue(entity, null);
             if (collection == null)
               continue;
             
             for (var number = 0; number < rowCount; number++)
             {
-              var newLine = collection.GetType().GetMethod("AddNew", new Type[0]).Invoke(collection, null);
+              var newLine = collection.GetType().GetMethod(Constants.Module.Collections.AddMethod, new Type[0]).Invoke(collection, null);
               foreach (var parametersRow in parameters)
               {
                 try
@@ -166,6 +166,63 @@ namespace starkov.Faker.Server
           }
           #endregion
           
+          #region Заполнение вложений задачи
+          if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task)
+          {
+            foreach (var attachmentRow in databook.AttachmentParameters.Where(p => p.FillOption != Constants.Module.FillOptions.Common.NullValue))
+            {
+              var attachmentGroupInfo = entityProperties.FirstOrDefault(info => info.Name == attachmentRow.AttachmentName);
+              if (attachmentGroupInfo == null)
+                continue;
+              
+              var attachmentGroup = attachmentGroupInfo.GetValue(entity, null);
+              if (attachmentGroup == null)
+                continue;
+              
+              var attachmentInfo = attachmentGroup.GetType().GetProperties().FirstOrDefault(_ => _.Name == Constants.Module.Attachments.PropertyAll);
+              if (attachmentInfo == null)
+                break;
+              
+              var attachment = attachmentInfo.GetValue(attachmentGroup, null);
+              if (attachment == null)
+                continue;
+              
+              var parameterStruct = Structures.Module.ParameterInfo.Create(attachmentRow.ParametersMatching,
+                                                                           attachmentRow.AttachmentName,
+                                                                           attachmentRow.PropertyTypeGuid,
+                                                                           attachmentRow.PropertyType,
+                                                                           attachmentRow.FillOption,
+                                                                           attachmentRow.ChosenValue,
+                                                                           string.Empty,
+                                                                           string.Empty);
+              
+              for (var number = 0; number < attachmentRow.Count.GetValueOrDefault(); number++)
+              {
+                try
+                {
+                  var propertyValue = GetPropertyValue(parameterStruct,
+                                                       propertiesStructure,
+                                                       cache,
+                                                       null,
+                                                       attachmentInfo);
+                  attachment.GetType().GetMethod(Constants.Module.Attachments.AddMethod).Invoke(attachment, new object[1] { propertyValue });
+                }
+                catch (Exception ex)
+                {
+                  var err = starkov.Faker.Resources.ErrorText_SetAttachmentIntoGroupFormat(attachmentRow.AttachmentName, ex.Message);
+                  if (!errors.Contains(err))
+                    errors.Add(err);
+                  
+                  Logger.ErrorFormat("EntitiesGeneration error caused by setting attachments {0}: {1}\r\n   StackTrace: {2}",
+                                     attachmentRow.AttachmentName,
+                                     ex.Message,
+                                     ex.StackTrace);
+                }
+              }
+            }
+          }
+          #endregion
+          
           #region Создание версии документа
           if (isNeedCreateVersion)
           {
@@ -197,6 +254,9 @@ namespace starkov.Faker.Server
             createdEntityCount++;
             if (firstEntityId == 0)
               firstEntityId = entity.Id;
+            
+            if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task && databook.IsNeedStartTask.GetValueOrDefault())
+              Sungero.Workflow.Tasks.As(entity).Start();
           }
           catch (Exception ex)
           {

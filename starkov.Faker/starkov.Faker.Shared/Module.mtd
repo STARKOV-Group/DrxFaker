@@ -199,7 +199,8 @@
     "DocumentWithVersionName",
     "ErrorDuringCast",
     "AsyncEndWorkSimpleMessage",
-    "ErrorNegativeNumber"
+    "ErrorNegativeNumber",
+    "ErrorText_SetAttachmentIntoGroup"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",

@@ -30,7 +30,7 @@
             <property name="Name">ParametersMatching_Parameters_PropertyName</property>
             <property name="FieldName">PropertyName</property>
             <property name="VisibleIndex">0</property>
-            <property name="Width">122</property>
+            <property name="Width">118</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item2" isnull="true" iskey="true">
@@ -38,7 +38,7 @@
             <property name="Name">ParametersMatching_Parameters_LocalizedPropertyName</property>
             <property name="FieldName">LocalizedPropertyName</property>
             <property name="VisibleIndex">1</property>
-            <property name="Width">149</property>
+            <property name="Width">144</property>
             <property name="ActualWidth">11*</property>
           </property>
           <property name="Item3" isnull="true" iskey="true">
@@ -46,7 +46,7 @@
             <property name="Name">ParametersMatching_Parameters_PropertyType</property>
             <property name="FieldName">PropertyType</property>
             <property name="VisibleIndex">2</property>
-            <property name="Width">81</property>
+            <property name="Width">79</property>
             <property name="ActualWidth">6*</property>
           </property>
           <property name="Item4" isnull="true" iskey="true">
@@ -54,7 +54,7 @@
             <property name="Name">ParametersMatching_Parameters_FillOption</property>
             <property name="FieldName">FillOption</property>
             <property name="VisibleIndex">3</property>
-            <property name="Width">108</property>
+            <property name="Width">105</property>
             <property name="ActualWidth">8*</property>
           </property>
           <property name="Item5" isnull="true" iskey="true">
@@ -62,7 +62,7 @@
             <property name="Name">ParametersMatching_Parameters_ChosenValue</property>
             <property name="FieldName">ChosenValue</property>
             <property name="VisibleIndex">4</property>
-            <property name="Width">108</property>
+            <property name="Width">105</property>
             <property name="ActualWidth">8*</property>
           </property>
           <property name="Item6" isnull="true" iskey="true">
@@ -70,7 +70,7 @@
             <property name="Name">ParametersMatching_Parameters_ValueFrom</property>
             <property name="FieldName">ValueFrom</property>
             <property name="VisibleIndex">5</property>
-            <property name="Width">149</property>
+            <property name="Width">144</property>
             <property name="ActualWidth">11*</property>
           </property>
           <property name="Item7" isnull="true" iskey="true">
@@ -78,7 +78,7 @@
             <property name="Name">ParametersMatching_Parameters_ValueTo</property>
             <property name="FieldName">ValueTo</property>
             <property name="VisibleIndex">6</property>
-            <property name="Width">149</property>
+            <property name="Width">144</property>
             <property name="ActualWidth">11*</property>
           </property>
           <property name="Item8" isnull="true" iskey="true">
@@ -86,7 +86,7 @@
             <property name="Name">ParametersMatching_Parameters_IsRequired</property>
             <property name="FieldName">IsRequired</property>
             <property name="VisibleIndex">7</property>
-            <property name="Width">122</property>
+            <property name="Width">118</property>
             <property name="ActualWidth">9*</property>
           </property>
         </property>
@@ -124,7 +124,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_PropertyName</property>
             <property name="FieldName">PropertyName</property>
             <property name="VisibleIndex">3</property>
-            <property name="Width">122</property>
+            <property name="Width">118</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item2" isnull="true" iskey="true">
@@ -133,7 +133,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_LocalizedPropertyName</property>
             <property name="FieldName">LocalizedPropertyName</property>
             <property name="VisibleIndex">4</property>
-            <property name="Width">149</property>
+            <property name="Width">144</property>
             <property name="ActualWidth">11*</property>
           </property>
           <property name="Item3" isnull="true" iskey="true">
@@ -142,7 +142,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_PropertyType</property>
             <property name="FieldName">PropertyType</property>
             <property name="VisibleIndex">5</property>
-            <property name="Width">81</property>
+            <property name="Width">79</property>
             <property name="ActualWidth">6*</property>
           </property>
           <property name="Item4" isnull="true" iskey="true">
@@ -151,7 +151,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_FillOption</property>
             <property name="FieldName">FillOption</property>
             <property name="VisibleIndex">6</property>
-            <property name="Width">108</property>
+            <property name="Width">105</property>
             <property name="ActualWidth">8*</property>
           </property>
           <property name="Item5" isnull="true" iskey="true">
@@ -160,7 +160,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_ChosenValue</property>
             <property name="FieldName">ChosenValue</property>
             <property name="VisibleIndex">7</property>
-            <property name="Width">108</property>
+            <property name="Width">105</property>
             <property name="ActualWidth">8*</property>
           </property>
           <property name="Item6" isnull="true" iskey="true">
@@ -169,7 +169,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_ValueFrom</property>
             <property name="FieldName">ValueFrom</property>
             <property name="VisibleIndex">8</property>
-            <property name="Width">149</property>
+            <property name="Width">144</property>
             <property name="ActualWidth">11*</property>
           </property>
           <property name="Item7" isnull="true" iskey="true">
@@ -178,7 +178,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_ValueTo</property>
             <property name="FieldName">ValueTo</property>
             <property name="VisibleIndex">9</property>
-            <property name="Width">149</property>
+            <property name="Width">144</property>
             <property name="ActualWidth">11*</property>
           </property>
           <property name="Item8" isnull="true" iskey="true">
@@ -187,7 +187,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_IsRequired</property>
             <property name="FieldName">IsRequired</property>
             <property name="VisibleIndex">10</property>
-            <property name="Width">122</property>
+            <property name="Width">118</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item9" isnull="true" iskey="true">
@@ -196,7 +196,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_CollectionName</property>
             <property name="FieldName">CollectionName</property>
             <property name="VisibleIndex">0</property>
-            <property name="Width">122</property>
+            <property name="Width">118</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item10" isnull="true" iskey="true">
@@ -205,7 +205,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_RowCount</property>
             <property name="FieldName">RowCount</property>
             <property name="VisibleIndex">2</property>
-            <property name="Width">95</property>
+            <property name="Width">92</property>
             <property name="ActualWidth">7*</property>
           </property>
           <property name="Item11" isnull="true" iskey="true">
@@ -214,7 +214,7 @@
             <property name="Name">ParametersMatching_CollectionParameters_LocalizedCollectionName</property>
             <property name="FieldName">LocalizedCollectionName</property>
             <property name="VisibleIndex">1</property>
-            <property name="Width">190</property>
+            <property name="Width">183</property>
             <property name="ActualWidth">14*</property>
           </property>
         </property>
@@ -252,7 +252,7 @@
             <property name="Name">ParametersMatching_AttachmentParameters_AttachmentName</property>
             <property name="FieldName">AttachmentName</property>
             <property name="VisibleIndex">0</property>
-            <property name="Width">217</property>
+            <property name="Width">210</property>
             <property name="ActualWidth">16*</property>
           </property>
           <property name="Item2" isnull="true" iskey="true">
@@ -261,7 +261,7 @@
             <property name="Name">ParametersMatching_AttachmentParameters_LocalizedAttachmentName</property>
             <property name="FieldName">LocalizedAttachmentName</property>
             <property name="VisibleIndex">1</property>
-            <property name="Width">244</property>
+            <property name="Width">236</property>
             <property name="ActualWidth">18*</property>
           </property>
           <property name="Item3" isnull="true" iskey="true">
@@ -270,7 +270,7 @@
             <property name="Name">ParametersMatching_AttachmentParameters_FillOption</property>
             <property name="FieldName">FillOption</property>
             <property name="VisibleIndex">3</property>
-            <property name="Width">149</property>
+            <property name="Width">144</property>
             <property name="ActualWidth">11*</property>
           </property>
           <property name="Item4" isnull="true" iskey="true">
@@ -279,7 +279,7 @@
             <property name="Name">ParametersMatching_AttachmentParameters_ChosenValue</property>
             <property name="FieldName">ChosenValue</property>
             <property name="VisibleIndex">4</property>
-            <property name="Width">149</property>
+            <property name="Width">144</property>
             <property name="ActualWidth">11*</property>
           </property>
           <property name="Item5" isnull="true" iskey="true">
@@ -288,7 +288,7 @@
             <property name="Name">ParametersMatching_AttachmentParameters_IsRequired</property>
             <property name="FieldName">IsRequired</property>
             <property name="VisibleIndex">5</property>
-            <property name="Width">122</property>
+            <property name="Width">118</property>
             <property name="ActualWidth">9*</property>
           </property>
           <property name="Item6" isnull="true" iskey="true">
@@ -297,7 +297,7 @@
             <property name="Name">ParametersMatching_AttachmentParameters_Count</property>
             <property name="FieldName">Count</property>
             <property name="VisibleIndex">2</property>
-            <property name="Width">95</property>
+            <property name="Width">92</property>
             <property name="ActualWidth">7*</property>
           </property>
         </property>

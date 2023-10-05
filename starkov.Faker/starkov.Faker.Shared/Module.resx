@@ -124,4 +124,8 @@ StackTrace: {2}</value>
   <data name="ErrorNegativeNumber" xml:space="preserve">
     <value>The entered number must be greater than 0</value>
   </data>
+  <data name="ErrorText_SetAttachmentIntoGroup" xml:space="preserve">
+    <value>Error caused by adding an attachment to group {0}:
+- {1}</value>
+  </data>
 </root>

@@ -38,6 +38,33 @@ namespace starkov.Faker.Constants
     }
     
     /// <summary>
+    /// Наименования свойств и методов коллекций.
+    /// </summary>
+    public static class Collections
+    {
+      /// <summary>
+      /// Наименование метода для добавления новой строки.
+      /// </summary>
+      public const string AddMethod = "AddNew";
+    }
+    
+    /// <summary>
+    /// Наименования свойств и методов вложений.
+    /// </summary>
+    public static class Attachments
+    {
+      /// <summary>
+      /// Наименование метода для добавления вложения.
+      /// </summary>
+      public const string AddMethod = "Add";
+      
+      /// <summary>
+      /// Наименование свойства для выбора всех типов вложений.
+      /// </summary>
+      public const string PropertyAll = "All";
+    }
+    
+    /// <summary>
     /// Обобщенное наименование типов.
     /// </summary>
     public static class CustomType
