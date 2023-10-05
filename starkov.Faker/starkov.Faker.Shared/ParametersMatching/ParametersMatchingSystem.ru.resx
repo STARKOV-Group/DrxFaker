@@ -163,4 +163,25 @@
   <data name="Property_IsNeedStartTask" xml:space="preserve">
     <value>Запустить задачу</value>
   </data>
+  <data name="Property_AttachmentParameters" xml:space="preserve">
+    <value>Параметры вложений</value>
+  </data>
+  <data name="Action_AddDataInAttachments" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsHint" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsDescription" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachments" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsHint" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsDescription" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
 </root>

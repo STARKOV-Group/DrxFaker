@@ -18,6 +18,147 @@ namespace starkov.Faker.Client
     /// Показ диалога для выбора данных.
     /// </summary>
     /// <param name="rowId">Номер строки.</param>
+    public void ShowDialogForSelectAttachments(long? rowId)
+    {
+      var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
+      
+      #region Данные для диалога
+      var parameterRow = _obj.AttachmentParameters.FirstOrDefault(p => p.Id == rowId.GetValueOrDefault());
+      var selectedAttachmentNames = _obj.AttachmentParameters.Select(p => p.AttachmentName);
+      var propInfo = Functions.Module.Remote.GetAttachmentPropertiesType(_obj.EntityType?.EntityTypeGuid)
+        .Where(i => rowId.HasValue ? parameterRow.AttachmentName == i.Name : !selectedAttachmentNames.Contains(i.Name));
+      
+      if (!propInfo.Any())
+      {
+        if (parameterRow == null)
+          Dialogs.ShowMessage(starkov.Faker.ParametersMatchings.Resources.DialogInfoNoAvailableParams, MessageType.Information);
+        else
+          Dialogs.ShowMessage(starkov.Faker.ParametersMatchings.Resources.DialogErrorNoPropertyFormat(parameterRow.LocalizedAttachmentName), MessageType.Error);
+        return;
+      }
+      #endregion
+      
+      #region Поля диалога
+      var localizedValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldLocalizedValue, false)
+        .From(propInfo.Select(i => i.LocalizedName).OrderBy(i => i).ToArray());
+      var propertyNameField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldAttachmentName, true)
+        .From(propInfo.Select(i => i.Name).OrderBy(i => i).ToArray());
+      var isLocalizedValues = dialog.AddBoolean(starkov.Faker.ParametersMatchings.Resources.DialogFieldUseLocalizedValue, false);
+      var parameterField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldFillOption, true)
+        .From(new string[] {
+                Constants.Module.FillOptions.Common.NullValue,
+                Constants.Module.FillOptions.Common.FixedValue,
+                Constants.Module.FillOptions.Common.RandomValue
+              });
+      var personalValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldValue, false);
+      
+      var isUnique = propInfo.Select(i => i.LocalizedName).Count() == propInfo.Select(i => i.LocalizedName).Distinct().Count();
+      isLocalizedValues.IsVisible = isUnique && parameterRow == null;
+      parameterField.IsEnabled = parameterRow != null;
+      personalValuesField.IsVisible = false;
+      #endregion
+      
+      #region Обработчики свойств
+      dialog.SetOnRefresh((arg) =>
+                          {
+                            if (!isUnique)
+                              arg.AddInformation(starkov.Faker.ParametersMatchings.Resources.DialogInfoLocalizedPropertyNotUnique);
+                          });
+      
+      propertyNameField.SetOnValueChanged((arg) =>
+                                          {
+                                            var isFilledVal = !string.IsNullOrEmpty(arg.NewValue);
+                                            if (isFilledVal && arg.NewValue != arg.OldValue)
+                                              localizedValuesField.Value = propInfo.FirstOrDefault(i => i.Name == arg.NewValue)?.LocalizedName;
+                                            parameterField.IsEnabled = isFilledVal;
+                                            personalValuesField.Value = null;
+                                          });
+      
+      localizedValuesField.SetOnValueChanged((arg) =>
+                                             {
+                                               if (!string.IsNullOrEmpty(arg.NewValue) && arg.NewValue != arg.OldValue)
+                                                 propertyNameField.Value = propInfo.FirstOrDefault(i => i.LocalizedName == arg.NewValue)?.Name;
+                                             });
+      
+      isLocalizedValues.SetOnValueChanged((arg) =>
+                                          {
+                                            var isLocalazied = arg.NewValue.GetValueOrDefault();
+                                            localizedValuesField.IsRequired = isLocalazied;
+                                            localizedValuesField.IsEnabled = isLocalazied;
+                                            propertyNameField.IsRequired = !isLocalazied;
+                                            propertyNameField.IsEnabled = !isLocalazied;
+                                            
+                                            propertyNameField.Value = null;
+                                            localizedValuesField.Value = null;
+                                          });
+      
+      parameterField.SetOnValueChanged((arg) =>
+                                       {
+                                         var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyNameField.Value);
+                                         if (selectedPropInfo == null)
+                                           return;
+                                         
+                                         var isFixedVal = arg.NewValue == Constants.Module.FillOptions.Common.FixedValue;
+                                         if (isFixedVal)
+                                           personalValuesField.From(Functions.Module.GetEntitiyNamesByType(selectedPropInfo.PropertyGuid, string.Empty).ToArray());
+                                         
+                                         personalValuesField.IsVisible = isFixedVal;
+                                         personalValuesField.IsRequired = isFixedVal;
+                                       });
+      #endregion
+      
+      #region Заполнение данных
+      if (isLocalizedValues.Value != isLocalizedValues.IsVisible)
+        isLocalizedValues.Value = isLocalizedValues.IsVisible;
+      
+      if (parameterRow != null)
+      {
+        var selectedPropInfo = propInfo.FirstOrDefault();
+        propertyNameField.Value = selectedPropInfo.Name;
+        propertyNameField.IsEnabled = false;
+        localizedValuesField.IsEnabled = false;
+        
+        if (!string.IsNullOrEmpty(parameterRow.FillOption))
+        {
+          parameterField.Value = parameterRow.FillOption;
+          if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
+            personalValuesField.Value = parameterRow.ChosenValue;
+        }
+      }
+      
+      if (!isUnique)
+      {
+        propertyNameField.IsRequired = true;
+        localizedValuesField.IsEnabled = false;
+      }
+      #endregion
+      
+      #region Кнопки диалога
+      if (dialog.Show() == DialogButtons.Ok)
+      {
+        var selectedPropInfo = propInfo.FirstOrDefault(i => i.Name == propertyNameField.Value);
+        
+        var newRow = rowId.HasValue ? parameterRow : _obj.AttachmentParameters.AddNew();
+        newRow.AttachmentName = selectedPropInfo.Name;
+        newRow.LocalizedAttachmentName = selectedPropInfo.LocalizedName;
+        newRow.PropertyType = Constants.Module.CustomType.Navigation;
+        newRow.PropertyTypeGuid = selectedPropInfo.PropertyGuid;
+        newRow.Limit = selectedPropInfo.LimitCount;
+        newRow.FillOption = parameterField.Value;
+        newRow.IsRequired = selectedPropInfo.IsRequired;
+        newRow.ChosenValue = personalValuesField.Value;
+      }
+      #endregion
+    }
+    
+    #endregion
+    
+    #region Диалог для коллекции CollectionParameters
+    
+    /// <summary>
+    /// Показ диалога для выбора данных.
+    /// </summary>
+    /// <param name="rowId">Номер строки.</param>
     /// <param name="isFillValue">Признак заполнения значений.</param>
     public void ShowDialogForSelectCollectionParameters(long? rowId, bool isFillValue)
     {
@@ -592,13 +733,13 @@ namespace starkov.Faker.Client
       if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
       {
         var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
-        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ChosenValue));
+        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.ChosenValue));
       }
       else if (!string.IsNullOrEmpty(parameterRow.ValueFrom) && !string.IsNullOrEmpty(parameterRow.ValueTo))
       {
         var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
-        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ValueFrom));
-        controls[1].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[1], GetValueInSelectedType(controlType, parameterRow.PropertyTypeGuid, parameterRow.ValueTo));
+        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.ValueFrom));
+        controls[1].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[1], GetValueInSelectedType(controlType, parameterRow.ValueTo));
       }
     }
     
@@ -606,10 +747,9 @@ namespace starkov.Faker.Client
     /// Получить значение в указанном типе.
     /// </summary>
     /// <param name="customType">Обобщенный тип.</param>
-    /// <param name="typeGuid">Guid типа сущности.</param>
     /// <param name="convertedValue">Значение которое нужно преобразовать.</param>
     /// <returns>Преобразованное значение.</returns>
-    public virtual object GetValueInSelectedType(string customType, string typeGuid, string convertedValue)
+    public virtual object GetValueInSelectedType(string customType, string convertedValue)
     {
       DateTime date;
       bool logic;
@@ -622,8 +762,6 @@ namespace starkov.Faker.Client
         result = logic;
       else if (customType == Constants.Module.CustomType.Numeric && int.TryParse(convertedValue, out num))
         result = num;
-      else if (customType == Constants.Module.CustomType.Navigation)
-        result = Functions.Module.GetEntitiyNamesByType(typeGuid, _obj.DocumentType?.DocumentTypeGuid).FirstOrDefault(x => x == convertedValue);
       else
         result = convertedValue;
       

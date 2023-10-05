@@ -190,4 +190,37 @@
   <data name="Property_IsNeedStartTask" xml:space="preserve">
     <value>Start task</value>
   </data>
+  <data name="Property_AttachmentParameters" xml:space="preserve">
+    <value>Attachment parameters</value>
+  </data>
+  <data name="Action_AddDataInAttachments" xml:space="preserve">
+    <value>Add data</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsDescription" xml:space="preserve">
+    <value>Add data</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsHint" xml:space="preserve">
+    <value>Add data</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsConfirmationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_AddDataInAttachmentsConfirmationDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachments" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsDescription" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsHint" xml:space="preserve">
+    <value>Change selected entry</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsConfirmationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsConfirmationDescription" xml:space="preserve">
+    <value />
+  </data>
 </root>

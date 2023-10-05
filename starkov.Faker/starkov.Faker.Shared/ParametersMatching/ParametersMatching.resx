@@ -154,4 +154,13 @@
   <data name="DialogInfoLocalizedCollectionNotUnique" xml:space="preserve">
     <value>Localized collection values are not unique</value>
   </data>
+  <data name="ErrorToAddAttachmentFillEntityType" xml:space="preserve">
+    <value>To add data, fill in "Entity Type"</value>
+  </data>
+  <data name="DialogFieldAttachmentName" xml:space="preserve">
+    <value>Attachment name</value>
+  </data>
+  <data name="Error_GreaterThenLimit" xml:space="preserve">
+    <value>The maximum quantity for this group is {0}</value>
+  </data>
 </root>

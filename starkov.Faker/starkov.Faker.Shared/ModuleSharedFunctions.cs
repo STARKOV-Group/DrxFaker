@@ -32,6 +32,30 @@ namespace starkov.Faker.Shared
     #region Приведение типов метаданных
     
     /// <summary>
+    /// Приведение объекта к типу WorkflowEntityMetadata.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом WorkflowEntityMetadata, либо null при ошибке во время приведения к типу.</returns>
+    public static Sungero.Metadata.WorkflowEntityMetadata CastToWorkflowEntityMetadata(object castEntity)
+    {
+      Sungero.Metadata.WorkflowEntityMetadata val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (Sungero.Metadata.WorkflowEntityMetadata)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("WorkflowEntityMetadata", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
     /// Приведение объекта к типу IEntity.
     /// </summary>
     /// <param name="castEntity">Объект для приведения.</param>
@@ -456,9 +480,9 @@ namespace starkov.Faker.Shared
     /// <param name="typeGuid">Guid типа сущности.</param>
     /// <param name="documentTypeGuid">Guid типа документа.</param>
     /// <returns>Список наименований сущностей.</returns>
-    public virtual System.Collections.Generic.IEnumerable<string> GetEntitiyNamesByType(string typeGuid, string documentTypeGuid)
+    public virtual IQueryable<string> GetEntitiyNamesByType(string typeGuid, string documentTypeGuid)
     {
-      return Functions.Module.Remote.GetEntitiesByTypeGuid(typeGuid, documentTypeGuid).AsEnumerable()
+      return Functions.Module.Remote.GetEntitiesByTypeGuid(typeGuid, documentTypeGuid)
         .Select(ent => string.Format("{0}, Id: ({1})", ent.DisplayValue, ent.Id));
     }
     

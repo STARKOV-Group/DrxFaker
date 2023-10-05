@@ -585,6 +585,40 @@ namespace starkov.Faker.Server
     #region Получение информации о свойствах
     
     /// <summary>
+    /// Получить список с информацией о вложениях типа сущности.
+    /// </summary>
+    /// <param name="guid">Guid типа сущности.</param>
+    /// <returns>Список с информацией о вложениях типа сущности.</returns>
+    [Remote]
+    public virtual List<Structures.Module.AttachmentInfo> GetAttachmentPropertiesType(string guid)
+    {
+      var attachmentList = new List<Structures.Module.AttachmentInfo>();
+      
+      var typeGuid = Guid.Parse(guid);
+      var type = TypeExtension.GetTypeByGuid(typeGuid);
+      if (type == null)
+        return attachmentList;
+      
+      var workflowMetadata = Faker.Functions.Module.CastToWorkflowEntityMetadata(type.GetFinalType().GetEntityMetadata());
+      if (workflowMetadata == null)
+        return attachmentList;
+      
+      foreach (var attachment in workflowMetadata.AttachmentGroups)
+      {
+        var firstConstraint = attachment.Constraints.FirstOrDefault();
+        var constraintGuids = firstConstraint?.ConstraintTypeId.ToString() ??
+          Sungero.Content.Server.ElectronicDocument.ClassTypeGuid.ToString();
+        attachmentList.Add(Structures.Module.AttachmentInfo.Create(attachment.Name,
+                                                                   attachment.Title,
+                                                                   constraintGuids,
+                                                                   firstConstraint?.Limit,
+                                                                   attachment.IsRequired));
+      }
+      
+      return attachmentList;
+    }
+    
+    /// <summary>
     /// Получить список с информацией о колекциях типа сущности.
     /// </summary>
     /// <param name="guid">Guid типа сущности.</param>

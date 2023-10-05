@@ -54,6 +54,27 @@
       "NeedConfirmation": true,
       "SmallIconName": "Action_DeleteDataInCollectionParameters_small_7b48f8f878114259846d1c925cf177a2.png",
       "Versions": []
+    },
+    {
+      "NameGuid": "98fedf04-896c-4810-9cd7-6b551b53e198",
+      "Name": "AddDataInAttachments",
+      "ActionArea": "ChildCollection",
+      "CollectionPropertyGuid": "0cd745ca-71f6-4d19-9755-70a20fb6fc79",
+      "GenerateHandler": true,
+      "IsEmptySelectionAllowed": true,
+      "LargeIconName": "Action_AddDataInParameters1_large_98fedf04896c48109cd76b551b53e198.png",
+      "SmallIconName": "Action_AddDataInParameters1_small_98fedf04896c48109cd76b551b53e198.png",
+      "Versions": []
+    },
+    {
+      "NameGuid": "f492837c-7673-44fd-bc30-50fb8dea0c60",
+      "Name": "ChangeSelectedDataInAttachments",
+      "ActionArea": "ChildCollection",
+      "CollectionPropertyGuid": "0cd745ca-71f6-4d19-9755-70a20fb6fc79",
+      "GenerateHandler": true,
+      "LargeIconName": "Action_ChangeSelectedDataInParameters1_large_f492837c767344fdbc3050fb8dea0c60.png",
+      "SmallIconName": "Action_ChangeSelectedDataInParameters1_small_f492837c767344fdbc3050fb8dea0c60.png",
+      "Versions": []
     }
   ],
   "BaseGuid": "04581d26-0780-4cfd-b3cd-c2cafc5798b0",
@@ -206,6 +227,29 @@
           "RowNumber": 5,
           "RowSpan": 1,
           "Settings": []
+        },
+        {
+          "$type": "Sungero.Metadata.ControlMetadata, Sungero.Metadata",
+          "NameGuid": "391a80dc-ec33-4bd6-90dd-49a2da12ec54",
+          "Name": "AttachmentParameters",
+          "ColumnNumber": 0,
+          "ColumnSpan": 1,
+          "DataBinderTypeName": "Sungero.Presentation.CommonDataBinders.GridControlToChildCollectionBinder",
+          "HeaderLocation": "Top",
+          "ParentGuid": "ad049197-9b95-4909-b62f-d9be7c4778f6",
+          "PropertyGuid": "0cd745ca-71f6-4d19-9755-70a20fb6fc79",
+          "RowNumber": 8,
+          "RowSpan": 1,
+          "Settings": [
+            {
+              "Name": "NeedExpand",
+              "Value": true
+            },
+            {
+              "Name": "Height",
+              "Value": 100
+            }
+          ]
         }
       ]
     }
@@ -326,6 +370,20 @@
       "Code": "IsNeedStartTas",
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.BooleanEditorToBooleanBinder",
       "PreviousPropertyGuid": "b2ad6b55-e24d-4efd-8768-8b0556bb0b67"
+    },
+    {
+      "$type": "Sungero.Metadata.CollectionPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "0cd745ca-71f6-4d19-9755-70a20fb6fc79",
+      "Name": "AttachmentParameters",
+      "Code": "ParametersMat3",
+      "EntityGuid": "335e9956-d45e-43a4-a5bb-f8eb71ee90ba",
+      "HandledEvents": [
+        "AddedShared",
+        "DeletedShared"
+      ],
+      "IsShowedInList": false,
+      "PreviousPropertyGuid": "40625187-aec3-489f-beb5-b184cb598f6a",
+      "Versions": []
     }
   ],
   "PublicStructures": [],
@@ -361,7 +419,10 @@
     "Error_WrongWayToDelete",
     "DialogFieldLocalizedCollectionValue",
     "DialogFieldCollectionName",
-    "DialogInfoLocalizedCollectionNotUnique"
+    "DialogInfoLocalizedCollectionNotUnique",
+    "ErrorToAddAttachmentFillEntityType",
+    "DialogFieldAttachmentName",
+    "Error_GreaterThenLimit"
   ],
   "RibbonCardMetadata": {
     "NameGuid": "f1d9396c-6a0f-4d75-86a2-0fa85f2d1132",
