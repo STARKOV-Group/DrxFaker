@@ -128,4 +128,10 @@ StackTrace: {2}</value>
     <value>Ошибка вызванная занесением вложения в группу {0}:
 - {1}</value>
   </data>
+  <data name="Error_StartTask" xml:space="preserve">
+    <value>ИД задачи - {0}. Ошибка: {1}</value>
+  </data>
+  <data name="NoticeSubject_InfoAboutStartTasks" xml:space="preserve">
+    <value>Информация об отправке задач</value>
+  </data>
 </root>

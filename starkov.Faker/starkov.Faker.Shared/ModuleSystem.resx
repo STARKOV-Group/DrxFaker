@@ -112,4 +112,7 @@
   <data name="CoverDescription_OpenModuleSetup" xml:space="preserve">
     <value>Open module setup</value>
   </data>
+  <data name="AsyncHandler_Description_8e788f19b4d24912af56eb4ff19dc53a" xml:space="preserve">
+    <value>Asynchronous handler for running tasks</value>
+  </data>
 </root>

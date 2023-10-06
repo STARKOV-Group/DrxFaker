@@ -15,6 +15,50 @@ namespace starkov.Faker.Server
   {
 
     /// <summary>
+    /// Асинхронный обработчик для запуска задач
+    /// </summary>
+    public virtual void TasksStart(starkov.Faker.Server.AsyncHandlerInvokeArgs.TasksStartInvokeArgs args)
+    {
+      Logger.DebugFormat("Start async handler TasksStart");
+      args.Retry = false;
+      
+      var errors = new System.Text.StringBuilder();
+      var stopWatch = new Stopwatch();
+      stopWatch.Start();
+      
+      var ids = args.TaskIds.Split(Constants.Module.Separator).Select(x => long.Parse(x)).ToList();
+      var tasks = Sungero.Workflow.Tasks.GetAll(t => ids.Contains(t.Id));
+      foreach (var task in tasks)
+      {
+        try
+        {
+          task.Start();
+        }
+        catch (Exception ex)
+        {
+          errors.AppendLine(starkov.Faker.Resources.Error_StartTaskFormat(task.Id, ex.Message));
+          Logger.ErrorFormat("TasksStart error: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
+        }
+      }
+      
+      stopWatch.Stop();
+      var ts = stopWatch.Elapsed;
+      var elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                                      ts.Hours, ts.Minutes, ts.Seconds,
+                                      ts.Milliseconds / 10);
+      
+      if (Functions.ModuleSetup.GetModuleSetup()?.IsDisableNotifications.GetValueOrDefault() == false && errors.Length != 0)
+      {
+        var administrators = Roles.Administrators.RecipientLinks.Select(l => l.Member);
+        var notice = Sungero.Workflow.SimpleTasks.CreateWithNotices(starkov.Faker.Resources.NoticeSubject_InfoAboutStartTasks, administrators.ToArray());
+        notice.ActiveText = errors.ToString();
+        notice.Start();
+      }
+      
+      Logger.DebugFormat("End async handler TasksStart, elapsed time {0}", elapsedTime);
+    }
+
+    /// <summary>
     /// Асинхронный обработчик для генерации сущностей.
     /// </summary>
     public virtual void EntitiesGeneration(starkov.Faker.Server.AsyncHandlerInvokeArgs.EntitiesGenerationInvokeArgs args)
@@ -39,6 +83,7 @@ namespace starkov.Faker.Server
       var errors = new List<string>();
       var createdEntityCount = 0;
       long firstEntityId = 0;
+      var taskIds = new System.Text.StringBuilder();
       var maxLoginNamesNumber = Functions.ModuleSetup.GetLoginNamesNumber();
       var maxAttachmentsNumber = Functions.ModuleSetup.GetAttachmentsNumber();
       
@@ -256,7 +301,7 @@ namespace starkov.Faker.Server
               firstEntityId = entity.Id;
             
             if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task && databook.IsNeedStartTask.GetValueOrDefault())
-              Sungero.Workflow.Tasks.As(entity).Start();
+              taskIds.AppendFormat("{0}{1}", entity.Id, Constants.Module.Separator);
           }
           catch (Exception ex)
           {
@@ -280,6 +325,17 @@ namespace starkov.Faker.Server
       var elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                                       ts.Hours, ts.Minutes, ts.Seconds,
                                       ts.Milliseconds / 10);
+      
+      #region Старт задач
+      if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task &&
+          databook.IsNeedStartTask.GetValueOrDefault() &&
+          taskIds.Length != 0)
+      {
+        var async = AsyncHandlers.TasksStart.Create();
+        async.TaskIds = taskIds.Remove(taskIds.Length - 1, 1).ToString();
+        async.ExecuteAsync();
+      }
+      #endregion
       
       #region Отправка уведомления администраторам
       if (!isDisableNotify)

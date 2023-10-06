@@ -6,6 +6,12 @@ namespace starkov.Faker.Constants
   public static class Module
   {
     
+    
+    /// <summary>
+    /// Разделитель.
+    /// </summary>
+    public const char Separator = '|';
+    
     /// <summary>
     /// Стандартное кол-во записей создаваемое в рамках одного АО.
     /// </summary>

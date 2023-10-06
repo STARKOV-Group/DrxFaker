@@ -128,4 +128,10 @@ StackTrace: {2}</value>
     <value>Error caused by adding an attachment to group {0}:
 - {1}</value>
   </data>
+  <data name="Error_StartTask" xml:space="preserve">
+    <value>The task ID is {0}. Error: {1}</value>
+  </data>
+  <data name="NoticeSubject_InfoAboutStartTasks" xml:space="preserve">
+    <value>Information about submitting tasks</value>
+  </data>
 </root>

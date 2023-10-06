@@ -21,6 +21,20 @@
           "ParameterType": "Integer"
         }
       ]
+    },
+    {
+      "NameGuid": "8e788f19-b4d2-4912-af56-eb4ff19dc53a",
+      "Name": "TasksStart",
+      "DelayPeriod": 15,
+      "DelayStrategy": "RegularDelayStrategy",
+      "IsHandlerGenerated": true,
+      "Parameters": [
+        {
+          "NameGuid": "f14a3f5a-ad76-42a5-8b91-37e315dd2144",
+          "Name": "TaskIds",
+          "ParameterType": "String"
+        }
+      ]
     }
   ],
   "ClientAssemblyName": "starkov.Faker.Client",
@@ -200,7 +214,9 @@
     "ErrorDuringCast",
     "AsyncEndWorkSimpleMessage",
     "ErrorNegativeNumber",
-    "ErrorText_SetAttachmentIntoGroup"
+    "ErrorText_SetAttachmentIntoGroup",
+    "Error_StartTask",
+    "NoticeSubject_InfoAboutStartTasks"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",
