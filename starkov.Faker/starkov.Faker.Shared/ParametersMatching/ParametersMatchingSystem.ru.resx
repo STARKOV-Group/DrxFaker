@@ -70,17 +70,17 @@
   <data name="CollectionDisplayName" xml:space="preserve">
     <value>Соответствие заполняемых параметров сущности</value>
   </data>
-  <data name="Property_EntityType" xml:space="preserve">
-    <value>Тип сущности</value>
+  <data name="Property_SelectorEntityType" xml:space="preserve">
+    <value>Тип</value>
   </data>
-  <data name="Enum_EntityType_DataBook" xml:space="preserve">
+  <data name="Enum_SelectorEntityType_DataBook" xml:space="preserve">
     <value>Справочник</value>
   </data>
-  <data name="Enum_EntityType_Document" xml:space="preserve">
+  <data name="Enum_SelectorEntityType_Document" xml:space="preserve">
     <value>Документ</value>
   </data>
-  <data name="Property_DatabookType" xml:space="preserve">
-    <value>Тип справочника</value>
+  <data name="Property_EntityType" xml:space="preserve">
+    <value>Тип сущности</value>
   </data>
   <data name="Enum_DatabookType_BusinessUnit" xml:space="preserve">
     <value>Наша организация</value>
@@ -156,5 +156,32 @@
   </data>
   <data name="Action_DeleteDataInCollectionParametersConfirmationMessage" xml:space="preserve">
     <value>Вы уверены, что хотите удалить все данные связанные с выбранной коллекцией?</value>
+  </data>
+  <data name="Enum_SelectorEntityType_Task" xml:space="preserve">
+    <value>Задача</value>
+  </data>
+  <data name="Property_IsNeedStartTask" xml:space="preserve">
+    <value>Запустить задачу</value>
+  </data>
+  <data name="Property_AttachmentParameters" xml:space="preserve">
+    <value>Параметры вложений</value>
+  </data>
+  <data name="Action_AddDataInAttachments" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsHint" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsDescription" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachments" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsHint" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsDescription" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
   </data>
 </root>

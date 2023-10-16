@@ -78,6 +78,7 @@
       "CanBeSearch": false,
       "Code": "ChosenValue",
       "IsEnabled": false,
+      "Length": 500,
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.StringEditorToStringBinder",
       "PreviousPropertyGuid": "a82ec672-4268-4de8-acac-eb1c27b8e927"
     },
@@ -147,7 +148,7 @@
   "Versions": [
     {
       "Type": "EntityMetadata",
-      "Number": 11
+      "Number": 12
     }
   ]
 }
