@@ -58,22 +58,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Property_Name" xml:space="preserve">
-    <value>Name</value>
+  <data name="Property_AttachmentName" xml:space="preserve">
+    <value>Наименование группы вложений</value>
   </data>
-  <data name="DisplayName" xml:space="preserve">
-    <value>Databook type</value>
+  <data name="Property_PropertyTypeGuid" xml:space="preserve">
+    <value>Guid типа свойства</value>
   </data>
-  <data name="AccusativeDisplayName" xml:space="preserve">
-    <value>Databook type</value>
+  <data name="Property_LocalizedAttachmentName" xml:space="preserve">
+    <value>Локализованное имя группы вложений</value>
   </data>
-  <data name="CollectionDisplayName" xml:space="preserve">
-    <value>Databook types</value>
+  <data name="Property_PropertyType" xml:space="preserve">
+    <value>Тип свойства</value>
   </data>
-  <data name="Property_DatabookTypeGuid" xml:space="preserve">
-    <value>Type ID</value>
+  <data name="Property_FillOption" xml:space="preserve">
+    <value>Вариант заполнения</value>
   </data>
-  <data name="Property_AncestorGuids" xml:space="preserve">
-    <value>Ancestor guids</value>
+  <data name="Property_ChosenValue" xml:space="preserve">
+    <value>Выбранное значение</value>
+  </data>
+  <data name="Property_Count" xml:space="preserve">
+    <value>Количество</value>
+  </data>
+  <data name="Property_IsRequired" xml:space="preserve">
+    <value>Обязательное свойство</value>
+  </data>
+  <data name="Property_Limit" xml:space="preserve">
+    <value>Ограничение</value>
   </data>
 </root>

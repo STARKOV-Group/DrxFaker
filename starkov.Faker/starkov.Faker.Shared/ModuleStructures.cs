@@ -8,6 +8,37 @@ namespace starkov.Faker.Structures.Module
 {
   
   /// <summary>
+  /// Информация о вложениях.
+  /// </summary>
+  partial class AttachmentInfo
+  {
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    public string Name { get; set; }
+    
+    /// <summary>
+    /// Локализированное наименование.
+    /// </summary>
+    public string LocalizedName { get; set; }
+    
+    /// <summary>
+    /// Guid свойства.
+    /// </summary>
+    public string PropertyGuid { get; set; }
+    
+    /// <summary>
+    /// Максимальная кол-во вложений.
+    /// </summary>
+    public int? LimitCount { get; set; }
+    
+    /// <summary>
+    /// Признак обязательности вложения.
+    /// </summary>
+    public bool IsRequired { get; set; }
+  }
+  
+  /// <summary>
   /// Информация о параметрах заполнения свойств.
   /// </summary>
   partial class ParameterInfo
