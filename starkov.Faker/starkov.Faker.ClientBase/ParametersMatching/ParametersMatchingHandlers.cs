@@ -7,6 +7,25 @@ using starkov.Faker.ParametersMatching;
 
 namespace starkov.Faker
 {
+  partial class ParametersMatchingAttachmentParametersClientHandlers
+  {
+
+    public virtual void AttachmentParametersCountValueInput(Sungero.Presentation.IntegerValueInputEventArgs e)
+    {
+      if (!e.NewValue.HasValue)
+        return;
+      
+      if (e.NewValue.Value <= 0)
+      {
+        e.AddError(Faker.Resources.ErrorNegativeNumber);
+        return;
+      }
+      
+      if (_obj.Limit.HasValue && _obj.Limit.Value < e.NewValue.Value)
+        e.AddError(starkov.Faker.ParametersMatchings.Resources.Error_GreaterThenLimitFormat(_obj.Limit));
+    }
+  }
+
   partial class ParametersMatchingCollectionParametersClientHandlers
   {
     public virtual void CollectionParametersRowCountValueInput(Sungero.Presentation.IntegerValueInputEventArgs e)
@@ -31,10 +50,11 @@ namespace starkov.Faker
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
       FillRequiredPropsIntoParameters(e.NewValue.DocumentTypeGuid);
+      _obj.CollectionParameters.Clear();
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
 
-    public virtual void DatabookTypeValueInput(starkov.Faker.Client.ParametersMatchingDatabookTypeValueInputEventArgs e)
+    public virtual void EntityTypeValueInput(starkov.Faker.Client.ParametersMatchingEntityTypeValueInputEventArgs e)
     {
       if (e.NewValue == null || Equals(e.NewValue, e.OldValue))
         return;
@@ -43,17 +63,25 @@ namespace starkov.Faker
       AvailabilityRequisites();
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
-      FillRequiredPropsIntoParameters(e.NewValue.DatabookTypeGuid);
+      FillRequiredPropsIntoParameters(e.NewValue.EntityTypeGuid);
+      if (_obj.SelectorEntityType == SelectorEntityType.Task)
+      {
+        _obj.CollectionParameters.Clear();
+        FillRequiredAttachments(e.NewValue.EntityTypeGuid);
+      }
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
 
-    public virtual void EntityTypeValueInput(Sungero.Presentation.EnumerationValueInputEventArgs e)
+    public virtual void SelectorEntityTypeValueInput(Sungero.Presentation.EnumerationValueInputEventArgs e)
     {
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
-      _obj.DatabookType = null;
+      _obj.EntityType = null;
       _obj.DocumentType = null;
       _obj.IsNeedCreateVersion = false;
+      _obj.IsNeedStartTask = false;
       _obj.Parameters.Clear();
+      _obj.CollectionParameters.Clear();
+      _obj.AttachmentParameters.Clear();
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
 
@@ -68,13 +96,16 @@ namespace starkov.Faker
     private void AvailabilityRequisites()
     {
       var prop = _obj.State.Properties;
-      var isDocument = _obj.EntityType == EntityType.Document;
-      var isDataBook = _obj.EntityType == EntityType.DataBook;
+      var isDocument = _obj.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Document;
+      var isDataBook = _obj.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.DataBook;
+      var isTask = _obj.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task;
       
       prop.DocumentType.IsVisible = isDocument;
-      prop.DatabookType.IsVisible = isDataBook;
+      prop.EntityType.IsVisible = isDataBook || isTask;
       prop.IsNeedCreateVersion.IsVisible = isDocument;
-      prop.Name.IsEnabled = _obj.DatabookType != null || _obj.DocumentType != null;
+      prop.IsNeedStartTask.IsVisible = isTask;
+      prop.AttachmentParameters.IsVisible = isTask;
+      prop.Name.IsEnabled = _obj.EntityType != null || _obj.DocumentType != null;
       
       //Столбцы коллекций
       prop.Parameters.Properties.ChosenValue.IsVisible = _obj.Parameters.Any(r => !string.IsNullOrEmpty(r.ChosenValue));
@@ -84,6 +115,8 @@ namespace starkov.Faker
       prop.CollectionParameters.Properties.ChosenValue.IsVisible = _obj.CollectionParameters.Any(r => !string.IsNullOrEmpty(r.ChosenValue));
       prop.CollectionParameters.Properties.ValueFrom.IsVisible = _obj.CollectionParameters.Any(r => !string.IsNullOrEmpty(r.ValueFrom));
       prop.CollectionParameters.Properties.ValueTo.IsVisible = _obj.CollectionParameters.Any(r => !string.IsNullOrEmpty(r.ValueTo));
+      
+      prop.AttachmentParameters.Properties.ChosenValue.IsVisible = _obj.AttachmentParameters.Any(r => !string.IsNullOrEmpty(r.ChosenValue));
     }
     
     /// <summary>
@@ -103,6 +136,26 @@ namespace starkov.Faker
         newRow.PropertyTypeGuid = prop.PropertyGuid;
         newRow.IsRequired = prop.IsRequired;
         newRow.StringPropLength = prop.MaxStringLength;
+      }
+    }
+    
+    /// <summary>
+    ///Заполнение информации об обязательных группах вложений.
+    /// </summary>
+    /// <param name="typeGuid">Guid типа сущности.</param>
+    private void FillRequiredAttachments(string typeGuid)
+    {
+      _obj.AttachmentParameters.Clear();
+      var propInfo = Functions.Module.Remote.GetAttachmentPropertiesType(typeGuid);
+      foreach (var prop in propInfo.Where(i => i.IsRequired))
+      {
+        var newRow = _obj.AttachmentParameters.AddNew();
+        newRow.AttachmentName = prop.Name;
+        newRow.LocalizedAttachmentName = prop.LocalizedName;
+        newRow.PropertyType = Constants.Module.CustomType.Navigation;
+        newRow.PropertyTypeGuid = prop.PropertyGuid;
+        newRow.Limit = prop.LimitCount;
+        newRow.IsRequired = prop.IsRequired;
       }
     }
   }

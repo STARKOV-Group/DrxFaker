@@ -15,6 +15,50 @@ namespace starkov.Faker.Server
   {
 
     /// <summary>
+    /// Асинхронный обработчик для запуска задач
+    /// </summary>
+    public virtual void TasksStart(starkov.Faker.Server.AsyncHandlerInvokeArgs.TasksStartInvokeArgs args)
+    {
+      Logger.DebugFormat("Start async handler TasksStart");
+      args.Retry = false;
+      
+      var errors = new System.Text.StringBuilder();
+      var stopWatch = new Stopwatch();
+      stopWatch.Start();
+      
+      var ids = args.TaskIds.Split(Constants.Module.Separator).Select(x => long.Parse(x)).ToList();
+      var tasks = Sungero.Workflow.Tasks.GetAll(t => ids.Contains(t.Id));
+      foreach (var task in tasks)
+      {
+        try
+        {
+          task.Start();
+        }
+        catch (Exception ex)
+        {
+          errors.AppendLine(starkov.Faker.Resources.Error_StartTaskFormat(task.Id, ex.Message));
+          Logger.ErrorFormat("TasksStart error: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
+        }
+      }
+      
+      stopWatch.Stop();
+      var ts = stopWatch.Elapsed;
+      var elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                                      ts.Hours, ts.Minutes, ts.Seconds,
+                                      ts.Milliseconds / 10);
+      
+      if (Functions.ModuleSetup.GetModuleSetup()?.IsDisableNotifications.GetValueOrDefault() == false && errors.Length != 0)
+      {
+        var administrators = Roles.Administrators.RecipientLinks.Select(l => l.Member);
+        var notice = Sungero.Workflow.SimpleTasks.CreateWithNotices(starkov.Faker.Resources.NoticeSubject_InfoAboutStartTasks, administrators.ToArray());
+        notice.ActiveText = errors.ToString();
+        notice.Start();
+      }
+      
+      Logger.DebugFormat("End async handler TasksStart, elapsed time {0}", elapsedTime);
+    }
+
+    /// <summary>
     /// Асинхронный обработчик для генерации сущностей.
     /// </summary>
     public virtual void EntitiesGeneration(starkov.Faker.Server.AsyncHandlerInvokeArgs.EntitiesGenerationInvokeArgs args)
@@ -28,7 +72,7 @@ namespace starkov.Faker.Server
         Logger.DebugFormat("EntitiesGeneration error: No ParametersMatching databooks with id {0}", args.DatabookId);
         return;
       }
-      var propertiesStructure = Functions.Module.GetPropertiesType(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
+      var propertiesStructure = Functions.Module.GetPropertiesType(databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
       
       var stopWatch = new Stopwatch();
       stopWatch.Start();
@@ -39,11 +83,12 @@ namespace starkov.Faker.Server
       var errors = new List<string>();
       var createdEntityCount = 0;
       long firstEntityId = 0;
+      var taskIds = new System.Text.StringBuilder();
       var maxLoginNamesNumber = Functions.ModuleSetup.GetLoginNamesNumber();
       var maxAttachmentsNumber = Functions.ModuleSetup.GetAttachmentsNumber();
       
       Sungero.Content.IElectronicDocumentVersions documentVersion = null;
-      var isNeedCreateVersion = databook.EntityType == Faker.ParametersMatching.EntityType.Document && databook.IsNeedCreateVersion.GetValueOrDefault();
+      var isNeedCreateVersion = databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Document && databook.IsNeedCreateVersion.GetValueOrDefault();
       if (isNeedCreateVersion)
         documentVersion = Functions.ModuleSetup.GetDocumentWithVersion()?.LastVersion;
       
@@ -53,7 +98,7 @@ namespace starkov.Faker.Server
         try
         {
           #region Создание учетных записей
-          if (databook.DatabookType?.DatabookTypeGuid == Constants.Module.Guids.Login.ToString())
+          if (databook.EntityType?.EntityTypeGuid == Constants.Module.Guids.Login.ToString())
           {
             CreateLogin(databook, propertiesStructure, maxLoginNamesNumber, ref loginNames);
             createdEntityCount++;
@@ -62,7 +107,7 @@ namespace starkov.Faker.Server
           }
           #endregion
           
-          var finalTypeGuid = databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid;
+          var finalTypeGuid = databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid;
           var entity = Functions.Module.CreateEntityByTypeGuid(finalTypeGuid);
           var entityProperties = entity.GetType().GetProperties();
           
@@ -105,7 +150,7 @@ namespace starkov.Faker.Server
           #endregion
           
           #region Заполнение коллекций сущности
-          var collectionStructure = Functions.Module.GetCollectionPropertiesType(databook.DatabookType?.DatabookTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
+          var collectionStructure = Functions.Module.GetCollectionPropertiesType(databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
           foreach (var collectionName in databook.CollectionParameters.Select(r => r.CollectionName).Distinct())
           {
             var rowCount = databook.CollectionParameters.FirstOrDefault(r => r.CollectionName == collectionName).RowCount;
@@ -116,13 +161,13 @@ namespace starkov.Faker.Server
             if (collectionInfo == null)
               continue;
             
-            var collection = Functions.Module.CastToChildEntityCollection(collectionInfo.GetValue(entity, null));
+            var collection = collectionInfo.GetValue(entity, null);
             if (collection == null)
               continue;
             
             for (var number = 0; number < rowCount; number++)
             {
-              var newLine = collection.GetType().GetMethod("AddNew", new Type[0]).Invoke(collection, null);
+              var newLine = collection.GetType().GetMethod(Constants.Module.Collections.AddMethod, new Type[0]).Invoke(collection, null);
               foreach (var parametersRow in parameters)
               {
                 try
@@ -166,6 +211,63 @@ namespace starkov.Faker.Server
           }
           #endregion
           
+          #region Заполнение вложений задачи
+          if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task)
+          {
+            foreach (var attachmentRow in databook.AttachmentParameters.Where(p => p.FillOption != Constants.Module.FillOptions.Common.NullValue))
+            {
+              var attachmentGroupInfo = entityProperties.FirstOrDefault(info => info.Name == attachmentRow.AttachmentName);
+              if (attachmentGroupInfo == null)
+                continue;
+              
+              var attachmentGroup = attachmentGroupInfo.GetValue(entity, null);
+              if (attachmentGroup == null)
+                continue;
+              
+              var attachmentInfo = attachmentGroup.GetType().GetProperties().FirstOrDefault(_ => _.Name == Constants.Module.Attachments.PropertyAll);
+              if (attachmentInfo == null)
+                break;
+              
+              var attachment = attachmentInfo.GetValue(attachmentGroup, null);
+              if (attachment == null)
+                continue;
+              
+              var parameterStruct = Structures.Module.ParameterInfo.Create(attachmentRow.ParametersMatching,
+                                                                           attachmentRow.AttachmentName,
+                                                                           attachmentRow.PropertyTypeGuid,
+                                                                           attachmentRow.PropertyType,
+                                                                           attachmentRow.FillOption,
+                                                                           attachmentRow.ChosenValue,
+                                                                           string.Empty,
+                                                                           string.Empty);
+              
+              for (var number = 0; number < attachmentRow.Count.GetValueOrDefault(); number++)
+              {
+                try
+                {
+                  var propertyValue = GetPropertyValue(parameterStruct,
+                                                       propertiesStructure,
+                                                       cache,
+                                                       null,
+                                                       attachmentInfo);
+                  attachment.GetType().GetMethod(Constants.Module.Attachments.AddMethod).Invoke(attachment, new object[1] { propertyValue });
+                }
+                catch (Exception ex)
+                {
+                  var err = starkov.Faker.Resources.ErrorText_SetAttachmentIntoGroupFormat(attachmentRow.AttachmentName, ex.Message);
+                  if (!errors.Contains(err))
+                    errors.Add(err);
+                  
+                  Logger.ErrorFormat("EntitiesGeneration error caused by setting attachments {0}: {1}\r\n   StackTrace: {2}",
+                                     attachmentRow.AttachmentName,
+                                     ex.Message,
+                                     ex.StackTrace);
+                }
+              }
+            }
+          }
+          #endregion
+          
           #region Создание версии документа
           if (isNeedCreateVersion)
           {
@@ -197,6 +299,9 @@ namespace starkov.Faker.Server
             createdEntityCount++;
             if (firstEntityId == 0)
               firstEntityId = entity.Id;
+            
+            if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task && databook.IsNeedStartTask.GetValueOrDefault())
+              taskIds.AppendFormat("{0}{1}", entity.Id, Constants.Module.Separator);
           }
           catch (Exception ex)
           {
@@ -220,6 +325,17 @@ namespace starkov.Faker.Server
       var elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                                       ts.Hours, ts.Minutes, ts.Seconds,
                                       ts.Milliseconds / 10);
+      
+      #region Старт задач
+      if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task &&
+          databook.IsNeedStartTask.GetValueOrDefault() &&
+          taskIds.Length != 0)
+      {
+        var async = AsyncHandlers.TasksStart.Create();
+        async.TaskIds = taskIds.Remove(taskIds.Length - 1, 1).ToString();
+        async.ExecuteAsync();
+      }
+      #endregion
       
       #region Отправка уведомления администраторам
       if (!isDisableNotify)
