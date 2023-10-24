@@ -7,7 +7,6 @@
   "CanBeNavigationPropertyType": true,
   "Code": "EntityTypeAnce",
   "ExtraSearchProperties": [],
-  "IntegrationServiceName": "DatabookTypeAncestorGuids",
   "IsChildEntity": true,
   "Properties": [
     {
