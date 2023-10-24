@@ -71,7 +71,7 @@
     <value>Генератор сущностей</value>
   </data>
   <data name="CoverDescription" xml:space="preserve">
-    <value>Генерация документов и справочников</value>
+    <value>Генерация сущностей</value>
   </data>
   <data name="CoverGroup_Functions" xml:space="preserve">
     <value>Действия</value>
@@ -85,11 +85,11 @@
   <data name="CoverGroup_Databooks" xml:space="preserve">
     <value>Справочники</value>
   </data>
-  <data name="CoverAction_DatabookTypes" xml:space="preserve">
-    <value>Реестр типов справочников</value>
+  <data name="CoverAction_EntityTypes" xml:space="preserve">
+    <value>Реестр типов сущностей</value>
   </data>
-  <data name="CoverDescription_DatabookTypes" xml:space="preserve">
-    <value>Список типов справочников</value>
+  <data name="CoverDescription_EntityTypes" xml:space="preserve">
+    <value>Список типов сущностей</value>
   </data>
   <data name="CoverAction_DocumentTypes" xml:space="preserve">
     <value>Реестр типов документов</value>
@@ -111,5 +111,8 @@
   </data>
   <data name="CoverDescription_OpenModuleSetup" xml:space="preserve">
     <value>Открыть настройки модуля</value>
+  </data>
+  <data name="AsyncHandler_Description_8e788f19b4d24912af56eb4ff19dc53a" xml:space="preserve">
+    <value>Асинхронный обработчик для запуска задач</value>
   </data>
 </root>

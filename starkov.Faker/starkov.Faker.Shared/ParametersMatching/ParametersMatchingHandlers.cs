@@ -7,6 +7,24 @@ using starkov.Faker.ParametersMatching;
 
 namespace starkov.Faker
 {
+  partial class ParametersMatchingAttachmentParametersSharedCollectionHandlers
+  {
+
+    public virtual void AttachmentParametersDeleted(Sungero.Domain.Shared.CollectionPropertyDeletedEventArgs e)
+    {
+      bool isAllow;
+      if (_deleted.IsRequired.GetValueOrDefault() &&
+         (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow))
+        throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_DeleteReqValue);
+    }
+
+    public virtual void AttachmentParametersAdded(Sungero.Domain.Shared.CollectionPropertyAddedEventArgs e)
+    {
+      bool isAllow;
+      if (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow)
+        throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_WrongWayToAddValue);
+    }
+  }
 
   partial class ParametersMatchingCollectionParametersSharedCollectionHandlers
   {

@@ -59,12 +59,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorInvalidGuid" xml:space="preserve">
-    <value>Недопустимый формат Guid</value>
+    <value>Invalid Guid format</value>
   </data>
   <data name="ErrorGuidNotMatchAnyEntity" xml:space="preserve">
-    <value>Данный Guid не соответствует ни одному типу сущности</value>
+    <value>The given Guid does not match any entity type</value>
   </data>
   <data name="ErrorTypeIsAbstract" xml:space="preserve">
-    <value>Данный тип не является справочником или является абстрактным типом</value>
+    <value>This type is an abstract</value>
   </data>
 </root>
