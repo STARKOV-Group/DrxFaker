@@ -11,7 +11,7 @@
       "IsHandlerGenerated": true,
       "Parameters": [
         {
-          "NameGuid": "19ebcfc7-e5d0-42f9-bdcf-8532ac52412e",
+          "NameGuid": "0d8f920f-71d0-4f3e-b3e9-f5bb07191cd8",
           "Name": "DatabookId",
           "ParameterType": "Integer"
         },
@@ -19,6 +19,20 @@
           "NameGuid": "f8d7d478-2426-4479-bb61-ace9b5113803",
           "Name": "Count",
           "ParameterType": "Integer"
+        }
+      ]
+    },
+    {
+      "NameGuid": "8e788f19-b4d2-4912-af56-eb4ff19dc53a",
+      "Name": "TasksStart",
+      "DelayPeriod": 15,
+      "DelayStrategy": "RegularDelayStrategy",
+      "IsHandlerGenerated": true,
+      "Parameters": [
+        {
+          "NameGuid": "f14a3f5a-ad76-42a5-8b91-37e315dd2144",
+          "Name": "TaskIds",
+          "ParameterType": "String"
         }
       ]
     }
@@ -42,7 +56,7 @@
       {
         "$type": "Sungero.Metadata.CoverEntityListActionMetadata, Sungero.Metadata",
         "NameGuid": "19a409c0-67ea-4f3d-8dda-e7743d928c36",
-        "Name": "DatabookTypes",
+        "Name": "EntityTypes",
         "EntityTypeId": "af491abf-f381-4765-916a-6b9dee7554a1",
         "GroupId": "481ed195-ac8d-440f-b3fa-38e4054bb805",
         "PreviousItemGuid": "11d09461-9050-43be-ade8-705e3c4f3e06"
@@ -218,7 +232,10 @@
     "DocumentWithVersionName",
     "ErrorDuringCast",
     "AsyncEndWorkSimpleMessage",
-    "ErrorNegativeNumber"
+    "ErrorNegativeNumber",
+    "ErrorText_SetAttachmentIntoGroup",
+    "Error_StartTask",
+    "NoticeSubject_InfoAboutStartTasks"
   ],
   "ServerAssemblyName": "starkov.Faker.Server",
   "ServerNamespace": "starkov.Faker.Server",
