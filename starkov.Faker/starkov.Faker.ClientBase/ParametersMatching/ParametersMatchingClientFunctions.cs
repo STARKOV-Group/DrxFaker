@@ -108,8 +108,7 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Заполнение данных
-      if (isLocalizedValues.Value != isLocalizedValues.IsVisible)
-        isLocalizedValues.Value = isLocalizedValues.IsVisible;
+      isLocalizedValues.Value = isLocalizedValues.IsVisible;
       
       if (parameterRow != null)
       {
@@ -299,8 +298,7 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Заполнение данных
-      if (isLocalizedCollectionValues.Value != isLocalizedCollectionValues.IsVisible)
-        isLocalizedCollectionValues.Value = isLocalizedCollectionValues.IsVisible;
+      isLocalizedCollectionValues.Value = isLocalizedCollectionValues.IsVisible;
       
       if (parameterRow != null)
       {
@@ -495,8 +493,7 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Заполнение данных
-      if (isLocalizedValues.Value != isLocalizedValues.IsVisible)
-        isLocalizedValues.Value = isLocalizedValues.IsVisible;
+      isLocalizedValues.Value = isLocalizedValues.IsVisible;
       
       if (parameterRow != null)
       {

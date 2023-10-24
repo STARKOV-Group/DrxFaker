@@ -480,9 +480,9 @@ namespace starkov.Faker.Shared
     /// <param name="typeGuid">Guid типа сущности.</param>
     /// <param name="documentTypeGuid">Guid типа документа.</param>
     /// <returns>Список наименований сущностей.</returns>
-    public virtual IQueryable<string> GetEntitiyNamesByType(string typeGuid, string documentTypeGuid)
+    public virtual System.Collections.Generic.IEnumerable<string> GetEntitiyNamesByType(string typeGuid, string documentTypeGuid)
     {
-      return Functions.Module.Remote.GetEntitiesByTypeGuid(typeGuid, documentTypeGuid)
+      return Functions.Module.Remote.GetEntitiesByTypeGuid(typeGuid, documentTypeGuid).AsEnumerable()
         .Select(ent => string.Format("{0}, Id: ({1})", ent.DisplayValue, ent.Id));
     }
     
