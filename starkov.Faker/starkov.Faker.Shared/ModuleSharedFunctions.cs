@@ -32,6 +32,30 @@ namespace starkov.Faker.Shared
     #region Приведение типов метаданных
     
     /// <summary>
+    /// Приведение объекта к типу WorkflowEntityMetadata.
+    /// </summary>
+    /// <param name="castEntity">Объект для приведения.</param>
+    /// <returns>Объект с типом WorkflowEntityMetadata, либо null при ошибке во время приведения к типу.</returns>
+    public static Sungero.Metadata.WorkflowEntityMetadata CastToWorkflowEntityMetadata(object castEntity)
+    {
+      Sungero.Metadata.WorkflowEntityMetadata val = null;
+      
+      if (castEntity == null)
+        return val;
+      
+      try
+      {
+        val = (Sungero.Metadata.WorkflowEntityMetadata)castEntity;
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(starkov.Faker.Resources.ErrorDuringCastFormat("WorkflowEntityMetadata", ex.Message, ex.StackTrace));
+      }
+      
+      return val;
+    }
+    
+    /// <summary>
     /// Приведение объекта к типу IEntity.
     /// </summary>
     /// <param name="castEntity">Объект для приведения.</param>
