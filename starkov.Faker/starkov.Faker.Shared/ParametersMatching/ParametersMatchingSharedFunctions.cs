@@ -47,7 +47,6 @@ namespace starkov.Faker.Shared
         { Sungero.Metadata.PropertyType.Boolean.ToString(), Constants.Module.CustomType.Bool },
         { Sungero.Metadata.PropertyType.Double.ToString(), Constants.Module.CustomType.Numeric },
         { Sungero.Metadata.PropertyType.Integer.ToString(), Constants.Module.CustomType.Numeric },
-        { Sungero.Metadata.PropertyType.LongInteger.ToString(), Constants.Module.CustomType.Numeric },
         { Sungero.Metadata.PropertyType.String.ToString(), Constants.Module.CustomType.String },
         { Sungero.Metadata.PropertyType.Text.ToString(), Constants.Module.CustomType.String },
         { Sungero.Metadata.PropertyType.Enumeration.ToString(), Constants.Module.CustomType.Enumeration },

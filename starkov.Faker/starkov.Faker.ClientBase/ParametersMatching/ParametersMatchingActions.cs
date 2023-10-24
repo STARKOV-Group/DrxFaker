@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -88,7 +88,7 @@ namespace starkov.Faker.Client
   {
     public virtual void ChangeSelectedDataInParameters(Sungero.Domain.Client.ExecuteChildCollectionActionArgs e)
     {
-      Functions.ParametersMatching.ShowDialogForSelectParameters(_obj.ParametersMatching, _obj.Id, !string.IsNullOrEmpty(_obj.FillOption));
+      Functions.ParametersMatching.ShowDialogForSelectParameters(_obj.ParametersMatching, _obj.Id);
     }
 
     public virtual bool CanChangeSelectedDataInParameters(Sungero.Domain.Client.CanExecuteChildCollectionActionArgs e)
@@ -111,7 +111,7 @@ namespace starkov.Faker.Client
         throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.ErrorToAddDataFillEntityType);
       
       e.Params.AddOrUpdate(Constants.ParametersMatching.ParamsForChangeCollection, true);
-      Functions.ParametersMatching.ShowDialogForSelectParameters(obj, null, false);
+      Functions.ParametersMatching.ShowDialogForSelectParameters(obj, null);
       e.Params.Remove(Constants.ParametersMatching.ParamsForChangeCollection);
     }
   }

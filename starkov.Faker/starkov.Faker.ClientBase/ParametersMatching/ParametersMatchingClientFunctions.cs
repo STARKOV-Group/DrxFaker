@@ -18,7 +18,7 @@ namespace starkov.Faker.Client
     /// Показ диалога для выбора данных.
     /// </summary>
     /// <param name="rowId">Номер строки.</param>
-    public void ShowDialogForSelectAttachments(long? rowId)
+    public void ShowDialogForSelectAttachments(int? rowId)
     {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
@@ -108,8 +108,7 @@ namespace starkov.Faker.Client
       #endregion
       
       #region Заполнение данных
-      if (isLocalizedValues.Value != isLocalizedValues.IsVisible)
-        isLocalizedValues.Value = isLocalizedValues.IsVisible;
+      isLocalizedValues.Value = isLocalizedValues.IsVisible;
       
       if (parameterRow != null)
       {
@@ -160,7 +159,7 @@ namespace starkov.Faker.Client
     /// </summary>
     /// <param name="rowId">Номер строки.</param>
     /// <param name="isFillValue">Признак заполнения значений.</param>
-    public void ShowDialogForSelectCollectionParameters(long? rowId, bool isFillValue)
+    public void ShowDialogForSelectCollectionParameters(int? rowId, bool isFillValue)
     {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
@@ -287,20 +286,11 @@ namespace starkov.Faker.Client
                                            return;
                                          
                                          ShowDialogControlsByParameter(dialog, arg.NewValue, selectedPropInfo, ref personalValuesField);
-                                         
-                                         if (isFillValue && !string.IsNullOrEmpty(arg.OldValue))
-                                           isFillValue = false;
-                                         if (!isFillValue)
-                                         {
-                                           isFillValue = !personalValuesField.Any();
-                                           HideDialogControl(ref personalValuesField);
-                                         }
                                        });
       #endregion
       
       #region Заполнение данных
-      if (isLocalizedCollectionValues.Value != isLocalizedCollectionValues.IsVisible)
-        isLocalizedCollectionValues.Value = isLocalizedCollectionValues.IsVisible;
+      isLocalizedCollectionValues.Value = isLocalizedCollectionValues.IsVisible;
       
       if (parameterRow != null)
       {
@@ -345,9 +335,7 @@ namespace starkov.Faker.Client
         newRow.ValueFrom = null;
         newRow.ValueTo = null;
         
-        if (!isFillValue)
-          ShowDialogForSelectCollectionParameters(newRow.Id, true);
-        else if (personalValuesField.Count == 1)
+        if (personalValuesField.Count == 1)
         {
           newRow.ChosenValue = GetValueFromDialogControl(personalValuesField[0],
                                                          newRow.PropertyType,
@@ -363,13 +351,6 @@ namespace starkov.Faker.Client
                                                      newRow.PropertyTypeGuid);
         }
       }
-      else if (!string.IsNullOrEmpty(parameterRow?.FillOption) &&
-               IsNeedSelectValue(parameterRow.FillOption) &&
-               string.IsNullOrEmpty(parameterRow.ChosenValue) &&
-               string.IsNullOrEmpty(parameterRow.ValueFrom) &&
-               string.IsNullOrEmpty(parameterRow.ValueTo) &&
-               isFillValue)
-        parameterRow.FillOption = string.Empty;
       #endregion
     }
     
@@ -381,8 +362,7 @@ namespace starkov.Faker.Client
     /// Показ диалога для выбора данных.
     /// </summary>
     /// <param name="rowId">Номер строки.</param>
-    /// <param name="isFillValue">Признак заполнения значений.</param>
-    public void ShowDialogForSelectParameters(long? rowId, bool isFillValue)
+    public void ShowDialogForSelectParameters(int? rowId)
     {
       var dialog = Dialogs.CreateInputDialog(starkov.Faker.ParametersMatchings.Resources.DialogDataInput);
       
@@ -483,20 +463,11 @@ namespace starkov.Faker.Client
                                            return;
                                          
                                          ShowDialogControlsByParameter(dialog, arg.NewValue, selectedPropInfo, ref personalValuesField);
-                                         
-                                         if (isFillValue && !string.IsNullOrEmpty(arg.OldValue))
-                                           isFillValue = false;
-                                         if (!isFillValue)
-                                         {
-                                           isFillValue = !personalValuesField.Any();
-                                           HideDialogControl(ref personalValuesField);
-                                         }
                                        });
       #endregion
       
       #region Заполнение данных
-      if (isLocalizedValues.Value != isLocalizedValues.IsVisible)
-        isLocalizedValues.Value = isLocalizedValues.IsVisible;
+      isLocalizedValues.Value = isLocalizedValues.IsVisible;
       
       if (parameterRow != null)
       {
@@ -535,10 +506,7 @@ namespace starkov.Faker.Client
         newRow.ValueFrom = null;
         newRow.ValueTo = null;
         
-        if (!isFillValue)
-          ShowDialogForSelectParameters(newRow.Id, true);
-        
-        else if (personalValuesField.Count == 1)
+        if (personalValuesField.Count == 1)
           newRow.ChosenValue = GetValueFromDialogControl(personalValuesField[0],
                                                          newRow.PropertyType,
                                                          newRow.PropertyTypeGuid);
@@ -552,13 +520,6 @@ namespace starkov.Faker.Client
                                                      newRow.PropertyTypeGuid);
         }
       }
-      else if (!string.IsNullOrEmpty(parameterRow?.FillOption) &&
-               IsNeedSelectValue(parameterRow.FillOption) &&
-               string.IsNullOrEmpty(parameterRow.ChosenValue) &&
-               string.IsNullOrEmpty(parameterRow.ValueFrom) &&
-               string.IsNullOrEmpty(parameterRow.ValueTo) &&
-               isFillValue)
-        parameterRow.FillOption = string.Empty;
       #endregion
     }
     

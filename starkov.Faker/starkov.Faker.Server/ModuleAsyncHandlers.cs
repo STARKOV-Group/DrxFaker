@@ -26,7 +26,7 @@ namespace starkov.Faker.Server
       var stopWatch = new Stopwatch();
       stopWatch.Start();
       
-      var ids = args.TaskIds.Split(Constants.Module.Separator).Select(x => long.Parse(x)).ToList();
+      var ids = args.TaskIds.Split(Constants.Module.Separator).Select(x => int.Parse(x)).ToList();
       var tasks = Sungero.Workflow.Tasks.GetAll(t => ids.Contains(t.Id));
       foreach (var task in tasks)
       {
@@ -82,7 +82,7 @@ namespace starkov.Faker.Server
       var loginNames = new List<string>();
       var errors = new List<string>();
       var createdEntityCount = 0;
-      long firstEntityId = 0;
+      var firstEntityId = 0;
       var taskIds = new System.Text.StringBuilder();
       var maxLoginNamesNumber = Functions.ModuleSetup.GetLoginNamesNumber();
       var maxAttachmentsNumber = Functions.ModuleSetup.GetAttachmentsNumber();
@@ -446,7 +446,7 @@ namespace starkov.Faker.Server
     public virtual void SendNoticeToAdministrators(Faker.IParametersMatching databook,
                                                    int createdEntityCount,
                                                    int desiredEntityCount,
-                                                   long firstEntityId,
+                                                   int firstEntityId,
                                                    string elapsedTime,
                                                    List<string> loginNames,
                                                    List<string> errors,
@@ -471,7 +471,7 @@ namespace starkov.Faker.Server
     /// <param name="loginNames">Список наименований учетных записей.</param>
     /// <param name="errors">Список ошибок при генерации.</param>
     /// <returns>Текст уведомления для администраторов.</returns>
-    public virtual string CreateNoticeTextToAdministrators(long firstEntityId,
+    public virtual string CreateNoticeTextToAdministrators(int firstEntityId,
                                                            string elapsedTime,
                                                            List<string> loginNames,
                                                            List<string> errors)
