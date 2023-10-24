@@ -17,7 +17,7 @@ namespace starkov.Faker.Server
 
     public override void Initializing(Sungero.Domain.ModuleInitializingEventArgs e)
     {
-      FillDatabookTypes();
+      FillEntityTypes();
       FillParametersMatching();
       
       var databook = CreateModuleSetup();
@@ -25,80 +25,82 @@ namespace starkov.Faker.Server
     }
     
     /// <summary>
-    /// Заполнить типы справочников.
+    /// Заполнить типы сущностей.
     /// </summary>
-    public static void FillDatabookTypes()
+    public static void FillEntityTypes()
     {
-      InitializationLogger.Debug("Init: Fill databook types");
+      InitializationLogger.Debug("Init: Fill entity types");
       
-      //Метаданные базового типа
-      var databookEntryType = typeof(Sungero.CoreEntities.IDatabookEntry);
-      var baseMetadata = databookEntryType.GetEntityMetadata();
-      
-      var databookTypes = DatabookTypes.GetAll();
+      var entityTypes = EntityTypes.GetAll();
       var typesGuidList = GetSelectGuids();
+      
+      //Получение GUID задач
+      var taskType = Sungero.Domain.Shared.TypeExtension.GetTypeByGuid(Sungero.Workflow.Server.Task.ClassTypeGuid);
+      foreach (var descendant in Sungero.Metadata.EntityMetadata.GetDescendants(taskType.GetModuleItemMetadata()))
+        typesGuidList.Add(descendant.NameGuid);
+      
       foreach (var typeGuid in typesGuidList)
       {
         try
         {
           var entityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(typeGuid);
-          //Если baseMetadata не является предком для entityMetadata или entityMetadata является абстрактным типом
-          if (entityMetadata == null || !baseMetadata.IsAncestorFor(entityMetadata) || entityMetadata.IsAbstract)
+          //Если entityMetadata является абстрактным типом
+          if (entityMetadata == null || entityMetadata.IsAbstract)
             continue;
           
           var type = TypeExtension.GetTypeByGuid(typeGuid);
           var finalEntityMetadata = Sungero.Metadata.Services.MetadataSearcher.FindEntityMetadata(type.GetFinalType());
           
-          var databookWithOldType = databookTypes.FirstOrDefault(t => t.DatabookTypeGuid == typeGuid.ToString());
-          var databookWithFinalType = databookTypes.FirstOrDefault(t => t.DatabookTypeGuid == finalEntityMetadata.NameGuid.ToString());
-          var databookWithAncestorType = databookTypes.FirstOrDefault(t => t.AncestorGuids.Any(anc => anc.Guid == typeGuid.ToString()));
+          var entityWithOldType = entityTypes.FirstOrDefault(t => t.EntityTypeGuid == typeGuid.ToString());
+          var entityWithFinalType = entityTypes.FirstOrDefault(t => t.EntityTypeGuid == finalEntityMetadata.NameGuid.ToString());
+          var entityWithAncestorType = entityTypes.FirstOrDefault(t => t.AncestorGuids.Any(anc => anc.Guid == typeGuid.ToString()));
           
           if (finalEntityMetadata == null || Equals(finalEntityMetadata.NameGuid, typeGuid))
           {
-            if (databookWithAncestorType != null)
+            if (entityWithAncestorType != null)
             {
-              databookWithAncestorType.DatabookTypeGuid = typeGuid.ToString();
-              databookWithAncestorType.AncestorGuids.Remove(databookWithAncestorType.AncestorGuids.FirstOrDefault(anc => anc.Guid == typeGuid.ToString()));
-              databookWithAncestorType.Save();
+              entityWithAncestorType.EntityTypeGuid = typeGuid.ToString();
+              entityWithAncestorType.AncestorGuids.Remove(entityWithAncestorType.AncestorGuids.FirstOrDefault(anc => anc.Guid == typeGuid.ToString()));
+              entityWithAncestorType.Save();
             }
-            else if (databookWithOldType == null)
+            else if (entityWithOldType == null)
             {
-              var newType = DatabookTypes.Create();
+              var newType = EntityTypes.Create();
               newType.Name = entityMetadata.GetDisplayName();
-              newType.DatabookTypeGuid = typeGuid.ToString();
+              newType.EntityTypeGuid = typeGuid.ToString();
               newType.Save();
             }
             continue;
           }
           
-          if (databookWithAncestorType != null && databookWithAncestorType.DatabookTypeGuid != finalEntityMetadata.NameGuid.ToString())
+          if (entityWithAncestorType != null && entityWithAncestorType.EntityTypeGuid != finalEntityMetadata.NameGuid.ToString())
           {
-            databookWithAncestorType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
-            databookWithAncestorType.Save();
+            entityWithAncestorType.EntityTypeGuid = finalEntityMetadata.NameGuid.ToString();
+            entityWithAncestorType.Save();
           }
-          else if (databookWithFinalType != null && !databookWithFinalType.AncestorGuids.Any(anc => Equals(anc.Guid, typeGuid.ToString())))
+          else if (entityWithFinalType != null && !entityWithFinalType.AncestorGuids.Any(anc => Equals(anc.Guid, typeGuid.ToString())))
           {
-            databookWithFinalType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
-            databookWithFinalType.Save();
+            entityWithFinalType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
+            entityWithFinalType.Save();
           }
-          else if (databookWithOldType != null)
+          else if (entityWithOldType != null)
           {
-            databookWithOldType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
-            databookWithOldType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
-            databookWithOldType.Save();
+            entityWithOldType.EntityTypeGuid = finalEntityMetadata.NameGuid.ToString();
+            entityWithOldType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
+            entityWithOldType.Save();
           }
-          else if (databookWithAncestorType == null && databookWithFinalType == null && databookWithOldType == null)
+          else if (entityWithAncestorType == null && entityWithFinalType == null && entityWithOldType == null)
           {
-            var newType = DatabookTypes.Create();
+            var newType = EntityTypes.Create();
             newType.Name = finalEntityMetadata.GetDisplayName();
-            newType.DatabookTypeGuid = finalEntityMetadata.NameGuid.ToString();
+            newType.EntityTypeGuid = finalEntityMetadata.NameGuid.ToString();
             newType.AncestorGuids.AddNew().Guid = typeGuid.ToString();
             newType.Save();
           }
         }
         catch (Exception ex)
         {
-          Logger.ErrorFormat("Faker init fill databook types error: {0}", ex.Message);
+          Logger.ErrorFormat("Faker init fill entity types error: {0}", ex.Message);
         }
       }
     }
@@ -184,17 +186,17 @@ namespace starkov.Faker.Server
     /// <summary>
     /// Создать запись справочника "Соответствие заполняемых параметров сущности".
     /// </summary>
-    /// <param name="databookGuid">GUID справочника.</param>
+    /// <param name="entityGuid">GUID сущности.</param>
     /// <param name="dict">Словарь с наименованием свойства и вариантом его заполнения.</param>
-    private static void CreateParametersMatchingByGUID(Guid databookGuid, Dictionary<string, string> dict)
+    private static void CreateParametersMatchingByGUID(Guid entityGuid, Dictionary<string, string> dict)
     {
       try
       {
-        var stringGuid = databookGuid.ToString();
+        var stringGuid = entityGuid.ToString();
         var databook = ParametersMatchings.Create();
-        databook.EntityType = Faker.ParametersMatching.EntityType.DataBook;
-        databook.DatabookType = DatabookTypes.GetAll(t => t.DatabookTypeGuid == stringGuid || t.AncestorGuids.Any(a => a.Guid == stringGuid)).FirstOrDefault();
-        databook.Name = databook.DatabookType.Name;
+        databook.SelectorEntityType = Faker.ParametersMatching.SelectorEntityType.DataBook;
+        databook.EntityType = EntityTypes.GetAll(t => t.EntityTypeGuid == stringGuid || t.AncestorGuids.Any(a => a.Guid == stringGuid)).FirstOrDefault();
+        databook.Name = databook.EntityType.Name;
         
         ((Sungero.Domain.Shared.IExtendedEntity)databook).Params[Constants.ParametersMatching.ParamsForChangeCollection] = true;
         var propInfo = Functions.Module.GetPropertiesType(stringGuid);

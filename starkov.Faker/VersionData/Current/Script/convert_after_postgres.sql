@@ -8,4 +8,8 @@ begin
       update starkov_faker_modulesetup set isdisablenotif = false where isdisablenotif is null;
     end if;
   end if;
+  
+  if exists(select 1 from information_schema.columns where table_name='starkov_faker_parametersmatc' and column_name='isneedstarttas') then
+    update starkov_faker_parametersmatc set isneedstarttas = false where isneedstarttas is null;
+  end if;
 end $$

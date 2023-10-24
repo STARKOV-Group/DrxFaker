@@ -80,16 +80,16 @@
     <value>Async handler for entity generation</value>
   </data>
   <data name="CoverDescription" xml:space="preserve">
-    <value>Generation of documents and directories</value>
+    <value>Generation of entities</value>
   </data>
   <data name="CoverGroup_Databooks" xml:space="preserve">
     <value>Databooks</value>
   </data>
-  <data name="CoverAction_DatabookTypes" xml:space="preserve">
-    <value>Registry of types of databooks</value>
+  <data name="CoverAction_EntityTypes" xml:space="preserve">
+    <value>Registry of types of entities</value>
   </data>
-  <data name="CoverDescription_DatabookTypes" xml:space="preserve">
-    <value>List of databook types</value>
+  <data name="CoverDescription_EntityTypes" xml:space="preserve">
+    <value>List of entity types</value>
   </data>
   <data name="CoverAction_DocumentTypes" xml:space="preserve">
     <value>Registry of document types</value>
@@ -111,5 +111,8 @@
   </data>
   <data name="CoverDescription_OpenModuleSetup" xml:space="preserve">
     <value>Open module setup</value>
+  </data>
+  <data name="AsyncHandler_Description_8e788f19b4d24912af56eb4ff19dc53a" xml:space="preserve">
+    <value>Asynchronous handler for running tasks</value>
   </data>
 </root>

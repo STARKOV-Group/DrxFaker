@@ -59,10 +59,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorToAddDataFillEntityType" xml:space="preserve">
-    <value>To add data, fill "DataBook type" or "Document type"</value>
+    <value>To add data, fill "Entity type" or "Document type"</value>
   </data>
   <data name="ErrorToChangeDataFillEntityType" xml:space="preserve">
-    <value>To change the data, fill "DataBook type" or "Document type"</value>
+    <value>To change the data, fill "Entity type" or "Document type"</value>
   </data>
   <data name="DialogChangeData" xml:space="preserve">
     <value>Change data</value>
@@ -153,5 +153,14 @@
   </data>
   <data name="DialogInfoLocalizedCollectionNotUnique" xml:space="preserve">
     <value>Localized collection values are not unique</value>
+  </data>
+  <data name="ErrorToAddAttachmentFillEntityType" xml:space="preserve">
+    <value>To add data, fill in "Entity Type"</value>
+  </data>
+  <data name="DialogFieldAttachmentName" xml:space="preserve">
+    <value>Attachment name</value>
+  </data>
+  <data name="Error_GreaterThenLimit" xml:space="preserve">
+    <value>The maximum quantity for this group is {0}</value>
   </data>
 </root>
