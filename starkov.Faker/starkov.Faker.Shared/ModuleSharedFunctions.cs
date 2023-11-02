@@ -475,15 +475,24 @@ namespace starkov.Faker.Shared
     #region Общие функции
     
     /// <summary>
-    /// Получить список наименований всех сущностей по Guid типа.
+    /// Получить ИД из строки.
     /// </summary>
-    /// <param name="typeGuid">Guid типа сущности.</param>
-    /// <param name="documentTypeGuid">Guid типа документа.</param>
+    /// <param name="entitiyName">Строка с наименованием.</param>
     /// <returns>Список наименований сущностей.</returns>
-    public virtual System.Collections.Generic.IEnumerable<string> GetEntitiyNamesByType(string typeGuid, string documentTypeGuid)
+    public virtual int GetIdFromEntitiyName(string entitiyName)
     {
-      return Functions.Module.Remote.GetEntitiesByTypeGuid(typeGuid, documentTypeGuid).AsEnumerable()
-        .Select(ent => string.Format("{0}, Id: ({1})", ent.DisplayValue, ent.Id));
+      int id = 0;
+      var idInString = entitiyName;
+      var regex = new System.Text.RegularExpressions.Regex(@"\(\d*\)$");
+      var matches = regex.Matches(entitiyName);
+      if (matches.Count > 0)
+      {
+        foreach (System.Text.RegularExpressions.Match match in matches)
+          idInString = match.Value.Substring(1, match.Value.Length-2);
+      }
+      
+      int.TryParse(idInString, out id);
+      return id;
     }
     
     /// <summary>
