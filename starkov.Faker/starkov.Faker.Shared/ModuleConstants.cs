@@ -71,6 +71,17 @@ namespace starkov.Faker.Constants
     }
     
     /// <summary>
+    /// Наименования свойств и методов диалога.
+    /// </summary>
+    public static class Dialogs
+    {
+      /// <summary>
+      /// Наименование метода для добавления нового контрола с выпадающим списком.
+      /// </summary>
+      public const string AddSelect = "AddSelect";
+    }
+    
+    /// <summary>
     /// Обобщенное наименование типов.
     /// </summary>
     public static class CustomType

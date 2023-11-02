@@ -6,6 +6,7 @@ using Sungero.CoreEntities;
 using starkov.Faker.ParametersMatching;
 using System.Text.RegularExpressions;
 using CommonLibrary;
+using Sungero.Domain.Shared;
 
 namespace starkov.Faker.Client
 {
@@ -50,7 +51,7 @@ namespace starkov.Faker.Client
                 Constants.Module.FillOptions.Common.FixedValue,
                 Constants.Module.FillOptions.Common.RandomValue
               });
-      var personalValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldValue, false);
+      var personalValuesField = dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldValue, false, Sungero.Content.ElectronicDocuments.Null);
       
       var isUnique = propInfo.Select(i => i.LocalizedName).Count() == propInfo.Select(i => i.LocalizedName).Distinct().Count();
       isLocalizedValues.IsVisible = isUnique && parameterRow == null;
@@ -100,10 +101,16 @@ namespace starkov.Faker.Client
                                          
                                          var isFixedVal = arg.NewValue == Constants.Module.FillOptions.Common.FixedValue;
                                          if (isFixedVal)
-                                           personalValuesField.From(Functions.Module.GetEntitiyNamesByType(selectedPropInfo.PropertyGuid, string.Empty).ToArray());
+                                         {
+                                           var documents = Functions.Module.Remote.GetEntitiesByTypeGuid(selectedPropInfo.PropertyGuid, string.Empty)
+                                             .Where(e => Sungero.Content.ElectronicDocuments.Is(e))
+                                             .Cast<Sungero.Content.IElectronicDocument>();
+                                           personalValuesField.From(documents);
+                                         }
                                          
                                          personalValuesField.IsVisible = isFixedVal;
                                          personalValuesField.IsRequired = isFixedVal;
+                                         personalValuesField.Value = null;
                                        });
       #endregion
       
@@ -121,7 +128,11 @@ namespace starkov.Faker.Client
         {
           parameterField.Value = parameterRow.FillOption;
           if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
-            personalValuesField.Value = parameterRow.ChosenValue;
+          {
+            var id = Functions.Module.GetIdFromEntitiyName(parameterRow.ChosenValue);
+            var selectedDoc = Sungero.Content.ElectronicDocuments.As(Functions.Module.Remote.GetEntitiesByTypeGuid(parameterRow.PropertyTypeGuid).FirstOrDefault(e => e.Id == id));
+            personalValuesField.Value = selectedDoc;
+          }
         }
       }
       
@@ -145,7 +156,9 @@ namespace starkov.Faker.Client
         newRow.Limit = selectedPropInfo.LimitCount;
         newRow.FillOption = parameterField.Value;
         newRow.IsRequired = selectedPropInfo.IsRequired;
-        newRow.ChosenValue = personalValuesField.Value;
+        newRow.ChosenValue = personalValuesField.Value != null ? 
+          starkov.Faker.ParametersMatchings.Resources.EnityNameFormat(personalValuesField.Value.DisplayValue, personalValuesField.Value.Id) :
+          null;
       }
       #endregion
     }
@@ -648,10 +661,13 @@ namespace starkov.Faker.Client
         else if (customType == Constants.Module.CustomType.Enumeration)
           personalValuesField.Add(dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldEnumeration, true)
                                   .From(selectedPropInfo.EnumCollection.Select(i => i.LocalizedName).ToArray()));
-        else
-          personalValuesField.Add(dialog.AddSelect(starkov.Faker.ParametersMatchings.Resources.DialogFieldValue, true)
-                                  .From(Functions.Module.GetEntitiyNamesByType(selectedPropInfo.PropertyGuid,
-                                                                               _obj.DocumentType?.DocumentTypeGuid).ToArray()));
+        else if (customType == Constants.Module.CustomType.Navigation)
+        {
+          var guidType = Sungero.Domain.Shared.TypeExtension.GetTypeByGuid(Guid.Parse(selectedPropInfo.PropertyGuid));
+          var addSelectMethod = typeof(Sungero.Core.ExtensionInputDialog).GetMethods().FirstOrDefault(_ => _.Name == Constants.Module.Dialogs.AddSelect).MakeGenericMethod(guidType);
+          var field = addSelectMethod.Invoke(null, new object[4] { dialog, starkov.Faker.ParametersMatchings.Resources.DialogFieldValue.ToString(), true, null });
+          personalValuesField.Add(field);
+        }
       }
       else if (selectedValue == Constants.Module.FillOptions.Date.Period)
       {
@@ -730,13 +746,13 @@ namespace starkov.Faker.Client
       if (!string.IsNullOrEmpty(parameterRow.ChosenValue))
       {
         var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
-        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.ChosenValue));
+        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.ChosenValue, parameterRow.PropertyTypeGuid));
       }
       else if (!string.IsNullOrEmpty(parameterRow.ValueFrom) && !string.IsNullOrEmpty(parameterRow.ValueTo))
       {
         var controlType = Functions.ParametersMatching.GetMatchingControlTypeToCustomType(parameterRow.PropertyType, controls[0]);
-        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.ValueFrom));
-        controls[1].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[1], GetValueInSelectedType(controlType, parameterRow.ValueTo));
+        controls[0].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[0], GetValueInSelectedType(controlType, parameterRow.ValueFrom, parameterRow.PropertyTypeGuid));
+        controls[1].GetType().GetProperty(Constants.Module.PropertyNames.Value).SetValue(controls[1], GetValueInSelectedType(controlType, parameterRow.ValueTo, parameterRow.PropertyTypeGuid));
       }
     }
     
@@ -745,8 +761,9 @@ namespace starkov.Faker.Client
     /// </summary>
     /// <param name="customType">Обобщенный тип.</param>
     /// <param name="convertedValue">Значение которое нужно преобразовать.</param>
+    /// <param name="propertyTypeGuid">Guid типа свойства.</param>
     /// <returns>Преобразованное значение.</returns>
-    public virtual object GetValueInSelectedType(string customType, string convertedValue)
+    public virtual object GetValueInSelectedType(string customType, string convertedValue, string propertyTypeGuid)
     {
       DateTime date;
       bool logic;
@@ -759,6 +776,11 @@ namespace starkov.Faker.Client
         result = logic;
       else if (customType == Constants.Module.CustomType.Numeric && int.TryParse(convertedValue, out num))
         result = num;
+      else if (customType == Constants.Module.CustomType.Navigation)
+      {
+        var id = Functions.Module.GetIdFromEntitiyName(convertedValue);
+        result = Functions.Module.Remote.GetEntitiesByTypeGuid(propertyTypeGuid).FirstOrDefault(e => e.Id == id);
+      }
       else
         result = convertedValue;
       
@@ -778,7 +800,7 @@ namespace starkov.Faker.Client
       if (control == null)
         return result;
       
-      if (customType == Constants.Module.CustomType.Enumeration || customType == Constants.Module.CustomType.Navigation)
+      if (customType == Constants.Module.CustomType.Enumeration)
         result = Functions.Module.CastToDialogControlString(control)?.Value;
       else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.DateDialogControl)))
         result = Functions.Module.CastToDateDialogValue(control)?.Value.GetValueOrDefault().ToShortDateString();
@@ -790,6 +812,12 @@ namespace starkov.Faker.Client
         result = Functions.Module.CastToStringDialogValue(control)?.Value;
       else if (Functions.Module.CompareObjectWithType(control, typeof(Sungero.WebAPI.Dialogs.DropDownDialogControl)))
         result = Functions.Module.CastToDropDownDialogValue(control)?.Value;
+      else if (customType == Constants.Module.CustomType.Navigation)
+      {
+        var entValue = Functions.Module.CastToEntity(control.GetType().GetProperty(Constants.Module.PropertyNames.Value).GetValue(control));
+        if (entValue != null)
+          result = starkov.Faker.ParametersMatchings.Resources.EnityNameFormat(entValue.DisplayValue, entValue.Id);
+      }
       
       return result ?? string.Empty;
     }
