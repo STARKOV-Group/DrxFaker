@@ -480,23 +480,13 @@ namespace starkov.Faker.Server
     /// <returns>Сущность.</returns>
     public virtual IEntity GetEntityByParameters(starkov.Faker.Structures.Module.ParameterInfo parameterRow, System.Collections.Generic.Dictionary<string, IEntity> cache)
     {
-      int num;
       IEntity entity = null;
       var databook = parameterRow.ParametersMatching;
       
       if (parameterRow.FillOption == Constants.Module.FillOptions.Common.FixedValue)
       {
-        var idInString = parameterRow.ChosenValue;
-        var regex = new Regex(@"\(\d*\)$");
-        var matches = regex.Matches(parameterRow.ChosenValue);
-        if (matches.Count > 0)
-        {
-          foreach (Match match in matches)
-            idInString = match.Value.Substring(1, match.Value.Length-2);
-        }
-        
-        if (int.TryParse(idInString, out num))
-          entity = GetEntityByTypeGuidAndId(parameterRow.PropertyTypeGuid, num, cache);
+        var id = Functions.Module.GetIdFromEntitiyName(parameterRow.ChosenValue);
+        entity = GetEntityByTypeGuidAndId(parameterRow.PropertyTypeGuid, id, cache);
       }
       else if (parameterRow.FillOption == Constants.Module.FillOptions.Common.RandomValue)
       {
