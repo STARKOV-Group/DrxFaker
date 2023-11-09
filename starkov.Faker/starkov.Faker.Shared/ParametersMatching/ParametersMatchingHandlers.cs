@@ -17,13 +17,6 @@ namespace starkov.Faker
          (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow))
         throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_DeleteReqValue);
     }
-
-    public virtual void AttachmentParametersAdded(Sungero.Domain.Shared.CollectionPropertyAddedEventArgs e)
-    {
-      bool isAllow;
-      if (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow)
-        throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_WrongWayToAddValue);
-    }
   }
 
   partial class ParametersMatchingCollectionParametersSharedCollectionHandlers
@@ -34,13 +27,6 @@ namespace starkov.Faker
       bool isAllow;
       if (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow)
         throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_WrongWayToDelete);
-    }
-
-    public virtual void CollectionParametersAdded(Sungero.Domain.Shared.CollectionPropertyAddedEventArgs e)
-    {
-      bool isAllow;
-      if (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow)
-        throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_WrongWayToAddValue);
     }
   }
 
@@ -53,13 +39,6 @@ namespace starkov.Faker
       if (_deleted.IsRequired.GetValueOrDefault() &&
          (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow))
         throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_DeleteReqValue);
-    }
-
-    public virtual void ParametersAdded(Sungero.Domain.Shared.CollectionPropertyAddedEventArgs e)
-    {
-      bool isAllow;
-      if (!e.Params.TryGetValue(Constants.ParametersMatching.ParamsForChangeCollection, out isAllow) || !isAllow)
-        throw AppliedCodeException.Create(starkov.Faker.ParametersMatchings.Resources.Error_WrongWayToAddValue);
     }
   }
 

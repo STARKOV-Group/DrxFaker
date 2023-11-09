@@ -256,7 +256,8 @@
   ],
   "HandledEvents": [
     "RefreshClient",
-    "CreatedServer"
+    "CreatedServer",
+    "ShowingClient"
   ],
   "IconResourcesKeys": [],
   "OperationsClass": "",
@@ -335,7 +336,6 @@
       "Code": "ParametersMat1",
       "EntityGuid": "1c003967-fe58-4e92-bd59-4e89dd1a58ca",
       "HandledEvents": [
-        "AddedShared",
         "DeletedShared"
       ],
       "IsShowedInList": false,
@@ -356,7 +356,6 @@
       "Code": "ParametersMat2",
       "EntityGuid": "82017e70-105c-4d62-be00-89b5f8dd6dc4",
       "HandledEvents": [
-        "AddedShared",
         "DeletedShared"
       ],
       "IsShowedInList": false,
@@ -378,7 +377,6 @@
       "Code": "ParametersMat3",
       "EntityGuid": "335e9956-d45e-43a4-a5bb-f8eb71ee90ba",
       "HandledEvents": [
-        "AddedShared",
         "DeletedShared"
       ],
       "IsShowedInList": false,
