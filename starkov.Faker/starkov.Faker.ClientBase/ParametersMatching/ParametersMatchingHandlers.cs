@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -40,6 +40,18 @@ namespace starkov.Faker
 
   partial class ParametersMatchingClientHandlers
   {
+
+    public override void Showing(Sungero.Presentation.FormShowingEventArgs e)
+    {
+      var properties = _obj.State.Properties;
+      properties.Parameters.CanAdd = false;
+      properties.Parameters.CanCopy = false;
+      properties.CollectionParameters.CanAdd = false;
+      properties.CollectionParameters.CanCopy = false;
+      properties.AttachmentParameters.CanAdd = false;
+      properties.AttachmentParameters.CanCopy = false;
+    }
+    
     public virtual void DocumentTypeValueInput(starkov.Faker.Client.ParametersMatchingDocumentTypeValueInputEventArgs e)
     {
       if (e.NewValue == null || Equals(e.NewValue, e.OldValue))
