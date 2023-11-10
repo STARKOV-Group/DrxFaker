@@ -115,4 +115,7 @@
   <data name="AsyncHandler_Description_8e788f19b4d24912af56eb4ff19dc53a" xml:space="preserve">
     <value>Asynchronous handler for running tasks</value>
   </data>
+  <data name="AsyncHandler_Description_b02f2111d9214c68b17ab257abda8b42" xml:space="preserve">
+    <value>AH for launching multiple AH for generating entities</value>
+  </data>
 </root>
