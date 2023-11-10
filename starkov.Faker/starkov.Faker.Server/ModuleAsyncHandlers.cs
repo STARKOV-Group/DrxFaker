@@ -15,7 +15,21 @@ namespace starkov.Faker.Server
   {
 
     /// <summary>
-    /// Асинхронный обработчик для запуска задач
+    /// АО для запуска множества АО по генерации сущностей.
+    /// </summary>
+    /// <param name="args"></param>
+    public virtual void CreateAndExecuteAsyncHandlers(starkov.Faker.Server.AsyncHandlerInvokeArgs.CreateAndExecuteAsyncHandlersInvokeArgs args)
+    {
+      Logger.Debug("Start async handler CreateAndExecuteAsyncHandlers");
+      args.Retry = false;
+      
+      Functions.Module.CreateAsyncForGenerateEntities(args.Count, args.DatabookId, args.UserId);
+      
+      Logger.Debug("End async handler CreateAndExecuteAsyncHandlers");
+    }
+
+    /// <summary>
+    /// Асинхронный обработчик для запуска задач.
     /// </summary>
     public virtual void TasksStart(starkov.Faker.Server.AsyncHandlerInvokeArgs.TasksStartInvokeArgs args)
     {
