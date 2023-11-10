@@ -13,7 +13,7 @@ namespace starkov.Faker.Client
   partial class ParametersMatchingFunctions
   {
     
-    #region Диалог для коллекции CollectionParameters
+    #region Диалог для коллекции AttachmentParameters
     
     /// <summary>
     /// Показ диалога для выбора данных.
