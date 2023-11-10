@@ -548,9 +548,11 @@ namespace starkov.Faker.Server
     /// </summary>
     /// <param name="count">Кол-во создаваемых записей.</param>
     /// <param name="databookId">ИД справочника по которому будет происходить генерация.</param>
+    /// <param name="userId">ИД пользователя, которому будет отправлено уведомление.</param>
     [Remote]
-    public virtual void CreateAsyncForGenerateEntities(int count, long databookId)
+    public virtual void CreateAsyncForGenerateEntities(int count, long databookId, long userId)
     {
+      var user = Sungero.CoreEntities.Users.GetAll(u => u.Id == userId).FirstOrDefault();
       var setup = Functions.ModuleSetup.GetModuleSetup();
       var loopMax = setup.IsSeparateAsync.GetValueOrDefault() ? setup.AsyncEntitiesNumber.GetValueOrDefault(Faker.Constants.Module.BaseEntitiesCount) : count;
       for (var i = 0; i <= count/loopMax; i++)
@@ -566,8 +568,25 @@ namespace starkov.Faker.Server
         asyncHandler.DatabookId = databookId;
         asyncHandler.ExecuteAsync(setup.IsDisableNotifications.GetValueOrDefault() ?
                                   starkov.Faker.Resources.AsyncEndWorkSimpleMessageFormat(loopCount) :
-                                  starkov.Faker.Resources.AsyncEndWorkMessageFormat(loopCount));
+                                  starkov.Faker.Resources.AsyncEndWorkMessageFormat(loopCount),
+                                  user);
       }
+    }
+    
+    /// <summary>
+    /// Запустить АО для запуска множества АО по генерации сущностей.
+    /// </summary>
+    /// <param name="count">Кол-во создаваемых записей.</param>
+    /// <param name="databookId">ИД справочника по которому будет происходить генерация.</param>
+    /// <param name="userId">ИД пользователя, которому будет отправлено уведомление.</param>
+    [Remote]
+    public virtual void CreateAndExecuteAsyncHandlers(int count, long databookId, long userId)
+    {
+      var asyncHandler = Faker.AsyncHandlers.CreateAndExecuteAsyncHandlers.Create();
+      asyncHandler.Count = count;
+      asyncHandler.DatabookId = databookId;
+      asyncHandler.UserId = userId;
+      asyncHandler.ExecuteAsync();
     }
     
     #endregion
