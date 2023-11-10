@@ -609,6 +609,20 @@ namespace starkov.Faker.Server
       }
     }
     
+    /// <summary>
+    /// Запустить АО для запуска множества АО по генерации сущностей.
+    /// </summary>
+    /// <param name="count">Кол-во создаваемых записей.</param>
+    /// <param name="databookId">ИД справочника по которому будет происходить генерация.</param>
+    [Remote]
+    public virtual void CreateAndExecuteAsyncHandlers(int count, int databookId)
+    {
+      var asyncHandler = Faker.AsyncHandlers.CreateAndExecuteAsyncHandlers.Create();
+      asyncHandler.Count = count;
+      asyncHandler.DatabookId = databookId;
+      asyncHandler.ExecuteAsync();
+    }
+    
     #endregion
     
     #region Получение информации о свойствах
