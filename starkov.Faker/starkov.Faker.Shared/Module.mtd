@@ -35,6 +35,30 @@
           "ParameterType": "String"
         }
       ]
+    },
+    {
+      "NameGuid": "b02f2111-d921-4c68-b17a-b257abda8b42",
+      "Name": "CreateAndExecuteAsyncHandlers",
+      "DelayPeriod": 15,
+      "DelayStrategy": "RegularDelayStrategy",
+      "IsHandlerGenerated": true,
+      "Parameters": [
+        {
+          "NameGuid": "a54e14eb-732b-43fd-80a9-c5adca9c2561",
+          "Name": "Count",
+          "ParameterType": "Integer"
+        },
+        {
+          "NameGuid": "ada94185-3913-4805-8db6-b1377b93e257",
+          "Name": "UserId",
+          "ParameterType": "LongInteger"
+        },
+        {
+          "NameGuid": "d86ba89b-70c6-445b-86ee-b234ad1ee83f",
+          "Name": "DatabookId",
+          "ParameterType": "LongInteger"
+        }
+      ]
     }
   ],
   "ClientAssemblyName": "starkov.Faker.Client",
