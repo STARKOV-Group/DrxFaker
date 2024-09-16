@@ -1,0 +1,263 @@
+{
+  "$type": "Sungero.Metadata.ModuleMetadata, Sungero.Metadata",
+  "NameGuid": "c1b9e254-814e-471d-8921-1c8a57c08f01",
+  "Name": "Faker",
+  "AsyncHandlers": [
+    {
+      "NameGuid": "ceb7ef88-a709-4823-a49f-530a16c49acf",
+      "Name": "EntitiesGeneration",
+      "DelayPeriod": 15,
+      "DelayStrategy": "RegularDelayStrategy",
+      "IsHandlerGenerated": true,
+      "Parameters": [
+        {
+          "NameGuid": "0d8f920f-71d0-4f3e-b3e9-f5bb07191cd8",
+          "Name": "DatabookId",
+          "ParameterType": "LongInteger"
+        },
+        {
+          "NameGuid": "f8d7d478-2426-4479-bb61-ace9b5113803",
+          "Name": "Count",
+          "ParameterType": "Integer"
+        }
+      ]
+    },
+    {
+      "NameGuid": "8e788f19-b4d2-4912-af56-eb4ff19dc53a",
+      "Name": "TasksStart",
+      "DelayPeriod": 15,
+      "DelayStrategy": "RegularDelayStrategy",
+      "IsHandlerGenerated": true,
+      "Parameters": [
+        {
+          "NameGuid": "f14a3f5a-ad76-42a5-8b91-37e315dd2144",
+          "Name": "TaskIds",
+          "ParameterType": "String"
+        }
+      ]
+    },
+    {
+      "NameGuid": "b02f2111-d921-4c68-b17a-b257abda8b42",
+      "Name": "CreateAndExecuteAsyncHandlers",
+      "DelayPeriod": 15,
+      "DelayStrategy": "RegularDelayStrategy",
+      "IsHandlerGenerated": true,
+      "Parameters": [
+        {
+          "NameGuid": "a54e14eb-732b-43fd-80a9-c5adca9c2561",
+          "Name": "Count",
+          "ParameterType": "Integer"
+        },
+        {
+          "NameGuid": "ada94185-3913-4805-8db6-b1377b93e257",
+          "Name": "UserId",
+          "ParameterType": "LongInteger"
+        },
+        {
+          "NameGuid": "d86ba89b-70c6-445b-86ee-b234ad1ee83f",
+          "Name": "DatabookId",
+          "ParameterType": "LongInteger"
+        }
+      ]
+    }
+  ],
+  "ClientAssemblyName": "starkov.Faker.Client",
+  "ClientBaseAssemblyName": "starkov.Faker.ClientBase",
+  "ClientBaseNamespace": "starkov.Faker.ClientBase",
+  "ClientNamespace": "starkov.Faker.Client",
+  "Code": "Faker",
+  "CompanyCode": "starkov",
+  "Cover": {
+    "NameGuid": "0f8e4f5d-68de-4a56-b753-20e3b2494ae2",
+    "Actions": [
+      {
+        "$type": "Sungero.Metadata.CoverEntityListActionMetadata, Sungero.Metadata",
+        "NameGuid": "11d09461-9050-43be-ade8-705e3c4f3e06",
+        "Name": "ParametersMathcing",
+        "EntityTypeId": "0451e06d-c055-4d9d-b036-8935f2999aca",
+        "GroupId": "481ed195-ac8d-440f-b3fa-38e4054bb805"
+      },
+      {
+        "$type": "Sungero.Metadata.CoverEntityListActionMetadata, Sungero.Metadata",
+        "NameGuid": "19a409c0-67ea-4f3d-8dda-e7743d928c36",
+        "Name": "EntityTypes",
+        "EntityTypeId": "af491abf-f381-4765-916a-6b9dee7554a1",
+        "GroupId": "481ed195-ac8d-440f-b3fa-38e4054bb805",
+        "PreviousItemGuid": "11d09461-9050-43be-ade8-705e3c4f3e06"
+      },
+      {
+        "$type": "Sungero.Metadata.CoverFunctionActionMetadata, Sungero.Metadata",
+        "NameGuid": "26ec38ec-b2e2-4c1d-84fe-5b0223250ad1",
+        "Name": "StartGeneration",
+        "FunctionName": "ShowDIalogForGenerateEntity",
+        "GroupId": "b4df1d9f-5e6d-4050-a204-889a6543671a"
+      },
+      {
+        "$type": "Sungero.Metadata.CoverFunctionActionMetadata, Sungero.Metadata",
+        "NameGuid": "33a58fda-57e9-467e-9a2f-0f38aa1e94e9",
+        "Name": "OpenModuleSetup",
+        "FunctionName": "OpenModuleSetup",
+        "GroupId": "2baec73a-3d5e-447a-8294-85d7af74c57e"
+      },
+      {
+        "$type": "Sungero.Metadata.CoverEntityListActionMetadata, Sungero.Metadata",
+        "NameGuid": "bee623eb-0799-485b-94e4-acec08febac1",
+        "Name": "DocumentTypes",
+        "EntityTypeId": "0896aa80-e1da-4a1e-9485-d172f8e242bc",
+        "GroupId": "481ed195-ac8d-440f-b3fa-38e4054bb805",
+        "PreviousItemGuid": "19a409c0-67ea-4f3d-8dda-e7743d928c36"
+      }
+    ],
+    "Background": null,
+    "Footer": {
+      "NameGuid": "f08a071d-5320-474c-b8f7-910c0f93c3ee",
+      "BackgroundPosition": "Stretch"
+    },
+    "Groups": [
+      {
+        "NameGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
+        "Name": "Functions",
+        "BackgroundPosition": "Stretch",
+        "IconName": "GroupIconGroup_b4df1d9f5e6d4050a204889a6543671a.png",
+        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+      },
+      {
+        "NameGuid": "481ed195-ac8d-440f-b3fa-38e4054bb805",
+        "Name": "Databooks",
+        "BackgroundPosition": "Stretch",
+        "IconName": "GroupIconDatabooks_481ed195ac8d440fb3fa38e4054bb805.png",
+        "PreviousItemGuid": "b4df1d9f-5e6d-4050-a204-889a6543671a",
+        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+      },
+      {
+        "NameGuid": "2baec73a-3d5e-447a-8294-85d7af74c57e",
+        "Name": "Settings",
+        "BackgroundPosition": "Stretch",
+        "IconName": "GroupIconSettings_2baec73a3d5e447a829485d7af74c57e.png",
+        "PreviousItemGuid": "481ed195-ac8d-440f-b3fa-38e4054bb805",
+        "TabId": "e65e553b-7467-47e5-8c13-3c8dd77d5aea"
+      }
+    ],
+    "Header": {
+      "NameGuid": "abbbd1db-47eb-4f83-9fa3-e179eddadebb",
+      "BackgroundPosition": "Stretch"
+    },
+    "RemoteControls": [],
+    "Tabs": [
+      {
+        "NameGuid": "e65e553b-7467-47e5-8c13-3c8dd77d5aea",
+        "Name": "Tab"
+      }
+    ]
+  },
+  "Dependencies": [
+    {
+      "Id": "bab2de2d-8ee7-4b93-a6e6-adc8d45dc250",
+      "IsSolutionModule": true,
+      "MaxVersion": "",
+      "MinVersion": ""
+    },
+    {
+      "Id": "ec7b606a-21ee-4f16-aba8-ab8c2af76d12",
+      "MaxVersion": "",
+      "MinVersion": "0.0.1.0"
+    },
+    {
+      "Id": "df83a2ea-8d43-4ec4-a34a-2e61863014df",
+      "MaxVersion": "",
+      "MinVersion": "3.6.27.1"
+    },
+    {
+      "Id": "d534e107-a54d-48ec-85ff-bc44d731a82f",
+      "MaxVersion": "",
+      "MinVersion": "4.3.23.0"
+    }
+  ],
+  "ExplorerTreeOrder": [
+    {
+      "ItemId": "0451e06d-c055-4d9d-b036-8935f2999aca",
+      "PreviousItemId": "0896aa80-e1da-4a1e-9485-d172f8e242bc"
+    },
+    {
+      "ItemId": "af491abf-f381-4765-916a-6b9dee7554a1",
+      "PreviousItemId": "0451e06d-c055-4d9d-b036-8935f2999aca"
+    },
+    {
+      "ItemId": "6b11c91d-e5c8-4198-95aa-0061c20ca295",
+      "PreviousItemId": "af491abf-f381-4765-916a-6b9dee7554a1"
+    }
+  ],
+  "HandledEvents": [
+    "InitializingServer"
+  ],
+  "IconResourcesKeys": [],
+  "Importance": "Low",
+  "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "InterfaceNamespace": "starkov.Faker",
+  "IsolatedAssemblyName": "starkov.Faker.Isolated",
+  "IsolatedNamespace": "starkov.Faker.Isolated",
+  "Libraries": [
+    {
+      "NameGuid": "ee416e35-314b-4368-9387-81a04ed99c23",
+      "Name": "Extension",
+      "Scope": "Both"
+    },
+    {
+      "NameGuid": "07122a01-afd1-4038-b940-f59690c76896",
+      "Name": "WebApi",
+      "Scope": "Both"
+    }
+  ],
+  "NeedResetAppliedCache": true,
+  "NeedResetCache": true,
+  "Overridden": [
+    "Importance",
+    "IsVisible",
+    "NeedResetCache",
+    "NeedResetAppliedCache"
+  ],
+  "PublicStructures": [],
+  "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "ResourceInterfaceNamespace": "starkov.Faker",
+  "ResourcesKeys": [
+    "DialogDataInput",
+    "DialogFieldEntityToFill",
+    "DialogFieldEntityCreateCount",
+    "MessageEntityGenerationProcessStarted",
+    "AsyncEndWorkMessage",
+    "LocalizedPassword",
+    "ErrorText_SetValToProperty",
+    "InfoText_FirstEntryID",
+    "InfoText_TimeSpentToCreatEntities",
+    "InfoText_Errors",
+    "NoticeSubject",
+    "DialogError_RecordCountLessThanOne",
+    "InfoText_LoginNames",
+    "ModuleSetupsDatabookName",
+    "ErrorNotCreatedSetupDatabook",
+    "DocumentWithVersionName",
+    "ErrorDuringCast",
+    "AsyncEndWorkSimpleMessage",
+    "ErrorNegativeNumber",
+    "ErrorText_SetAttachmentIntoGroup",
+    "Error_StartTask",
+    "NoticeSubject_InfoAboutStartTasks"
+  ],
+  "ServerAssemblyName": "starkov.Faker.Server",
+  "ServerNamespace": "starkov.Faker.Server",
+  "SharedAssemblyName": "starkov.Faker.Shared",
+  "SharedNamespace": "starkov.Faker.Shared",
+  "SpecialFolders": [],
+  "Version": "0.0.1.0",
+  "Widgets": [],
+  "Versions": [
+    {
+      "Type": "ModuleMetadata",
+      "Number": 8
+    },
+    {
+      "Type": "DomainApi",
+      "Number": 3
+    }
+  ]
+}
