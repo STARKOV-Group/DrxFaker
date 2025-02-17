@@ -2,12 +2,16 @@
   "$type": "Sungero.Metadata.EntityMetadata, Sungero.Metadata",
   "NameGuid": "335e9956-d45e-43a4-a5bb-f8eb71ee90ba",
   "Name": "ParametersMatchingAttachmentParameters",
-  "AccessRightsMode": "NoRight",
   "BaseGuid": "a3d38bf5-0414-41f6-bb33-a4621d2e5a60",
   "CanBeNavigationPropertyType": true,
   "Code": "ParametersMat3",
   "ExtraSearchProperties": [],
   "IsChildEntity": true,
+  "NonVisualAuthorizationMode": "FullAccess",
+  "Overridden": [
+    "AccessRightsMode",
+    "NonVisualAuthorizationMode"
+  ],
   "Properties": [
     {
       "$type": "Sungero.Metadata.NavigationPropertyMetadata, Sungero.Metadata",
@@ -150,7 +154,7 @@
   "Versions": [
     {
       "Type": "EntityMetadata",
-      "Number": 12
+      "Number": 13
     }
   ]
 }
