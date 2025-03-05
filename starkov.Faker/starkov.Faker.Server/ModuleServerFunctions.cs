@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -826,7 +826,7 @@ namespace starkov.Faker.Server
     /// <param name="id">ИД сущности.</param>
     /// <param name="cache">Кэш.</param>
     /// <returns>Cущность.</returns>
-    public virtual IEntity GetEntityByTypeGuidAndId(string typeGuid, int id, System.Collections.Generic.Dictionary<string, IEntity> cache)
+    public virtual IEntity GetEntityByTypeGuidAndId(string typeGuid, long id, System.Collections.Generic.Dictionary<string, IEntity> cache)
     {
       var key = string.Format("{0} {1}", typeGuid, id);
       IEntity entity = null;
