@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DialogDataInput" xml:space="preserve">
+    <value>Ввод данных</value>
+  </data>
+  <data name="DialogFieldEntityToFill" xml:space="preserve">
+    <value>Сущность для заполнения</value>
+  </data>
+  <data name="DialogFieldEntityCreateCount" xml:space="preserve">
+    <value>Количество создаваемых записей</value>
+  </data>
+  <data name="MessageEntityGenerationProcessStarted" xml:space="preserve">
+    <value>Процесс по генерации сущностей успешно запущен</value>
+  </data>
+  <data name="AsyncEndWorkMessage" xml:space="preserve">
+    <value>Процесс по генерации {0} сущностей завершил свою работу.
+Более детальная информация отправлена в уведомлении.</value>
+  </data>
+  <data name="LocalizedPassword" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="ErrorText_SetValToProperty" xml:space="preserve">
+    <value>Ошибка вызванная занесением значения в свойство {0}:
+- {1}</value>
+  </data>
+  <data name="InfoText_FirstEntryID" xml:space="preserve">
+    <value>
+ИД первой записи: {0}</value>
+  </data>
+  <data name="InfoText_TimeSpentToCreatEntities" xml:space="preserve">
+    <value>Время затраченное на создание сущностей: {0}</value>
+  </data>
+  <data name="InfoText_Errors" xml:space="preserve">
+    <value>
+   Ошибки:
+{0}</value>
+  </data>
+  <data name="NoticeSubject" xml:space="preserve">
+    <value>Создано {0} из {1} сущностей типа {2}</value>
+  </data>
+  <data name="DialogError_RecordCountLessThanOne" xml:space="preserve">
+    <value>Количество создаваемых записей не может быть меньше 1</value>
+  </data>
+  <data name="InfoText_LoginNames" xml:space="preserve">
+    <value>
+   Учетные записи:
+{0}</value>
+  </data>
+  <data name="ModuleSetupsDatabookName" xml:space="preserve">
+    <value>Настройка модуля</value>
+  </data>
+  <data name="ErrorNotCreatedSetupDatabook" xml:space="preserve">
+    <value>Для настройки модуля необходимо создать запись, выполнив инициализацию</value>
+  </data>
+  <data name="DocumentWithVersionName" xml:space="preserve">
+    <value>Документ, использующийся при генерации версий документов</value>
+  </data>
+  <data name="ErrorDuringCast" xml:space="preserve">
+    <value>Error while cast object in {0}. 
+Error: {1}. 
+StackTrace: {2}</value>
+  </data>
+  <data name="AsyncEndWorkSimpleMessage" xml:space="preserve">
+    <value>Процесс по генерации {0} сущностей завершил свою работу.</value>
+  </data>
+  <data name="ErrorNegativeNumber" xml:space="preserve">
+    <value>Введенное число должно быть больше 0</value>
+  </data>
+  <data name="ErrorText_SetAttachmentIntoGroup" xml:space="preserve">
+    <value>Ошибка вызванная занесением вложения в группу {0}:
+- {1}</value>
+  </data>
+  <data name="Error_StartTask" xml:space="preserve">
+    <value>ИД задачи - {0}. Ошибка: {1}</value>
+  </data>
+  <data name="NoticeSubject_InfoAboutStartTasks" xml:space="preserve">
+    <value>Информация об отправке задач</value>
+  </data>
+</root>

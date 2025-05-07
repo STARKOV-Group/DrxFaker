@@ -1,0 +1,61 @@
+{
+  "$type": "Sungero.Metadata.SolutionMetadata, Sungero.Metadata",
+  "NameGuid": "bab2de2d-8ee7-4b93-a6e6-adc8d45dc250",
+  "Name": "DrxFaker",
+  "AsyncHandlers": [],
+  "ClientAssemblyName": "starkov.DrxFaker.Client",
+  "ClientBaseAssemblyName": "starkov.DrxFaker.ClientBase",
+  "ClientBaseNamespace": "starkov.DrxFaker.ClientBase",
+  "ClientNamespace": "starkov.DrxFaker.Client",
+  "Code": "DrxFake",
+  "CompanyCode": "starkov",
+  "Cover": {
+    "NameGuid": "11a0c2a6-e8f5-4f51-86e7-2b7b0ca62ccb",
+    "Actions": [],
+    "Background": null,
+    "Footer": {
+      "NameGuid": "17c43f04-5614-4efe-871d-888f12823dcf",
+      "BackgroundPosition": "Stretch"
+    },
+    "Groups": [],
+    "Header": {
+      "NameGuid": "b79bfa85-b64e-4276-adee-c7f3524964bf",
+      "BackgroundPosition": "Stretch"
+    },
+    "RemoteControls": [],
+    "Tabs": []
+  },
+  "DesktopViews": [],
+  "IconResourcesKeys": [],
+  "Importance": "Medium",
+  "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "InterfaceNamespace": "starkov.DrxFaker",
+  "IsolatedAssemblyName": "starkov.DrxFaker.Isolated",
+  "IsolatedNamespace": "starkov.DrxFaker.Isolated",
+  "OrderedSpecialFolders": [],
+  "PublicStructures": [],
+  "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "ResourceInterfaceNamespace": "starkov.DrxFaker",
+  "ResourcesKeys": [],
+  "ServerAssemblyName": "starkov.DrxFaker.Server",
+  "ServerNamespace": "starkov.DrxFaker.Server",
+  "SharedAssemblyName": "starkov.DrxFaker.Shared",
+  "SharedNamespace": "starkov.DrxFaker.Shared",
+  "SpecialFolders": [],
+  "Version": "0.0.1.0",
+  "Widgets": [],
+  "Versions": [
+    {
+      "Type": "SolutionMetadata",
+      "Number": 8
+    },
+    {
+      "Type": "ModuleMetadata",
+      "Number": 8
+    },
+    {
+      "Type": "DomainApi",
+      "Number": 3
+    }
+  ]
+}

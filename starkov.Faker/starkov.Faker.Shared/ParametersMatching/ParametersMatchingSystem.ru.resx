@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Property_Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>Соответствие заполняемых параметров сущности</value>
+  </data>
+  <data name="AccusativeDisplayName" xml:space="preserve">
+    <value>Соответствие заполняемых параметров сущности</value>
+  </data>
+  <data name="CollectionDisplayName" xml:space="preserve">
+    <value>Соответствие заполняемых параметров сущности</value>
+  </data>
+  <data name="Property_SelectorEntityType" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Enum_SelectorEntityType_DataBook" xml:space="preserve">
+    <value>Справочник</value>
+  </data>
+  <data name="Enum_SelectorEntityType_Document" xml:space="preserve">
+    <value>Документ</value>
+  </data>
+  <data name="Property_EntityType" xml:space="preserve">
+    <value>Тип сущности</value>
+  </data>
+  <data name="Enum_DatabookType_BusinessUnit" xml:space="preserve">
+    <value>Наша организация</value>
+  </data>
+  <data name="Enum_DatabookType_Department" xml:space="preserve">
+    <value>Подразделение</value>
+  </data>
+  <data name="Enum_DatabookType_Login" xml:space="preserve">
+    <value>Учетная запись</value>
+  </data>
+  <data name="Enum_DatabookType_Person" xml:space="preserve">
+    <value>Персона</value>
+  </data>
+  <data name="Enum_DatabookType_Employee" xml:space="preserve">
+    <value>Сотрудник</value>
+  </data>
+  <data name="Property_DocumentType" xml:space="preserve">
+    <value>Тип документа</value>
+  </data>
+  <data name="Property_Parameters" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="Action_AddDataInParameters" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInParametersHint" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInParametersDescription" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Property_IsNeedCreateVersion" xml:space="preserve">
+    <value>Создать версию</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInParameters" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInParametersHint" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInParametersDescription" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Property_CollectionParameters" xml:space="preserve">
+    <value>Параметры коллекции</value>
+  </data>
+  <data name="Action_AddDataInCollectionParameters" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInCollectionParametersHint" xml:space="preserve">
+    <value>Добавить данные о коллекции</value>
+  </data>
+  <data name="Action_AddDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Добавить данные о коллекции</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParameters" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParametersHint" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParameters" xml:space="preserve">
+    <value>Удалить данные о коллекции</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersHint" xml:space="preserve">
+    <value>Удалить данные о коллекции</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersDescription" xml:space="preserve">
+    <value>Удалить данные о коллекции</value>
+  </data>
+  <data name="Action_DeleteDataInCollectionParametersConfirmationMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить все данные связанные с выбранной коллекцией?</value>
+  </data>
+  <data name="Enum_SelectorEntityType_Task" xml:space="preserve">
+    <value>Задача</value>
+  </data>
+  <data name="Property_IsNeedStartTask" xml:space="preserve">
+    <value>Запустить задачу</value>
+  </data>
+  <data name="Property_AttachmentParameters" xml:space="preserve">
+    <value>Параметры вложений</value>
+  </data>
+  <data name="Action_AddDataInAttachments" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsHint" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_AddDataInAttachmentsDescription" xml:space="preserve">
+    <value>Добавить данные</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachments" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsHint" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+  <data name="Action_ChangeSelectedDataInAttachmentsDescription" xml:space="preserve">
+    <value>Изменить выделенную запись</value>
+  </data>
+</root>

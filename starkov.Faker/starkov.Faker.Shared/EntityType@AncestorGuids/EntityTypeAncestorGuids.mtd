@@ -1,0 +1,66 @@
+{
+  "$type": "Sungero.Metadata.EntityMetadata, Sungero.Metadata",
+  "NameGuid": "39fb3cf8-efd4-46e1-b8d0-4720216a187c",
+  "Name": "EntityTypeAncestorGuids",
+  "BaseGuid": "a3d38bf5-0414-41f6-bb33-a4621d2e5a60",
+  "CanBeNavigationPropertyType": true,
+  "Code": "EntityTypeAnce",
+  "ExtraSearchProperties": [],
+  "IntegrationServiceName": "DatabookTypeAncestorGuids",
+  "IsChildEntity": true,
+  "NonVisualAuthorizationMode": "FullAccess",
+  "Overridden": [
+    "AccessRightsMode",
+    "NonVisualAuthorizationMode"
+  ],
+  "Properties": [
+    {
+      "$type": "Sungero.Metadata.NavigationPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "d0a37f76-e928-43f1-bf2e-d0ada6b4f24c",
+      "Name": "EntityType",
+      "CanBeSearch": false,
+      "Code": "EntityType",
+      "EntityGuid": "af491abf-f381-4765-916a-6b9dee7554a1",
+      "IsReferenceToRootEntity": true,
+      "IsShowedInList": false
+    },
+    {
+      "$type": "Sungero.Metadata.StringPropertyMetadata, Sungero.Metadata",
+      "NameGuid": "1ae43d4a-9ffd-49d4-baf4-4efdac919b0d",
+      "Name": "Guid",
+      "CanBeSearch": false,
+      "Code": "Guid",
+      "IsEnabled": false,
+      "IsShowedInList": false,
+      "IsVisibility": false,
+      "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.StringEditorToStringBinder",
+      "PreviousPropertyGuid": "d0a37f76-e928-43f1-bf2e-d0ada6b4f24c"
+    }
+  ],
+  "PublicStructures": [],
+  "RibbonCardMetadata": {
+    "NameGuid": "5bf39a36-13fa-439e-b274-2fb849bb52a1",
+    "Name": "RibbonCard",
+    "Categories": [],
+    "Elements": [],
+    "Groups": [],
+    "IsAncestorMetadata": true,
+    "Pages": [],
+    "RibbonKind": "Card"
+  },
+  "RibbonCollectionMetadata": {
+    "NameGuid": "7255b528-8b19-4448-9610-592c17b14036",
+    "Name": "RibbonCollection",
+    "Categories": [],
+    "Elements": [],
+    "Groups": [],
+    "IsAncestorMetadata": true,
+    "Pages": []
+  },
+  "Versions": [
+    {
+      "Type": "EntityMetadata",
+      "Number": 13
+    }
+  ]
+}
