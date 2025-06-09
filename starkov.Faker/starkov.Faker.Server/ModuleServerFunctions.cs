@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -723,14 +723,6 @@ namespace starkov.Faker.Server
       }
       
       var isAnyEnum = properties.Any(m => Functions.Module.CompareObjectWithType(m, typeof(Sungero.Metadata.EnumPropertyMetadata)));
-      IEntity entity = null;
-      if (isAnyEnum)
-      {
-        AccessRights.AllowRead(() => {
-                                 entity = CreateEntityByTypeGuid(typeMetadata.NameGuid.ToString());
-                               });
-      }
-      
       foreach (var propertyMetadata in properties)
       {
         #region Получение локализованных значений перечислений
@@ -738,19 +730,11 @@ namespace starkov.Faker.Server
         var enumInfo = new List<Structures.Module.EnumerationInfo>();
         if (isAnyEnum && Functions.Module.CompareObjectWithType(propertyMetadata, typeof(Sungero.Metadata.EnumPropertyMetadata)))
         {
-          var entityPropInfo = entity.Info.Properties;
-          object infoProperties = entityPropInfo;
-          if (!string.IsNullOrEmpty(collectionName))
+          var enumPropertyMetadata = Functions.Module.CastToEnumPropertyMetadata(propertyMetadata);
+          if (enumPropertyMetadata != null)
           {
-            var collectionInfo = entityPropInfo.GetType().GetProperties().FirstOrDefault(p => p.Name == collectionName).GetValue(entityPropInfo);
-            infoProperties = collectionInfo.GetType().GetProperty("Properties").GetValue(collectionInfo);
-          }
-          
-          var propertyEnumeration = infoProperties.GetType().GetProperty(propertyMetadata.Name);
-          if (propertyEnumeration != null)
-          {
-            var enumPropertyInfo = Functions.Module.CastToEnumPropertyInfo(propertyEnumeration.GetValue(infoProperties));
-            foreach (string val in Functions.Module.CastToEnumPropertyMetadata(propertyMetadata)?.Values.Select(m => m.Name))
+            var enumPropertyInfo = new Sungero.Domain.Shared.EnumPropertyInfo(enumPropertyMetadata);
+            foreach (string val in enumPropertyMetadata.Values.Select(m => m.Name))
               enumInfo.Add(Structures.Module.EnumerationInfo.Create(val, enumPropertyInfo?.GetLocalizedValue(new Enumeration(val)) ?? string.Empty));
           }
         }
@@ -772,14 +756,6 @@ namespace starkov.Faker.Server
                                                                  propertyMetadata.IsRequired,
                                                                  enumInfo,
                                                                  strLength));
-      }
-      
-      if (entity != null)
-      {
-        using (var session = new Sungero.Domain.Session())
-        {
-          session.Delete(entity);
-        }
       }
       
       return propertiesList;
