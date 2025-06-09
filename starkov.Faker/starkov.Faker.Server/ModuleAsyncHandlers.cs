@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -111,218 +111,221 @@ namespace starkov.Faker.Server
       {
         try
         {
-          #region Создание учетных записей
-          if (databook.EntityType?.EntityTypeGuid == Constants.Module.Guids.Login.ToString())
+          using (Sungero.Domain.Session session = new Sungero.Domain.Session(true, false))
           {
-            CreateLogin(databook, propertiesStructure, maxLoginNamesNumber, ref loginNames);
-            createdEntityCount++;
-            
-            continue;
-          }
-          #endregion
-          
-          var finalTypeGuid = databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid;
-          var entity = Functions.Module.CreateEntityByTypeGuid(finalTypeGuid);
-          var entityProperties = entity.GetType().GetProperties();
-          
-          #region Заполнение свойств сущности
-          foreach (var parametersRow in databook.Parameters.Where(p => p.FillOption != Constants.Module.FillOptions.Common.NullValue))
-          {
-            try
+            #region Создание учетных записей
+            if (databook.EntityType?.EntityTypeGuid == Constants.Module.Guids.Login.ToString())
             {
-              var property = entityProperties.FirstOrDefault(info => info.Name == parametersRow.PropertyName);
-              if (property == null)
-                continue;
+              CreateLogin(databook, propertiesStructure, maxLoginNamesNumber, ref loginNames);
+              createdEntityCount++;
               
-              var parameterStruct = Structures.Module.ParameterInfo.Create(parametersRow.ParametersMatching,
-                                                                           parametersRow.PropertyName,
-                                                                           parametersRow.PropertyTypeGuid,
-                                                                           parametersRow.PropertyType,
-                                                                           parametersRow.FillOption,
-                                                                           parametersRow.ChosenValue,
-                                                                           parametersRow.ValueFrom,
-                                                                           parametersRow.ValueTo);
-              var propertyValue = GetPropertyValue(parameterStruct,
-                                                   propertiesStructure,
-                                                   cache,
-                                                   parametersRow.StringPropLength,
-                                                   property);
-              property.SetValue(entity, propertyValue);
-            }
-            catch (Exception ex)
-            {
-              var err = starkov.Faker.Resources.ErrorText_SetValToPropertyFormat(parametersRow.PropertyName, ex.Message);
-              if (!errors.Contains(err))
-                errors.Add(err);
-              
-              Logger.ErrorFormat("EntitiesGeneration error caused by setting value in property {0}: {1}\r\n   StackTrace: {2}",
-                                 parametersRow.PropertyName,
-                                 ex.Message,
-                                 ex.StackTrace);
-            }
-          }
-          #endregion
-          
-          #region Заполнение коллекций сущности
-          var collectionStructure = Functions.Module.GetCollectionPropertiesType(databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
-          foreach (var collectionName in databook.CollectionParameters.Select(r => r.CollectionName).Distinct())
-          {
-            var rowCount = databook.CollectionParameters.FirstOrDefault(r => r.CollectionName == collectionName).RowCount;
-            var parameters = databook.CollectionParameters
-              .Where(r => r.CollectionName == collectionName)
-              .Where(r => r.FillOption != Constants.Module.FillOptions.Common.NullValue);
-            var collectionInfo = entityProperties.FirstOrDefault(info => info.Name == collectionName);
-            if (collectionInfo == null)
               continue;
+            }
+            #endregion
             
-            var collection = collectionInfo.GetValue(entity, null);
-            if (collection == null)
-              continue;
+            var finalTypeGuid = databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid;
+            var entity = Functions.Module.CreateEntityByTypeGuid(finalTypeGuid);
+            var entityProperties = entity.GetType().GetProperties();
             
-            for (var number = 0; number < rowCount; number++)
+            #region Заполнение свойств сущности
+            foreach (var parametersRow in databook.Parameters.Where(p => p.FillOption != Constants.Module.FillOptions.Common.NullValue))
             {
-              var newLine = collection.GetType().GetMethod(Constants.Module.Collections.AddMethod, new Type[0]).Invoke(collection, null);
-              foreach (var parametersRow in parameters)
+              try
               {
-                try
-                {
-                  var property = newLine.GetType().GetProperties().FirstOrDefault(p => p.Name == parametersRow.PropertyName);
-                  if (property == null)
-                    continue;
-                  
-                  var parameterStruct = Structures.Module.ParameterInfo.Create(parametersRow.ParametersMatching,
-                                                                               parametersRow.PropertyName,
-                                                                               parametersRow.PropertyTypeGuid,
-                                                                               parametersRow.PropertyType,
-                                                                               parametersRow.FillOption,
-                                                                               parametersRow.ChosenValue,
-                                                                               parametersRow.ValueFrom,
-                                                                               parametersRow.ValueTo);
-                  var propertyValue = GetPropertyValue(parameterStruct,
-                                                       collectionStructure.FirstOrDefault(s => s.Name == collectionName).Properties,
-                                                       cache,
-                                                       parametersRow.StringPropLength,
-                                                       property);
-                  property.SetValue(newLine, propertyValue);
-                }
-                catch (Exception ex)
-                {
-                  var err = starkov.Faker.Resources.ErrorText_SetValToPropertyFormat(parametersRow.PropertyName, ex.Message);
-                  if (!errors.Contains(err))
-                    errors.Add(err);
-                  
-                  Logger.ErrorFormat("EntitiesGeneration error caused by setting value in property {0}: {1}\r\n   StackTrace: {2}",
-                                     parametersRow.PropertyName,
-                                     ex.Message,
-                                     ex.StackTrace);
-                }
+                var property = entityProperties.FirstOrDefault(info => info.Name == parametersRow.PropertyName);
+                if (property == null)
+                  continue;
+                
+                var parameterStruct = Structures.Module.ParameterInfo.Create(parametersRow.ParametersMatching,
+                                                                             parametersRow.PropertyName,
+                                                                             parametersRow.PropertyTypeGuid,
+                                                                             parametersRow.PropertyType,
+                                                                             parametersRow.FillOption,
+                                                                             parametersRow.ChosenValue,
+                                                                             parametersRow.ValueFrom,
+                                                                             parametersRow.ValueTo);
+                var propertyValue = GetPropertyValue(parameterStruct,
+                                                     propertiesStructure,
+                                                     cache,
+                                                     parametersRow.StringPropLength,
+                                                     property);
+                property.SetValue(entity, propertyValue);
               }
-              
-              var lineEntity = Functions.Module.CastToEntity(newLine);
-              foreach (var linePropertyState in lineEntity.State.Properties.Where(p => p.IsRequired == true))
-                linePropertyState.IsRequired = false;
-            }
-          }
-          #endregion
-          
-          #region Заполнение вложений задачи
-          if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task)
-          {
-            foreach (var attachmentRow in databook.AttachmentParameters.Where(p => p.FillOption != Constants.Module.FillOptions.Common.NullValue))
-            {
-              var attachmentGroupInfo = entityProperties.FirstOrDefault(info => info.Name == attachmentRow.AttachmentName);
-              if (attachmentGroupInfo == null)
-                continue;
-              
-              var attachmentGroup = attachmentGroupInfo.GetValue(entity, null);
-              if (attachmentGroup == null)
-                continue;
-              
-              var attachmentInfo = attachmentGroup.GetType().GetProperties().FirstOrDefault(_ => _.Name == Constants.Module.Attachments.PropertyAll);
-              if (attachmentInfo == null)
-                break;
-              
-              var attachment = attachmentInfo.GetValue(attachmentGroup, null);
-              if (attachment == null)
-                continue;
-              
-              var parameterStruct = Structures.Module.ParameterInfo.Create(attachmentRow.ParametersMatching,
-                                                                           attachmentRow.AttachmentName,
-                                                                           attachmentRow.PropertyTypeGuid,
-                                                                           attachmentRow.PropertyType,
-                                                                           attachmentRow.FillOption,
-                                                                           attachmentRow.ChosenValue,
-                                                                           string.Empty,
-                                                                           string.Empty);
-              
-              for (var number = 0; number < attachmentRow.Count.GetValueOrDefault(); number++)
+              catch (Exception ex)
               {
-                try
-                {
-                  var propertyValue = GetPropertyValue(parameterStruct,
-                                                       propertiesStructure,
-                                                       cache,
-                                                       null,
-                                                       attachmentInfo);
-                  attachment.GetType().GetMethod(Constants.Module.Attachments.AddMethod).Invoke(attachment, new object[1] { propertyValue });
-                }
-                catch (Exception ex)
-                {
-                  var err = starkov.Faker.Resources.ErrorText_SetAttachmentIntoGroupFormat(attachmentRow.AttachmentName, ex.Message);
-                  if (!errors.Contains(err))
-                    errors.Add(err);
-                  
-                  Logger.ErrorFormat("EntitiesGeneration error caused by setting attachments {0}: {1}\r\n   StackTrace: {2}",
-                                     attachmentRow.AttachmentName,
-                                     ex.Message,
-                                     ex.StackTrace);
-                }
+                var err = starkov.Faker.Resources.ErrorText_SetValToPropertyFormat(parametersRow.PropertyName, ex.Message);
+                if (!errors.Contains(err))
+                  errors.Add(err);
+                
+                Logger.ErrorFormat("EntitiesGeneration error caused by setting value in property {0}: {1}\r\n   StackTrace: {2}",
+                                   parametersRow.PropertyName,
+                                   ex.Message,
+                                   ex.StackTrace);
               }
             }
-          }
-          #endregion
-          
-          #region Создание версии документа
-          if (isNeedCreateVersion)
-          {
+            #endregion
+            
+            #region Заполнение коллекций сущности
+            var collectionStructure = Functions.Module.GetCollectionPropertiesType(databook.EntityType?.EntityTypeGuid ?? databook.DocumentType?.DocumentTypeGuid);
+            foreach (var collectionName in databook.CollectionParameters.Select(r => r.CollectionName).Distinct())
+            {
+              var rowCount = databook.CollectionParameters.FirstOrDefault(r => r.CollectionName == collectionName).RowCount;
+              var parameters = databook.CollectionParameters
+                .Where(r => r.CollectionName == collectionName)
+                .Where(r => r.FillOption != Constants.Module.FillOptions.Common.NullValue);
+              var collectionInfo = entityProperties.FirstOrDefault(info => info.Name == collectionName);
+              if (collectionInfo == null)
+                continue;
+              
+              var collection = collectionInfo.GetValue(entity, null);
+              if (collection == null)
+                continue;
+              
+              for (var number = 0; number < rowCount; number++)
+              {
+                var newLine = collection.GetType().GetMethod(Constants.Module.Collections.AddMethod, new Type[0]).Invoke(collection, null);
+                foreach (var parametersRow in parameters)
+                {
+                  try
+                  {
+                    var property = newLine.GetType().GetProperties().FirstOrDefault(p => p.Name == parametersRow.PropertyName);
+                    if (property == null)
+                      continue;
+                    
+                    var parameterStruct = Structures.Module.ParameterInfo.Create(parametersRow.ParametersMatching,
+                                                                                 parametersRow.PropertyName,
+                                                                                 parametersRow.PropertyTypeGuid,
+                                                                                 parametersRow.PropertyType,
+                                                                                 parametersRow.FillOption,
+                                                                                 parametersRow.ChosenValue,
+                                                                                 parametersRow.ValueFrom,
+                                                                                 parametersRow.ValueTo);
+                    var propertyValue = GetPropertyValue(parameterStruct,
+                                                         collectionStructure.FirstOrDefault(s => s.Name == collectionName).Properties,
+                                                         cache,
+                                                         parametersRow.StringPropLength,
+                                                         property);
+                    property.SetValue(newLine, propertyValue);
+                  }
+                  catch (Exception ex)
+                  {
+                    var err = starkov.Faker.Resources.ErrorText_SetValToPropertyFormat(parametersRow.PropertyName, ex.Message);
+                    if (!errors.Contains(err))
+                      errors.Add(err);
+                    
+                    Logger.ErrorFormat("EntitiesGeneration error caused by setting value in property {0}: {1}\r\n   StackTrace: {2}",
+                                       parametersRow.PropertyName,
+                                       ex.Message,
+                                       ex.StackTrace);
+                  }
+                }
+                
+                var lineEntity = Functions.Module.CastToEntity(newLine);
+                foreach (var linePropertyState in lineEntity.State.Properties.Where(p => p.IsRequired == true))
+                  linePropertyState.IsRequired = false;
+              }
+            }
+            #endregion
+            
+            #region Заполнение вложений задачи
+            if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task)
+            {
+              foreach (var attachmentRow in databook.AttachmentParameters.Where(p => p.FillOption != Constants.Module.FillOptions.Common.NullValue))
+              {
+                var attachmentGroupInfo = entityProperties.FirstOrDefault(info => info.Name == attachmentRow.AttachmentName);
+                if (attachmentGroupInfo == null)
+                  continue;
+                
+                var attachmentGroup = attachmentGroupInfo.GetValue(entity, null);
+                if (attachmentGroup == null)
+                  continue;
+                
+                var attachmentInfo = attachmentGroup.GetType().GetProperties().FirstOrDefault(_ => _.Name == Constants.Module.Attachments.PropertyAll);
+                if (attachmentInfo == null)
+                  break;
+                
+                var attachment = attachmentInfo.GetValue(attachmentGroup, null);
+                if (attachment == null)
+                  continue;
+                
+                var parameterStruct = Structures.Module.ParameterInfo.Create(attachmentRow.ParametersMatching,
+                                                                             attachmentRow.AttachmentName,
+                                                                             attachmentRow.PropertyTypeGuid,
+                                                                             attachmentRow.PropertyType,
+                                                                             attachmentRow.FillOption,
+                                                                             attachmentRow.ChosenValue,
+                                                                             string.Empty,
+                                                                             string.Empty);
+                
+                for (var number = 0; number < attachmentRow.Count.GetValueOrDefault(); number++)
+                {
+                  try
+                  {
+                    var propertyValue = GetPropertyValue(parameterStruct,
+                                                         propertiesStructure,
+                                                         cache,
+                                                         null,
+                                                         attachmentInfo);
+                    attachment.GetType().GetMethod(Constants.Module.Attachments.AddMethod).Invoke(attachment, new object[1] { propertyValue });
+                  }
+                  catch (Exception ex)
+                  {
+                    var err = starkov.Faker.Resources.ErrorText_SetAttachmentIntoGroupFormat(attachmentRow.AttachmentName, ex.Message);
+                    if (!errors.Contains(err))
+                      errors.Add(err);
+                    
+                    Logger.ErrorFormat("EntitiesGeneration error caused by setting attachments {0}: {1}\r\n   StackTrace: {2}",
+                                       attachmentRow.AttachmentName,
+                                       ex.Message,
+                                       ex.StackTrace);
+                  }
+                }
+              }
+            }
+            #endregion
+            
+            #region Создание версии документа
+            if (isNeedCreateVersion)
+            {
+              try
+              {
+                CreateDocumentVersion(entity, documentVersion);
+              }
+              catch (Exception ex)
+              {
+                if (!errors.Contains(ex.Message))
+                  errors.Add(ex.Message);
+                
+                Logger.ErrorFormat("EntitiesGeneration error caused by creating version: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
+              }
+            }
+            #endregion
+            
+            #region Снятие признака обязательности свойств
+            foreach (var propertyState in entity.State.Properties.Where(p => p.IsRequired == true))
+              propertyState.IsRequired = false;
+            #endregion
+            
             try
             {
-              CreateDocumentVersion(entity, documentVersion);
+              entity.Save();
+              if (!isDisableNotify && attachments.Count < maxAttachmentsNumber)
+                attachments.Add(entity);
+              
+              createdEntityCount++;
+              if (firstEntityId == 0)
+                firstEntityId = entity.Id;
+              
+              if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task && databook.IsNeedStartTask.GetValueOrDefault())
+                taskIds.AppendFormat("{0}{1}", entity.Id, Constants.Module.Separator);
             }
             catch (Exception ex)
             {
               if (!errors.Contains(ex.Message))
                 errors.Add(ex.Message);
               
-              Logger.ErrorFormat("EntitiesGeneration error caused by creating version: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
+              Logger.ErrorFormat("EntitiesGeneration error caused by saving entity: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
             }
-          }
-          #endregion
-          
-          #region Снятие признака обязательности свойств
-          foreach (var propertyState in entity.State.Properties.Where(p => p.IsRequired == true))
-            propertyState.IsRequired = false;
-          #endregion
-          
-          try
-          {
-            entity.Save();
-            if (!isDisableNotify && attachments.Count < maxAttachmentsNumber)
-              attachments.Add(entity);
-            
-            createdEntityCount++;
-            if (firstEntityId == 0)
-              firstEntityId = entity.Id;
-            
-            if (databook.SelectorEntityType == Faker.ParametersMatching.SelectorEntityType.Task && databook.IsNeedStartTask.GetValueOrDefault())
-              taskIds.AppendFormat("{0}{1}", entity.Id, Constants.Module.Separator);
-          }
-          catch (Exception ex)
-          {
-            if (!errors.Contains(ex.Message))
-              errors.Add(ex.Message);
-            
-            Logger.ErrorFormat("EntitiesGeneration error caused by saving entity: {0}\r\n   StackTrace: {1}", ex.Message, ex.StackTrace);
           }
         }
         catch (Exception ex)

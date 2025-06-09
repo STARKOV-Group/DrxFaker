@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -479,9 +479,9 @@ namespace starkov.Faker.Shared
     /// </summary>
     /// <param name="entitiyName">Строка с наименованием.</param>
     /// <returns>Список наименований сущностей.</returns>
-    public virtual int GetIdFromEntitiyName(string entitiyName)
+    public virtual long GetIdFromEntitiyName(string entitiyName)
     {
-      int id = 0;
+      long id = 0;
       var idInString = entitiyName;
       var regex = new System.Text.RegularExpressions.Regex(@"\(\d*\)$");
       var matches = regex.Matches(entitiyName);
@@ -491,7 +491,7 @@ namespace starkov.Faker.Shared
           idInString = match.Value.Substring(1, match.Value.Length-2);
       }
       
-      int.TryParse(idInString, out id);
+      long.TryParse(idInString, out id);
       return id;
     }
     
