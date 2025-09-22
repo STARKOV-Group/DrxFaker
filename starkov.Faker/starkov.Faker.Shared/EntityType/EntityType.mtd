@@ -58,6 +58,7 @@
       ]
     }
   ],
+  "FormViewUuid": "2c4ffeeb-0512-4d43-ac7f-f6717024c5e4",
   "HandledEvents": [
     "RefreshClient"
   ],

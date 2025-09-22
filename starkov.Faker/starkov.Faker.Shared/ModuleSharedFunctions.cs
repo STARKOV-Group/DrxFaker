@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -9,7 +9,7 @@ using Sungero.Metadata;
 
 namespace starkov.Faker.Shared
 {
-  public class ModuleFunctions
+  public partial class ModuleFunctions
   {
     
     #region Проверка и приведение типов

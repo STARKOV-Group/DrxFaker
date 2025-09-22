@@ -6,7 +6,7 @@ using Sungero.CoreEntities;
 
 namespace starkov.DrxFaker.Shared
 {
-  public class ModuleFunctions
+  public partial class ModuleFunctions
   {
 
   }

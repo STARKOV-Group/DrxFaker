@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace starkov.Faker.Server
 {
-  public class ModuleAsyncHandlers
+  public partial class ModuleAsyncHandlers
   {
 
     /// <summary>
