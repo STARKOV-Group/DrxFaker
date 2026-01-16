@@ -555,6 +555,7 @@ namespace starkov.Faker.Server
       var user = Sungero.CoreEntities.Users.GetAll(u => u.Id == userId).FirstOrDefault();
       var setup = Functions.ModuleSetup.GetModuleSetup();
       var loopMax = setup.IsSeparateAsync.GetValueOrDefault() ? setup.AsyncEntitiesNumber.GetValueOrDefault(Faker.Constants.Module.BaseEntitiesCount) : count;
+      var databookName = ParametersMatchings.GetAll(p => p.Id == databookId).FirstOrDefault()?.Name;
       for (var i = 0; i <= count/loopMax; i++)
       {
         var loopCount = loopMax;
@@ -567,8 +568,8 @@ namespace starkov.Faker.Server
         asyncHandler.Count = loopCount;
         asyncHandler.DatabookId = databookId;
         asyncHandler.ExecuteAsync(setup.IsDisableNotifications.GetValueOrDefault() ?
-                                  starkov.Faker.Resources.AsyncEndWorkSimpleMessageFormat(loopCount) :
-                                  starkov.Faker.Resources.AsyncEndWorkMessageFormat(loopCount),
+                                  starkov.Faker.Resources.AsyncEndWorkSimpleMessageFormat(loopCount, databookName) :
+                                  starkov.Faker.Resources.AsyncEndWorkMessageFormat(loopCount, databookName),
                                   user);
       }
     }
