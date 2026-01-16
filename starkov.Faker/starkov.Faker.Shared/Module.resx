@@ -71,7 +71,7 @@
     <value>Entity generation process started successfully</value>
   </data>
   <data name="AsyncEndWorkMessage" xml:space="preserve">
-    <value>The process of generating {0} entities has completed its work.
+    <value>The process of generating {0} "{1}" has completed its work.
 More details are sent in the notification.</value>
   </data>
   <data name="LocalizedPassword" xml:space="preserve">
@@ -119,7 +119,7 @@ Error: {1}.
 StackTrace: {2}</value>
   </data>
   <data name="AsyncEndWorkSimpleMessage" xml:space="preserve">
-    <value>The process of generating {0} entities has completed its work.</value>
+    <value>The process of generating {0} "{1}" has completed its work.</value>
   </data>
   <data name="ErrorNegativeNumber" xml:space="preserve">
     <value>The entered number must be greater than 0</value>
