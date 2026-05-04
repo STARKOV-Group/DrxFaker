@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sungero.Core;
@@ -174,7 +174,10 @@ namespace starkov.Faker.Server
         { employeeProp.Status.Name, Constants.Module.FillOptions.Common.NullValue },
         { employeeProp.Name.Name, Constants.Module.FillOptions.Common.NullValue },
         { employeeProp.Person.Name, Constants.Module.FillOptions.Common.RandomValue },
-        { employeeProp.Department.Name, Constants.Module.FillOptions.Common.RandomValue }
+        { employeeProp.Login.Name, Constants.Module.FillOptions.Common.RandomValue },
+        { employeeProp.JobTitle.Name, Constants.Module.FillOptions.Common.RandomValue },
+        { employeeProp.Department.Name, Constants.Module.FillOptions.Common.RandomValue },
+        { employeeProp.Email.Name, Constants.Module.FillOptions.String.Email }
       };
       
       CreateParametersMatchingByGUID(Constants.Module.Guids.Employee, employeeDict);
@@ -200,7 +203,11 @@ namespace starkov.Faker.Server
         
         ((Sungero.Domain.Shared.IExtendedEntity)databook).Params[Constants.ParametersMatching.ParamsForChangeCollection] = true;
         var propInfo = Functions.Module.GetPropertiesType(stringGuid);
-        foreach (var prop in propInfo.Where(i => i.IsRequired))
+        foreach (var prop in propInfo.Where(i => i.IsRequired ||
+                                            entityGuid == Constants.Module.Guids.Employee &&
+                                            (i.Name == Employees.Info.Properties.JobTitle.Name ||
+                                             i.Name == Employees.Info.Properties.Login.Name ||
+                                             i.Name == Employees.Info.Properties.Email.Name)))
         {
           var newRow = databook.Parameters.AddNew();
           newRow.PropertyName = prop.Name;
@@ -234,11 +241,17 @@ namespace starkov.Faker.Server
     private static void FillOptionInCollection(IParametersMatching databook, string propertyName, string fillOption)
     {
       var row = databook.Parameters.FirstOrDefault(r => r.PropertyName == propertyName);
-      if (row != null)
-        row.FillOption = fillOption;
+      if (row == null)
+        return;
       
-      if (row.PropertyName == Constants.Module.PropertyNames.Password)
+      row.FillOption = fillOption;
+      
+      if (propertyName == Constants.Module.PropertyNames.Password)
         row.ChosenValue = Constants.Module.BasePassword;
+      else if (fillOption == Constants.Module.FillOptions.String.FirstName ||
+               fillOption == Constants.Module.FillOptions.String.LastName ||
+               fillOption == Constants.Module.FillOptions.String.FullName)
+        row.ChosenValue = Bogus.DataSets.Name.Gender.Male.ToString();
     }
     
     #endregion
