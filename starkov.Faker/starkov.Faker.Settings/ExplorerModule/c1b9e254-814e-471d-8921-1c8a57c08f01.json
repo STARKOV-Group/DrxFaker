@@ -1,0 +1,9 @@
+{
+  "$type": "Sungero.DataExport.ExportingObject, Sungero.DataExport",
+  "SortingPriority": "Low",
+  "HelpCode": "starkov_Faker",
+  "Uuid": "c1b9e254-814e-471d-8921-1c8a57c08f01",
+  "ModuleNameGuid": "c1b9e254-814e-471d-8921-1c8a57c08f01",
+  "StoreAsDefaultSetting": true,
+  "Status": "Active"
+}

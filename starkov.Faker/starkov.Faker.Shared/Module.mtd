@@ -195,6 +195,7 @@
   "InterfaceNamespace": "starkov.Faker",
   "IsolatedAssemblyName": "starkov.Faker.Isolated",
   "IsolatedNamespace": "starkov.Faker.Isolated",
+  "IsVisible": false,
   "Libraries": [
     {
       "NameGuid": "ee416e35-314b-4368-9387-81a04ed99c23",
