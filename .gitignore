@@ -32,3 +32,11 @@ log
 .vs
 
 _ConfigSettings.xml
+
+Libraries.json
+
+
+*.g.xml
+
+
+*.lscache

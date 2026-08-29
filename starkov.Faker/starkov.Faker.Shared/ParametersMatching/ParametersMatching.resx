@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ErrorToAddDataFillEntityType" xml:space="preserve">
+    <value>To add data, fill "Entity type" or "Document type"</value>
+  </data>
+  <data name="ErrorToChangeDataFillEntityType" xml:space="preserve">
+    <value>To change the data, fill "Entity type" or "Document type"</value>
+  </data>
+  <data name="DialogChangeData" xml:space="preserve">
+    <value>Change data</value>
+  </data>
+  <data name="DialogFieldPropertyName" xml:space="preserve">
+    <value>Property name</value>
+  </data>
+  <data name="DialogFieldLocalizedValue" xml:space="preserve">
+    <value>Localized value</value>
+  </data>
+  <data name="DialogButtonChange" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="DialogDataInput" xml:space="preserve">
+    <value>Data input</value>
+  </data>
+  <data name="DialogFieldUseLocalizedValue" xml:space="preserve">
+    <value>Use localized value</value>
+  </data>
+  <data name="DialogFieldFillOption" xml:space="preserve">
+    <value>Fill option</value>
+  </data>
+  <data name="DialogInfoLocalizedPropertyNotUnique" xml:space="preserve">
+    <value>Localized property values are not unique</value>
+  </data>
+  <data name="DialogErrorDateFromGreaterDateTo" xml:space="preserve">
+    <value>Date "From" cannot be greater than date "To"</value>
+  </data>
+  <data name="DialogErrorValueFromGreaterValueTo" xml:space="preserve">
+    <value>The value "From" cannot be greater than the value "To"</value>
+  </data>
+  <data name="DialogFieldDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DialogFieldBooleanValue" xml:space="preserve">
+    <value>Boolean value</value>
+  </data>
+  <data name="DialogFieldNumber" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="DialogFieldString" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="DialogFieldEnumeration" xml:space="preserve">
+    <value>Enumeration</value>
+  </data>
+  <data name="DialogFieldValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="DialogFieldDateFrom" xml:space="preserve">
+    <value>Date from</value>
+  </data>
+  <data name="DialogFieldDateTo" xml:space="preserve">
+    <value>Date to</value>
+  </data>
+  <data name="DialogFieldNumberLength" xml:space="preserve">
+    <value>Number length</value>
+  </data>
+  <data name="DialogFieldFrom" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="DialogFieldBy" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="DialogFieldSex" xml:space="preserve">
+    <value>Sex</value>
+  </data>
+  <data name="DialogErrorNoProperty" xml:space="preserve">
+    <value>This entity type does not contain property {0}</value>
+  </data>
+  <data name="Error_DeleteReqValue" xml:space="preserve">
+    <value>Cannot delete required values</value>
+  </data>
+  <data name="Error_WrongWayToAddValue" xml:space="preserve">
+    <value>You can add values only by clicking the corresponding button</value>
+  </data>
+  <data name="DialogInfoNoAvailableParams" xml:space="preserve">
+    <value>There is no data to select</value>
+  </data>
+  <data name="Error_WrongWayToDelete" xml:space="preserve">
+    <value>You can delete values only by clicking the corresponding button</value>
+  </data>
+  <data name="DialogFieldLocalizedCollectionValue" xml:space="preserve">
+    <value>Localized collection value</value>
+  </data>
+  <data name="DialogFieldCollectionName" xml:space="preserve">
+    <value>Collection name</value>
+  </data>
+  <data name="DialogInfoLocalizedCollectionNotUnique" xml:space="preserve">
+    <value>Localized collection values are not unique</value>
+  </data>
+  <data name="ErrorToAddAttachmentFillEntityType" xml:space="preserve">
+    <value>To add data, fill in "Entity Type"</value>
+  </data>
+  <data name="DialogFieldAttachmentName" xml:space="preserve">
+    <value>Attachment name</value>
+  </data>
+  <data name="Error_GreaterThenLimit" xml:space="preserve">
+    <value>The maximum quantity for this group is {0}</value>
+  </data>
+  <data name="EnityName" xml:space="preserve">
+    <value>{0}, Id: ({1})</value>
+  </data>
+</root>
