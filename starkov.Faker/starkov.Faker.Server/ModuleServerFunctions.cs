@@ -736,7 +736,16 @@ namespace starkov.Faker.Server
           {
             var enumPropertyInfo = new Sungero.Domain.Shared.EnumPropertyInfo(enumPropertyMetadata);
             foreach (string val in enumPropertyMetadata.Values.Select(m => m.Name))
-              enumInfo.Add(Structures.Module.EnumerationInfo.Create(val, enumPropertyInfo?.GetLocalizedValue(new Enumeration(val)) ?? string.Empty));
+            {
+              try
+              {
+                enumInfo.Add(Structures.Module.EnumerationInfo.Create(val, enumPropertyInfo?.GetLocalizedValue(new Enumeration(val)) ?? string.Empty));
+              }
+              catch (Exception exc)
+              {
+                
+              }
+            }
           }
         }
         
