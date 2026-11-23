@@ -32,9 +32,11 @@
   "IsolatedAssemblyName": "starkov.DrxFaker.Isolated",
   "IsolatedNamespace": "starkov.DrxFaker.Isolated",
   "OrderedSpecialFolders": [],
+  "OverrideSuffix": "starkov",
   "PublicStructures": [],
   "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
   "ResourceInterfaceNamespace": "starkov.DrxFaker",
+  "ResourcesKeys": [],
   "ServerAssemblyName": "starkov.DrxFaker.Server",
   "ServerNamespace": "starkov.DrxFaker.Server",
   "SharedAssemblyName": "starkov.DrxFaker.Shared",
@@ -45,7 +47,7 @@
   "Versions": [
     {
       "Type": "SolutionMetadata",
-      "Number": 12
+      "Number": 13
     },
     {
       "Type": "ModuleMetadata",
