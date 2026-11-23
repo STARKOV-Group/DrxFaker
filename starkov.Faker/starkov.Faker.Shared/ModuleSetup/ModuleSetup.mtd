@@ -202,9 +202,9 @@
   "ListViewUuid": "5e2cde47-42aa-4bb9-aa9f-6e214f4c44df",
   "OperationsClass": "",
   "Overridden": [
-    "IsAutoCreated",
+    "HideFromCreationArea",
     "HideFromNavigationEditorCreationArea",
-    "HideFromCreationArea"
+    "IsAutoCreated"
   ],
   "Properties": [
     {
