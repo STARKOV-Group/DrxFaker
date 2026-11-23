@@ -743,7 +743,7 @@ namespace starkov.Faker.Server
               }
               catch (Exception exc)
               {
-                
+                Logger.Error(exc, $"GetPropertiesType error by Enumeration {val}");
               }
             }
           }
