@@ -1,0 +1,71 @@
+{
+  "CoverHeaderSettings_Description_abbbd1db47eb4f839fa3e179eddadebb": {
+    "en-US": "Generation of entities",
+    "ru-RU": "Генерация сущностей"
+  },
+  "CoverHeaderSettings_Title_abbbd1db47eb4f839fa3e179eddadebb": {
+    "en-US": "Entity generator",
+    "ru-RU": "Генератор сущностей"
+  },
+  "Databooks_Title_481ed195ac8d440fb3fa38e4054bb805": {
+    "en-US": "Databooks",
+    "ru-RU": "Справочники"
+  },
+  "Description": {},
+  "DocumentTypes_Description_bee623eb0799485b94e4acec08febac1": {
+    "en-US": "List of document types",
+    "ru-RU": "Список типов документов"
+  },
+  "DocumentTypes_Title_bee623eb0799485b94e4acec08febac1": {
+    "en-US": "Registry of document types",
+    "ru-RU": "Реестр типов документов"
+  },
+  "EntityTypes_Description_19a409c067ea4f3d8ddae7743d928c36": {
+    "en-US": "List of entity types",
+    "ru-RU": "Список типов сущностей"
+  },
+  "EntityTypes_Title_19a409c067ea4f3d8ddae7743d928c36": {
+    "en-US": "Registry of types of entities",
+    "ru-RU": "Реестр типов сущностей"
+  },
+  "Functions_Title_b4df1d9f5e6d4050a204889a6543671a": {
+    "en-US": "Actions",
+    "ru-RU": "Действия"
+  },
+  "Name": {
+    "en-US": "Generate entities",
+    "ru-RU": "Генератор сущностей"
+  },
+  "OpenModuleSetup_Description_33a58fda57e9467e9a2f0f38aa1e94e9": {
+    "en-US": "Open module setup",
+    "ru-RU": "Открыть настройки модуля"
+  },
+  "OpenModuleSetup_Title_33a58fda57e9467e9a2f0f38aa1e94e9": {
+    "en-US": "Module setup",
+    "ru-RU": "Настройки модуля"
+  },
+  "ParametersMathcing_Description_11d09461905043beade8705e3c4f3e06": {
+    "en-US": "List of matches for filled in entity parameters",
+    "ru-RU": "Список соответствий заполняемых параметров сущности"
+  },
+  "ParametersMathcing_Title_11d09461905043beade8705e3c4f3e06": {
+    "en-US": "Entity parameters matching registry",
+    "ru-RU": "Реестр соответствия заполняемых параметров сущности"
+  },
+  "Settings_Title_2baec73a3d5e447a829485d7af74c57e": {
+    "en-US": "Settings",
+    "ru-RU": "Настройка"
+  },
+  "StartGeneration_Description_26ec38ecb2e24c1d84fe5b0223250ad1": {
+    "en-US": "Start generation on the selected entity",
+    "ru-RU": "Запуск генерации по выбранной сущности"
+  },
+  "StartGeneration_Title_26ec38ecb2e24c1d84fe5b0223250ad1": {
+    "en-US": "Start generation",
+    "ru-RU": "Запуск генерации"
+  },
+  "Tab_Title_e65e553b746747e58c133c8dd77d5aea": {
+    "en-US": "Main",
+    "ru-RU": "Основное"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "AsyncSettingsGroup_Caption_f38860a710844117ae8a17fe08d3b34c": {
+    "en-US": "Setting up asynchronous handlers",
+    "ru-RU": "Настройка асинхронных обработчиков"
+  },
+  "Description": {},
+  "DocumentSettingsGroup_Caption_f33d8b5de191445d90dbdd77df440c46": {
+    "en-US": "Setting up document generation",
+    "ru-RU": "Настройка генерации документов"
+  },
+  "MainPage_Title_056aa0dbbca3493685c5e683e847caa0": {
+    "en-US": "Properties",
+    "ru-RU": "Свойства"
+  },
+  "Name": {
+    "en-US": "Module setting",
+    "ru-RU": "Настройка модуля"
+  },
+  "NotificationGroup_Caption_7d8700e5c92049b1a47a3e9031a7bab2": {
+    "en-US": "Setting up notifications for administrators",
+    "ru-RU": "Настройка уведомлений для администраторов"
+  }
+}
